@@ -290,7 +290,7 @@ Free to use for:
 
 Government agencies and all commercial deployments require a paid license.
 
-### PRO and MAX
+### PRO and MAX — Coming Soon
 
 PRO and MAX editions are coming. They will add advanced administration tools, priority support, and capabilities suited to teams and organizations running HakoSpace at scale.
 
@@ -304,10 +304,10 @@ The exact feature split between PRO and MAX is still being defined based on comm
 | AI Agent | ✓ | ✓ | ✓ |
 | Self-hosted single binary | ✓ | ✓ | ✓ |
 | Backup and restore | ✓ | ✓ | ✓ |
-| Advanced admin tools | — | ✓ | ✓ |
-| Priority support | — | ✓ | ✓ |
-| Multi-server management | — | — | ✓ |
-| Commercial use license | — | ✓ | ✓ |
+| Advanced admin tools | — | *planned* | *planned* |
+| Priority support | — | *planned* | *planned* |
+| Multi-server management | — | — | *planned* |
+| Commercial use license | — | *planned* | *planned* |
 
 ### Roadmap Philosophy
 
