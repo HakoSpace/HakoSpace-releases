@@ -2,10 +2,11 @@
 
 Release date: 2026-02-28
 
-## Bug Fixes (post pre-release)
+## Updates (post pre-release)
 
+18ee95b Integrate new logo: update desktop icons, tray icon, login/register/about pages
+840edbb Fix EnsureDotEnv base64 slice out-of-bounds panic on first startup
 e56bf7b Fix three issues found during Windows testing: auto-generate .env template on first start, first registered user immediately becomes Owner, fix desktop context menu/modal path resolution
-
 ## Changes
 
 b9abf4c Fix desktop build script: convert version to semver format for electron-builder compatibility
