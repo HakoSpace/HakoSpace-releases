@@ -58,30 +58,186 @@ HakoSpace is a self-hosted chat platform that gives you everything Discord does,
 
 ## Quick Start
 
+Download the latest binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases), run it, and open `http://localhost:8080`. The first user to register becomes the server owner.
+
+For a full walkthrough covering TLS, systemd, backups, and Windows deployment, see the [Hosting Guide](#hosting-guide) below.
+
+---
+
+## Hosting Guide
+
+This guide covers everything you need to run HakoSpace on your own server.
+
 ### System Requirements
 
-- Linux (amd64)
-- 512 MB RAM minimum
-- A domain name (optional, for TLS)
+| | Minimum |
+|---|---|
+| OS | Linux amd64 or Windows amd64 |
+| RAM | 512 MB |
+| Disk | Depends on usage (messages + uploads stored in `data/`) |
+| Domain | Optional, required only for TLS |
 
-### Run the Server
+### Step 1: Download
 
-Download the latest `hako` binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases).
+Grab the latest release from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases).
+
+- Linux: `hako`
+- Windows: `hako.exe`
+
+On Linux, make the binary executable:
 
 ```bash
 chmod +x hako
+```
+
+### Step 2: First Run
+
+```bash
 ./hako
 ```
 
-Open your browser at `http://localhost:8080`. The first user to register becomes the server owner.
+On first run, HakoSpace creates the `data/` directory and auto-generates `data/.env` with a secure random `JWT_SECRET`. You don't need to create this file yourself.
 
-### TLS with Let's Encrypt
+> **Note:** `data/.env` is generated automatically on first run. Edit it after the first launch to add custom configuration.
+>
+> **備註：** `data/.env` 會在首次啟動時自動產生，包含隨機生成的 `JWT_SECRET`。首次啟動後再編輯此檔案以調整設定。
 
-Set the `ACME_DOMAIN` environment variable to your domain and HakoSpace will handle certificate provisioning automatically via ACME/Let's Encrypt.
+### Step 3: Register the Owner Account
+
+Open `http://localhost:8080` in your browser. The first user to register on the server automatically becomes the Owner. Do this before sharing the server URL with anyone else.
+
+> **Important:** Register your owner account immediately after first launch.
+>
+> **重要：** 請在分享伺服器連結前，立即完成擁有者帳號的註冊。
+
+### TLS Setup
+
+**Option A: Let's Encrypt (recommended)**
+
+Set `ACME_DOMAIN` in `data/.env` and HakoSpace handles certificate provisioning automatically. Your server must be reachable on port 443 from the internet for ACME validation.
+
+```env
+ACME_DOMAIN=chat.yourdomain.com
+```
+
+Then restart the server. HTTPS will be available on port 8443.
+
+**Option B: Manual certificate**
+
+Place your certificate and key files in `data/` and set the paths in `data/.env`:
+
+```env
+TLS_CERT=/path/to/cert.pem
+TLS_KEY=/path/to/key.pem
+```
+
+### Firewall
+
+Open these ports depending on your setup:
+
+| Port | Protocol | Purpose |
+|------|----------|---------|
+| 8080 | TCP | HTTP (plain) |
+| 8443 | TCP | HTTPS (TLS) |
+
+If you're using a reverse proxy (nginx, Caddy), you only need to expose 80/443 on the proxy and keep HakoSpace on its default ports internally.
+
+### Running as a systemd Service (Linux)
+
+Create `/etc/systemd/system/hakospace.service`:
+
+```ini
+[Unit]
+Description=HakoSpace Server
+After=network.target
+
+[Service]
+Type=simple
+User=hako
+WorkingDirectory=/opt/hakospace
+ExecStart=/opt/hakospace/hako
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
 
 ```bash
-ACME_DOMAIN=chat.yourdomain.com ./hako
+sudo systemctl daemon-reload
+sudo systemctl enable hakospace
+sudo systemctl start hakospace
+sudo systemctl status hakospace
 ```
+
+> **Tip:** Create a dedicated `hako` system user and place the binary in `/opt/hakospace/`. The `data/` directory will be created there on first run.
+
+### Windows Deployment
+
+Run `hako.exe` from a Command Prompt or PowerShell window, not by double-clicking. Double-clicking will open and immediately close the console window if there's an error.
+
+```cmd
+cd C:\hakospace
+hako.exe
+```
+
+For unattended startup, create a `.bat` file:
+
+```bat
+@echo off
+cd /d C:\hakospace
+hako.exe
+```
+
+Then add it to Task Scheduler to run at system startup. Set the action to run the `.bat` file with "Start in" set to `C:\hakospace`.
+
+### Backup
+
+The admin panel includes a built-in backup tool under Settings. It exports a snapshot of your server data.
+
+For manual backups, copy the entire `data/` directory while the server is stopped:
+
+```bash
+sudo systemctl stop hakospace
+cp -r /opt/hakospace/data /backup/hakospace-$(date +%Y%m%d)
+sudo systemctl start hakospace
+```
+
+The `data/` directory contains:
+
+- `hako.db` — SQLite database (all messages, users, channels)
+- `uploads/` — uploaded files
+- `.env` — your configuration
+- TLS certificates (if using manual certs)
+
+### Updating
+
+1. Stop the server
+2. Replace the `hako` binary with the new version
+3. Start the server
+
+```bash
+sudo systemctl stop hakospace
+cp hako-new /opt/hakospace/hako
+sudo systemctl start hakospace
+```
+
+The `data/` directory is never touched during an update. Your database, uploads, and configuration are preserved.
+
+### 簡要中文部署指南
+
+以下為部署流程的中文摘要，詳細步驟請參閱上方英文說明。
+
+1. **下載** — 從 [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) 下載對應平台的執行檔（Linux: `hako`，Windows: `hako.exe`）。
+2. **首次啟動** — 執行後，`data/.env` 會自動產生，包含隨機 `JWT_SECRET`，無需手動建立。
+3. **註冊擁有者** — 開啟 `http://localhost:8080`，第一個註冊的使用者自動成為伺服器擁有者。
+4. **TLS 設定** — 在 `data/.env` 中設定 `ACME_DOMAIN` 即可啟用 Let's Encrypt 自動憑證。
+5. **防火牆** — 開放 8080（HTTP）與 8443（HTTPS）埠。
+6. **系統服務** — Linux 建議使用 systemd 管理服務，Windows 可透過工作排程器設定開機自動執行。
+7. **備份** — 管理後台內建備份工具，或直接複製 `data/` 目錄。
+8. **更新** — 停止服務、替換執行檔、重新啟動，`data/` 目錄完整保留。
 
 ---
 
@@ -102,7 +258,7 @@ The desktop app connects to any HakoSpace server. Add multiple servers and switc
 
 ## Configuration
 
-All configuration is loaded from `data/.env` on startup. Key variables:
+All configuration is loaded from `data/.env` on startup. This file is auto-generated on first run — you don't need to create it manually. Edit it after the first launch to customize your setup.
 
 | Variable | Description | Default |
 |---|---|---|
@@ -114,13 +270,17 @@ All configuration is loaded from `data/.env` on startup. Key variables:
 | `AI_PROVIDER` | Provider: `claude`, `openai`, `gemini` | `claude` |
 | `AI_API_KEY` | API key for the selected provider | *(required if enabled)* |
 
-Create `data/.env` before first run to set persistent configuration. Environment variables set at runtime take precedence.
+Environment variables set at runtime take precedence over values in `data/.env`.
 
 ---
 
 ## Editions
 
-### Community Edition (Current)
+HakoSpace ships in three editions. All new features debut on Community Edition first. Community feedback shapes what gets built and in what order. Once features are mature and battle-tested, advanced management and enterprise capabilities may become PRO or MAX exclusive.
+
+Upgrading is instant: enter a license key in server settings and your edition unlocks immediately. No reinstall, no migration, no downtime.
+
+### Community Edition (社群版) — Current
 
 Free to use for:
 
@@ -128,13 +288,32 @@ Free to use for:
 - Personal, non-commercial projects
 - Qualifying non-profit organizations
 
-### PRO / MAX
+Government agencies and all commercial deployments require a paid license.
 
-Coming soon. Expanded limits, priority support, and additional features for teams and businesses.
+### PRO and MAX
 
-### Government & Enterprise
+PRO and MAX editions are coming. They will add advanced administration tools, priority support, and capabilities suited to teams and organizations running HakoSpace at scale.
 
-Government agencies and commercial deployments require a separate commercial license. Contact us to discuss your needs.
+The exact feature split between PRO and MAX is still being defined based on community feedback. The table below reflects current thinking and will be updated as editions launch.
+
+### Edition Comparison
+
+| Feature | Community | PRO | MAX |
+|---|:---:|:---:|:---:|
+| Core messaging, voice, and video | ✓ | ✓ | ✓ |
+| AI Agent | ✓ | ✓ | ✓ |
+| Self-hosted single binary | ✓ | ✓ | ✓ |
+| Backup and restore | ✓ | ✓ | ✓ |
+| Advanced admin tools | — | ✓ | ✓ |
+| Priority support | — | ✓ | ✓ |
+| Multi-server management | — | — | ✓ |
+| Commercial use license | — | ✓ | ✓ |
+
+### Roadmap Philosophy
+
+Community Edition is not a stripped-down trial. It's the full product. Every feature ships to Community first. PRO and MAX exist to fund continued development and to serve organizations that need enterprise-grade support and management tooling.
+
+If you're using HakoSpace for personal or non-commercial purposes, Community Edition is all you need.
 
 ---
 
