@@ -2,9 +2,12 @@
 
 Release date: 2026-02-28
 
+## Bug Fixes (post pre-release)
+
+e56bf7b Fix three issues found during Windows testing: auto-generate .env template on first start, first registered user immediately becomes Owner, fix desktop context menu/modal path resolution
+
 ## Changes
 
-94e6851 Remove Linux deb packaging target, keep AppImage only
 b9abf4c Fix desktop build script: convert version to semver format for electron-builder compatibility
 486c8f1 Add backup management tool and orphan file cleanup utility
 91701c8 Fix file orphan bug, add DM statistics and upload size settings, clean up legacy branding files
