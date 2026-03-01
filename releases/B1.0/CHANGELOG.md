@@ -4,6 +4,9 @@ Release date: 2026-03-01
 
 ## Changes
 
+c45afa3 修復drainSenderRTCP語法錯誤：修正大括號縮排並加入RTCP轉發日誌
+e6520c0 修正PLI策略：改為一次性延遲PLI，徹底消除週期性卡頓
+eec3af2 加回安全網PLI：recoveryTick使用節流PLI確保新觀看者取得關鍵幀
 2a26738 修復螢幕分享訂閱後長時間無畫面：在 SDP Answer 完成後補發 PLI
 adcfd60 修復螢幕分享卡頓：移除盲目3秒PLI，改為觀看者RTCP回饋驅動關鍵幀請求
 ae45498 新增單一實例鎖定：防止同時開啟多個 HakoSpace 桌面應用程式
@@ -31,6 +34,3 @@ df0d740 新增遙測基礎建設與關於頁法律文件（T1-T4, A1-A4）
 397224f 填入正式聯絡資訊與 GitHub 組織連結，修正授權標示為 Community Edition
 d79c98d 強化發行安全：編譯 strip 符號表 + 新增 EULA / 隱私權政策
 598fa2e 新增語音頻道切換確認彈窗，防止誤觸離開或加入
-2dc3677 新增版本基礎建設與前端品牌顯示（D1-D13）
-736742d 新增 release-plan.md：完整 release 架構規劃（版本規則、產物、任務清單）
-224825a rebuild.sh：新增 --pull 旗標，部署 server 用 git reset --hard 同步，避免 force push 衝突
