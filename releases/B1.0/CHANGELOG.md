@@ -4,6 +4,7 @@ Release date: 2026-03-01
 
 ## Changes
 
+2a26738 修復螢幕分享訂閱後長時間無畫面：在 SDP Answer 完成後補發 PLI
 adcfd60 修復螢幕分享卡頓：移除盲目3秒PLI，改為觀看者RTCP回饋驅動關鍵幀請求
 ae45498 新增單一實例鎖定：防止同時開啟多個 HakoSpace 桌面應用程式
 a9b4b0b 配置 GORM logger 忽略 RecordNotFound 並降低日誌等級，消除啟動時的無害錯誤訊息
@@ -33,4 +34,3 @@ d79c98d 強化發行安全：編譯 strip 符號表 + 新增 EULA / 隱私權政
 2dc3677 新增版本基礎建設與前端品牌顯示（D1-D13）
 736742d 新增 release-plan.md：完整 release 架構規劃（版本規則、產物、任務清單）
 224825a rebuild.sh：新增 --pull 旗標，部署 server 用 git reset --hard 同步，避免 force push 衝突
-e0ccf3d 重構語音聊天 UI：統一舞台區元件，螢幕分享與頭像同級排列，新增舞台彈出視窗
