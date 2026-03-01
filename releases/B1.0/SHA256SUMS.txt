@@ -1,6 +1,6 @@
-926194683259fb3618e7702bcbb1fab68f29c4592366695f644943f9b07f874d  ./CHANGELOG.md
-e6576817c6bf8b20e4a669d6ddb41fe7dc8fa9cf37e0d514cfbb37a4caaa4725  ./desktop/linux/HakoSpace-1.0.0.AppImage
-071489121272fb5c1ba1b9c797bb979cce2e6662be137d3a591bc68a0ecf2d3b  ./desktop/windows/HakoSpace 1.0.0.exe
-8518b40aab3cbc7e0b9491ca9ffeecb245d1799bbe8d6fcd9a51fbb89743d240  ./desktop/windows/HakoSpace Setup 1.0.0.exe
-552f7936ae78f70e841b5e50d37bbff89dfc40209586bdf210b852bdfaed35d3  ./server/linux/hako-linux-amd64
-02c716294f4ef2a7f33b30fc932218e7bd8bf961646ddab10fb7dcde275f5888  ./server/windows/hako-windows-amd64.exe
+1f67db244445f348bdf4289e6254a10921af719c226b16884d6d64d67e573dd2  ./CHANGELOG.md
+5bbc9e7fe7cadf5365c16f8c7f4254af59f8839a78d0a9d4ff5adad7cfc45cd7  ./desktop/linux/HakoSpace-1.0.0.AppImage
+6f955b5bcdd65f609d6a25e2c625702495693f166ade4fed852db79703a2d6c6  ./desktop/windows/HakoSpace 1.0.0.exe
+aac92d4147f9f1eb4aa1fca1a27bfb684bffaa18cdd40d8886be2d564b5065fd  ./desktop/windows/HakoSpace Setup 1.0.0.exe
+56d287f2474d31270dfd5c0fe47ad9774f55892295a48db61eaa561bd13e8173  ./server/linux/hako-linux-amd64
+a69b64b453cb2443d488e02f1f4063ae3d07ef1867f1bd346fb0c3ab403c7126  ./server/windows/hako-windows-amd64.exe
