@@ -4,6 +4,7 @@ Release date: 2026-03-01
 
 ## Changes
 
+479c1ed 修復舞台彈出視窗未遵循隱藏非分享者切換的問題
 cbc21a8 桌面版 titlebar 移除版本號，僅保留社群版字樣
 6c7259c 修正 icon.ico 格式：從 PNG 轉換為正確的多尺寸 ICO
 18ee95b 整合新 Logo：更新桌面圖示、托盤圖案、登入/註冊/關於頁面
@@ -33,4 +34,3 @@ ea544ab 重構語音聊天 UI：統一舞台區元件，螢幕分享與頭像同
 eb59ed1 修復 Windows 桌面版：WSS 連線、螢幕分享音訊分離、file:// 相容性、tray icon
 caa01e8 新增 dev-setup.sh：完整開發環境一鍵設定（core + Rust cross-compile + Wine + Docker）
 5037a93 新增 build-desktop.bat：Windows 桌面版一鍵建置（環境檢查 + winget 自動安裝 + portable exe）
-b3d762a .gitignore：補回 data/ 規則
