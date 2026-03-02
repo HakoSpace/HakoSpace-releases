@@ -4,6 +4,7 @@ Release date: 2026-03-02
 
 ## Changes
 
+0744555 修正SEMVER轉換：保留patch版本號（B1.3.6→1.3.6），不再一律歸零
 eed4acc 修復release腳本：只複製當前版本的desktop檔案，避免包含舊版exe/AppImage；統一通知音量由audioSettingsStore控制
 8b0fc12 統一通知音量：soundManager從audioSettingsStore讀取notificationVolume，所有音效（播放+試聽）共用同一音量設定
 6631f78 版本號更新至 B1.3.6
@@ -33,4 +34,3 @@ eec3af2 加回安全網PLI：recoveryTick使用節流PLI確保新觀看者取得
 2a26738 修復螢幕分享訂閱後長時間無畫面：在 SDP Answer 完成後補發 PLI
 adcfd60 修復螢幕分享卡頓：移除盲目3秒PLI，改為觀看者RTCP回饋驅動關鍵幀請求
 ae45498 新增單一實例鎖定：防止同時開啟多個 HakoSpace 桌面應用程式
-a9b4b0b 配置 GORM logger 忽略 RecordNotFound 並降低日誌等級，消除啟動時的無害錯誤訊息
