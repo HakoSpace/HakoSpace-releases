@@ -4,6 +4,8 @@ Release date: 2026-03-02
 
 ## Changes
 
+eed4acc 修復release腳本：只複製當前版本的desktop檔案，避免包含舊版exe/AppImage；統一通知音量由audioSettingsStore控制
+8b0fc12 統一通知音量：soundManager從audioSettingsStore讀取notificationVolume，所有音效（播放+試聽）共用同一音量設定
 6631f78 版本號更新至 B1.3.6
 a631402 B1.3.6：Inbox通知音改為可上傳自訂音檔（與其他音效一致），移除preset tone選擇器，統一使用soundManager
 bfaaf24 版本號更新至 B1.3.5
@@ -32,5 +34,3 @@ eec3af2 加回安全網PLI：recoveryTick使用節流PLI確保新觀看者取得
 adcfd60 修復螢幕分享卡頓：移除盲目3秒PLI，改為觀看者RTCP回饋驅動關鍵幀請求
 ae45498 新增單一實例鎖定：防止同時開啟多個 HakoSpace 桌面應用程式
 a9b4b0b 配置 GORM logger 忽略 RecordNotFound 並降低日誌等級，消除啟動時的無害錯誤訊息
-a85c83e 舞台彈出視窗新增隱藏非視訊分享者切換按鈕與參與者計數工具列
-479c1ed 修復舞台彈出視窗未遵循隱藏非分享者切換的問題
