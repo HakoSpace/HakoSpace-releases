@@ -4,6 +4,7 @@ Release date: 2026-03-03
 
 ## Changes
 
+05ad368 巢狀資料夾統一排序：頻道與子資料夾可跨類型混合排列
 8d70c57 版本號更新至 B1.4.2
 2058f28 頻道群組支援巢狀子資料夾（兩層深度）
 3551a21 移除 server action rebuild 功能
@@ -33,4 +34,3 @@ a4f01c3 版本號更新至 B1.3.2
 e2ebd32 修復更新下載SHA256校驗失敗：SHA256SUMS.txt使用相對路徑但比對時用扁平檔名，改用filepath.Base()容錯；同步修正release.sh產生扁平檔名
 20d3197 修復Windows交叉編譯：將syscall.Setsid/Kill抽離為平台檔案
 34aa17b 版本號更新至 B1.3
-8486324 新增通知/收件匣系統：@mention通知、系統通知、鈴鐺圖示下拉面板、已讀管理、FIFO保留上限、通知提示音
