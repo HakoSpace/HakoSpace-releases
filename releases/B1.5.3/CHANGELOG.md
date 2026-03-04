@@ -4,6 +4,7 @@ Release date: 2026-03-04
 
 ## Changes
 
+c13d780 修正隱私政策 Instance ID 揭露 + 修復遙測開關端點
 a05d9cd 新增 EULA 同意流程與啟動通知（B1.5.3）
 6f13c58 隱私權政策補強：網路日誌免責聲明、授權驗證細節、資料保留原則、官方網站隱私條款
 6f58758 EULA 補強：第12條加入隱私權政策連結、新增第13條語言版本優先權條款
@@ -33,4 +34,3 @@ bab4ad9 語音：無麥克風時純聽模式加入 + 裝置斷線自動恢復
 21141ad 修復Desktop連線問題：新增GET /api/me端點與token自動恢復機制
 8b4ab8b 完善git-release-rule.md：補充完整release流程、repo結構、tag格式、部署步驟、快速參考
 ef6d364 統一release命名規則：server-hakospace-{os}-{arch}-{version}，對齊git-release-rule.md與release-plan.md
-0744555 修正SEMVER轉換：保留patch版本號（B1.3.6→1.3.6），不再一律歸零
