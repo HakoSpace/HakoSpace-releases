@@ -4,6 +4,11 @@ Release date: 2026-03-04
 
 ## Changes
 
+c67171f 桌面版版號同步至 1.5.4
+b6b8a1e 紀錄碑 UI：面板日期/計時器格式改善 + 新增統計卡片 + 齒輪設定按鈕修復
+f586411 紀錄碑前端基礎：MonumentStats 型別更新 + 日期格式工具 + 中英翻譯
+16f40b6 紀錄碑 API：新增 bot_count、total_online_seconds、peak_voice/screen_share_participants 欄位
+c5eeedb 紀錄碑統計緩衝區：新增總體在線時間累計 + 語音/螢幕分享峰值追蹤
 8eec4c2 修正紀錄碑頻道設定：僅保留公開/私人切換，隱藏不相關的權限與保留設定
 5aae42c 版本升級 B1.5.4
 3356e99 功能：紀錄碑前端介面（MonumentPanel 儀表板、頻道圖示、建立選項、中英 i18n）
@@ -29,8 +34,3 @@ c1d1775 更新檢查支援同版本重發偵測（SHA256 比對）
 05ad368 巢狀資料夾統一排序：頻道與子資料夾可跨類型混合排列
 8d70c57 版本號更新至 B1.4.2
 2058f28 頻道群組支援巢狀子資料夾（兩層深度）
-3551a21 移除 server action rebuild 功能
-3b18294 版本號更新至 B1.4.1
-bab4ad9 語音：無麥克風時純聽模式加入 + 裝置斷線自動恢復
-407457f 版本號更新至 B1.3.9
-56e00e2 rename hideNonSharing to hideUnwatched; add subscription state to debug overlay
