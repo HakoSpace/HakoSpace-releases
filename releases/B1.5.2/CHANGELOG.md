@@ -4,6 +4,7 @@ Release date: 2026-03-04
 
 ## Changes
 
+6f13c58 隱私權政策補強：網路日誌免責聲明、授權驗證細節、資料保留原則、官方網站隱私條款
 6f58758 EULA 補強：第12條加入隱私權政策連結、新增第13條語言版本優先權條款
 dc50d33 EULA 條款修訂：第11條 UGC 標題與用語精確化、新增第12條隱私與遙測條款
 9d0e46c EULA 法律條款強化：放寬社群贊助定義、新增管轄法院/UGC免責/賠償上限、英文免責條款全大寫
@@ -33,4 +34,3 @@ bab4ad9 語音：無麥克風時純聽模式加入 + 裝置斷線自動恢復
 ef6d364 統一release命名規則：server-hakospace-{os}-{arch}-{version}，對齊git-release-rule.md與release-plan.md
 0744555 修正SEMVER轉換：保留patch版本號（B1.3.6→1.3.6），不再一律歸零
 eed4acc 修復release腳本：只複製當前版本的desktop檔案，避免包含舊版exe/AppImage；統一通知音量由audioSettingsStore控制
-8b0fc12 統一通知音量：soundManager從audioSettingsStore讀取notificationVolume，所有音效（播放+試聽）共用同一音量設定
