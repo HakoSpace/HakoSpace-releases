@@ -4,6 +4,7 @@ Release date: 2026-03-04
 
 ## Changes
 
+dc50d33 EULA 條款修訂：第11條 UGC 標題與用語精確化、新增第12條隱私與遙測條款
 9d0e46c EULA 法律條款強化：放寬社群贊助定義、新增管轄法院/UGC免責/賠償上限、英文免責條款全大寫
 6517d58 功能：筆記頻道編輯鎖定機制
 02d5b92 修復：頻道類型改回按鈕選擇、修復筆記 Markdown 渲染
@@ -33,4 +34,3 @@ ef6d364 統一release命名規則：server-hakospace-{os}-{arch}-{version}，對
 eed4acc 修復release腳本：只複製當前版本的desktop檔案，避免包含舊版exe/AppImage；統一通知音量由audioSettingsStore控制
 8b0fc12 統一通知音量：soundManager從audioSettingsStore讀取notificationVolume，所有音效（播放+試聽）共用同一音量設定
 6631f78 版本號更新至 B1.3.6
-a631402 B1.3.6：Inbox通知音改為可上傳自訂音檔（與其他音效一致），移除preset tone選擇器，統一使用soundManager
