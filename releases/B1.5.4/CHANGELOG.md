@@ -4,6 +4,7 @@ Release date: 2026-03-04
 
 ## Changes
 
+8eec4c2 修正紀錄碑頻道設定：僅保留公開/私人切換，隱藏不相關的權限與保留設定
 5aae42c 版本升級 B1.5.4
 3356e99 功能：紀錄碑前端介面（MonumentPanel 儀表板、頻道圖示、建立選項、中英 i18n）
 31da317 功能：紀錄碑 API 端點 + 語音/在線人數統計方法 + 生命週期整合
@@ -33,4 +34,3 @@ c1d1775 更新檢查支援同版本重發偵測（SHA256 比對）
 bab4ad9 語音：無麥克風時純聽模式加入 + 裝置斷線自動恢復
 407457f 版本號更新至 B1.3.9
 56e00e2 rename hideNonSharing to hideUnwatched; add subscription state to debug overlay
-2befc28 修復螢幕分享信令競態條件與隱藏成員過濾器bug
