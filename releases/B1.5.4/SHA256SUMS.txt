@@ -1,5 +1,5 @@
-a8ab54cadee55459ccd90311d3c77a23f86cdb2ab530724a0e590fc57c710d9b  desktop-hakospace-linux-amd64-B1.5.4.AppImage
-489090ebde73b91d4b9b0668ce36861d37199a25f4787098193f2122338cc059  desktop-hakospace-windows-amd64-portable-B1.5.4.exe
-e86c73c0a920c29307c9fda8efe5d56e68a10f76b06b99d05e6807690c5de78f  desktop-hakospace-windows-amd64-setup-B1.5.4.exe
-9d59500c9278debe5f18023b4610d9319594b4f8ea9e1ef7725c16b3775309df  server-hakospace-linux-amd64-B1.5.4
-fbd924b32d49eeec429fcaf10bbf8bb53c89639d4f954b01ab4bd13cf0c4f7c4  server-hakospace-windows-amd64-B1.5.4.exe
+d4299f7a8abbfdea61d47a162379a948016da946566a7f5d8ae4a82d04e580a0  desktop-hakospace-linux-amd64-B1.5.4.AppImage
+44f79d92927cab17d44f8cab21c956e99b719ae3d70b513d2de54ec4c6bcf3cb  desktop-hakospace-windows-amd64-portable-B1.5.4.exe
+cbed59c1eee3f245837f8991a60a4a58d3789a6641816c2c8c6d481a4023b8bf  desktop-hakospace-windows-amd64-setup-B1.5.4.exe
+d796ab622985887aeb9f7958b1492bb275f735aece2698b4977d00c471e00dbe  server-hakospace-linux-amd64-B1.5.4
+c37c1568430ec867e363c3e92ac54c6bdf1d995a6f8bb2020f2f0479acdb74a1  server-hakospace-windows-amd64-B1.5.4.exe
