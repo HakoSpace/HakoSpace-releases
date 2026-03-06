@@ -1,6 +1,6 @@
-4cc9f1a43e142848bcbb0017be750e24c2997570e439cae9003725187be59147  desktop-hakospace-linux-amd64-B1.5.9.AppImage
-9f6fbe8f05f1623b646f750e402edf0f9d5a536b96b3bdb73a5682face44cfe7  desktop-hakospace-windows-amd64-portable-B1.5.9.exe
-664d2fd65827f6141ba004b219322b8d648afd27c253574fe574fffdb2af982b  desktop-hakospace-windows-amd64-setup-B1.5.9.exe
-9a474fc8493f29b959141079661a188665222b2d9668f64050d05b98b571e5b6  latest.yml
-52f612ab54a7c92588b502148f1cacd25e65aa51e320a841fdcb7b0c72810a0e  server-hakospace-linux-amd64-B1.5.9
-0fedf9ab1acc418f20809d86ac8ad5ee60f3d6b5ff989b070e1e69da428cb1db  server-hakospace-windows-amd64-B1.5.9.exe
+41d6b1ba13a822478792a1f9c31c328fbe344b6ae0cf8cee4f0a8b35003bd642  desktop-hakospace-linux-amd64-B1.5.9.AppImage
+0388bd3560c378f682b942768292d280a86fa4dec95da9a04368f6f8a42b7105  desktop-hakospace-windows-amd64-portable-B1.5.9.exe
+1a2f802df1eba6de3d133bcb807afad827c1ee9c58bd362dd978cfa20ac89f87  desktop-hakospace-windows-amd64-setup-B1.5.9.exe
+fe01eff2d5b513f5dabc4f9349a3ea6c16ebf38302e9487bd2ea4799e2b0ba06  latest.yml
+ade4a36dce4506329198aaf94ffbbf066bb2f17e7dc632309349c3d94b0c2680  server-hakospace-linux-amd64-B1.5.9
+0eaff7a9e01bf23bea76bf2a60706761a53c65eefe1656c5110f6e32591d1cf3  server-hakospace-windows-amd64-B1.5.9.exe
