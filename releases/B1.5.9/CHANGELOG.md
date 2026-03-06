@@ -4,6 +4,7 @@ Release date: 2026-03-06
 
 ## Changes
 
+4af538d 修正 EULA 首次啟動不顯示 + 需捲到底才能接受
 3f86a63 修正 favicon 路徑：改用實際存在的 /logo.png
 3f3e802 修正分頁標籤 favicon：無 server 頭像時顯示 HakoSpace logo 而非 Vite 預設圖示
 bed8603 修正 electron-builder CI 環境自動發布問題：加入 --publish never
@@ -33,4 +34,3 @@ d5ac3d5 移除 Note 多功能頻道的 text chat 設定與廢棄 chatTab i18n ke
 e948a6a 主視窗分頁重構：多功能頻道獨立為 multi 分頁，與語音/文字平級
 b44826a 紀錄碑 UI：累計時數統一改為日時分秒即時格式
 c67171f 桌面版版號同步至 1.5.4
-b6b8a1e 紀錄碑 UI：面板日期/計時器格式改善 + 新增統計卡片 + 齒輪設定按鈕修復
