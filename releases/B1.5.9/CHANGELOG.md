@@ -4,6 +4,7 @@ Release date: 2026-03-06
 
 ## Changes
 
+3f3e802 修正分頁標籤 favicon：無 server 頭像時顯示 HakoSpace logo 而非 Vite 預設圖示
 bed8603 修正 electron-builder CI 環境自動發布問題：加入 --publish never
 b2eaede 桌面端自動更新機制 + 版本號更新至 B1.5.9
 6d30303 移除SFU的TWCC壅塞控制 改用REMB避免螢幕分享被降速至30fps
@@ -33,4 +34,3 @@ b44826a 紀錄碑 UI：累計時數統一改為日時分秒即時格式
 c67171f 桌面版版號同步至 1.5.4
 b6b8a1e 紀錄碑 UI：面板日期/計時器格式改善 + 新增統計卡片 + 齒輪設定按鈕修復
 f586411 紀錄碑前端基礎：MonumentStats 型別更新 + 日期格式工具 + 中英翻譯
-16f40b6 紀錄碑 API：新增 bot_count、total_online_seconds、peak_voice/screen_share_participants 欄位
