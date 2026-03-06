@@ -272,6 +272,63 @@ All configuration is loaded from `data/.env` on startup. This file is auto-gener
 | `AI_PROVIDER` | Provider: `claude`, `openai`, `gemini` | `claude` |
 | `AI_API_KEY` | API key for the selected provider | *(required if enabled)* |
 
+### Email Verification (optional)
+
+HakoSpace can require email verification for new user registration. Configure an email provider in `data/.env`, then set the registration mode to **Email Verification** in the admin panel (Settings > Registration).
+
+Three provider options are available:
+
+**Option A — Gmail** (simplest, everyone has one)
+
+Use a Gmail account with a [Google App Password](https://myaccount.google.com/apppasswords) (requires 2-Step Verification on the Google account).
+
+```env
+MAIL_PROVIDER=gmail
+MAIL_USER=you@gmail.com
+MAIL_PASS=xxxx-xxxx-xxxx-xxxx    # Google App Password
+BASE_URL=https://your-domain.com
+```
+
+**Option B — Resend** (developer-friendly transactional email)
+
+Sign up at [resend.com](https://resend.com), verify your domain, and create an API key.
+
+```env
+MAIL_PROVIDER=resend
+MAIL_PASS=re_xxxxxxxxxx           # Resend API key
+MAIL_FROM=no-reply@yourdomain.com
+BASE_URL=https://your-domain.com
+```
+
+**Option C — Custom SMTP** (Mailgun, SendGrid, etc.)
+
+Use any SMTP server. Port 587 (STARTTLS) and port 465 (implicit TLS) are both supported.
+
+```env
+MAIL_PROVIDER=smtp
+SMTP_HOST=smtp.mailgun.org
+SMTP_PORT=587
+MAIL_USER=postmaster@yourdomain.com
+MAIL_PASS=your-password
+MAIL_FROM=no-reply@yourdomain.com
+BASE_URL=https://your-domain.com
+```
+
+| Variable | Description | Default |
+|---|---|---|
+| `MAIL_PROVIDER` | `gmail`, `resend`, or `smtp` (leave empty to disable) | *(disabled)* |
+| `MAIL_USER` | SMTP username (Gmail: your email; Resend: not needed) | — |
+| `MAIL_PASS` | SMTP password / App Password / API key | — |
+| `MAIL_FROM` | Sender address shown in emails | `MAIL_USER` |
+| `MAIL_FROM_NAME` | Sender display name | `HakoSpace` |
+| `SMTP_HOST` | SMTP server hostname (only for `smtp` provider) | — |
+| `SMTP_PORT` | SMTP server port (only for `smtp` provider) | `587` |
+| `BASE_URL` | Public URL of your server (used in verification links) | — |
+
+After configuring, go to **Settings > Registration** and change the mode to **Email Verification**. You can also enable **Password Change Verification** to require email confirmation when users change their password.
+
+設定完成後，前往**設定 > 註冊**，將註冊模式改為**Email 驗證**。亦可開啟**密碼變更驗證**，要求使用者變更密碼時需透過信箱確認。
+
 Environment variables set at runtime take precedence over values in `data/.env`.
 
 ---
