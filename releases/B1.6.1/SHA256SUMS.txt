@@ -1,5 +1,6 @@
-24249a0e327a06d02fd2ac258d99a3fb6ad20d8d2892f0c8b4496a11146628e5  desktop-hakospace-linux-amd64-B1.6.1.AppImage
-73d4b74962d4879ed51a66e86d9846da409122543f73ea25152d26dd428c7a41  desktop-hakospace-windows-amd64-portable-B1.6.1.exe
-6475a63df878e1a652704b4194e9bded6582490f15a8b491951d7d819da0f326  desktop-hakospace-windows-amd64-setup-B1.6.1.exe
-adfce02f3e8df1deacaa6527cd2585c0ffd776d59ade7a12e096686e54a4b675  server-hakospace-linux-amd64-B1.6.1
-d79cd7fae04483eb8e264c016fb2c897dc0deee4036d38bf2b066ba504da4800  server-hakospace-windows-amd64-B1.6.1.exe
+2c3de243f4b1fafd19848814916c4193f473cf3a5b668a5617328f49459b93ec  desktop-hakospace-linux-amd64-B1.6.1.AppImage
+442e0f0eff6138e9c4d7e790bd783285ef11e88b5ef86a78f27d509feac7c3ac  desktop-hakospace-windows-amd64-portable-B1.6.1.exe
+9094935e0d782a5b811f45b62abe4f4d7ecc0359a7646857a416a753ae7a9a0c  desktop-hakospace-windows-amd64-setup-B1.6.1.exe
+7fb6250e7d7518992d8510f4e1981c0a2d08498eb2c04da0dc47f52580a7b44d  latest.yml
+e57d9f85a6176cdd9f3b1e0afafa8080331aa232713f5d6b6b81655d17b7a79f  server-hakospace-linux-amd64-B1.6.1
+a02654a25aaa2170eddf00bf2c02af4135e2ff3a55815d0254d0a6110b07c270  server-hakospace-windows-amd64-B1.6.1.exe
