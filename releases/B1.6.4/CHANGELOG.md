@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+09b6066 fix: 螢幕分享背景節流 — disable-renderer-backgrounding + backgroundThrottling:false 防止切換視窗後 FPS 降至 30
 67266f5 fix: APP 版螢幕分享全螢幕按鈕無反應 — 補上 WebContentsView HTML fullscreen 事件處理
 67ca573 螢幕分享 bitrate 上限提升：1080p60 10→20Mbps, 高動態內容不再撞天花板被砍 FPS
 f809e21 螢幕分享品質優化：SFU REMB 取最大值 + 硬體加速 + contentHint 一律 detail + 移除自適應 FPS 監控
@@ -33,4 +34,3 @@ b2eaede 桌面端自動更新機制 + 版本號更新至 B1.5.9
 ffbb04c 版本號更新至 B1.5.7
 4df3344 螢幕分享：新增編碼優先設定（解析度/幀率/平衡）
 0cd25b3 螢幕分享：setParameters 加入 maxFramerate 確保 encoder 遵循幀率設定
-ae7a33c 遙測發送器：開機即送 + 失敗 5 分鐘重試（修正開機紅燈問題）
