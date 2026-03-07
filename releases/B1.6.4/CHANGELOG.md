@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+619240f fix: server 右鍵選單窗口尺寸與內容不匹配 — 改用 IPC 動態 resize
 f5f92b9 B1.6.4：Pre-release 更新選項 + 更新檢查錯誤處理改善
 f266d1c B1.6.3：忘記密碼功能 + Email 系統優化 + 帳號 Email 管理
 c493c6c fix: email verification not working — GORM zero-value bug + double-call guard
@@ -33,4 +34,3 @@ ae7a33c 遙測發送器：開機即送 + 失敗 5 分鐘重試（修正開機紅
 1eb9452 遙測 HTTP 發送器：定期匿名送出至 auth.hakospace.com + 連線狀態 API
 ae919f2 遙測收集器：Snapshot 擴充至 30 欄位，對齊紀念碑資料集
 76c2020 桌面版版號同步至 1.5.5
-84d3b57 版本號更新至 B1.5.5
