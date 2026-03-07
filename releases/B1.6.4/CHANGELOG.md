@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+88729bf fix: fake minimize 改用螢幕外移動 + 全螢幕改用 IPC
 a132a16 fix: fake minimize 保持 renderer 活躍 + 全螢幕按鈕修復
 594aa21 fix: 關閉 Windows 遮擋偵測 + 修復更新器 YAML 解析
 8c65931 fix: 移除 WebRTC 桌面擷取 CPU 50% 上限 — webrtc-max-cpu-consumption-percentage=100 解除 Windows DXGI 擷取的 30fps 限制
@@ -33,4 +34,3 @@ e7b3143 新增禁用字管理功能：支援 replace/block 模式、大小寫不
 bed8603 修正 electron-builder CI 環境自動發布問題：加入 --publish never
 b2eaede 桌面端自動更新機制 + 版本號更新至 B1.5.9
 6d30303 移除SFU的TWCC壅塞控制 改用REMB避免螢幕分享被降速至30fps
-8999273 螢幕分享：修正 TS 型別錯誤與 JSX 結構
