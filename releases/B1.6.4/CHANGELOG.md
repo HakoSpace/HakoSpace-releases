@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+1c4017f fix: 三項修復 — FPS 降幀根因 + 全螢幕 + Page Visibility
 88729bf fix: fake minimize 改用螢幕外移動 + 全螢幕改用 IPC
 a132a16 fix: fake minimize 保持 renderer 活躍 + 全螢幕按鈕修復
 594aa21 fix: 關閉 Windows 遮擋偵測 + 修復更新器 YAML 解析
@@ -33,4 +34,3 @@ e7b3143 新增禁用字管理功能：支援 replace/block 模式、大小寫不
 3f3e802 修正分頁標籤 favicon：無 server 頭像時顯示 HakoSpace logo 而非 Vite 預設圖示
 bed8603 修正 electron-builder CI 環境自動發布問題：加入 --publish never
 b2eaede 桌面端自動更新機制 + 版本號更新至 B1.5.9
-6d30303 移除SFU的TWCC壅塞控制 改用REMB避免螢幕分享被降速至30fps
