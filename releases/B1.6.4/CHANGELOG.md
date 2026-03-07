@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+8c65931 fix: 移除 WebRTC 桌面擷取 CPU 50% 上限 — webrtc-max-cpu-consumption-percentage=100 解除 Windows DXGI 擷取的 30fps 限制
 09b6066 fix: 螢幕分享背景節流 — disable-renderer-backgrounding + backgroundThrottling:false 防止切換視窗後 FPS 降至 30
 67266f5 fix: APP 版螢幕分享全螢幕按鈕無反應 — 補上 WebContentsView HTML fullscreen 事件處理
 67ca573 螢幕分享 bitrate 上限提升：1080p60 10→20Mbps, 高動態內容不再撞天花板被砍 FPS
@@ -33,4 +34,3 @@ b2eaede 桌面端自動更新機制 + 版本號更新至 B1.5.9
 8999273 螢幕分享：修正 TS 型別錯誤與 JSX 結構
 ffbb04c 版本號更新至 B1.5.7
 4df3344 螢幕分享：新增編碼優先設定（解析度/幀率/平衡）
-0cd25b3 螢幕分享：setParameters 加入 maxFramerate 確保 encoder 遵循幀率設定
