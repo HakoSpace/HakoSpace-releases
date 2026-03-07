@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+f809e21 螢幕分享品質優化：SFU REMB 取最大值 + 硬體加速 + contentHint 一律 detail + 移除自適應 FPS 監控
 cc6097b fix: server sidebar 右鍵選單空白 — 修正 renderMenu 遺失的 closing brace
 2a53bc9 螢幕分享：繞過 Chrome VP9 SVC 30fps 硬限制 — scalabilityMode L1T1 + 自適應 contentHint 監控
 0f0d161 feat: buildId-based 更新檢測 — 同版本熱修不需增加版號
@@ -33,4 +34,3 @@ ffbb04c 版本號更新至 B1.5.7
 ae7a33c 遙測發送器：開機即送 + 失敗 5 分鐘重試（修正開機紅燈問題）
 15dfa73 版本號更新至 B1.5.6
 70f1084 新增 auth.hakospace.com metadata 服務交接文件 + 標記 T5 完成
-5d7cd7c 遙測設定：改善計劃開關旁新增連線狀態指示燈（🟢/🔴）
