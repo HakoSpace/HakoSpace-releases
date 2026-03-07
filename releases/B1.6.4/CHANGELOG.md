@@ -4,6 +4,7 @@ Release date: 2026-03-07
 
 ## Changes
 
+2a53bc9 螢幕分享：繞過 Chrome VP9 SVC 30fps 硬限制 — scalabilityMode L1T1 + 自適應 contentHint 監控
 0f0d161 feat: buildId-based 更新檢測 — 同版本熱修不需增加版號
 619240f fix: server 右鍵選單窗口尺寸與內容不匹配 — 改用 IPC 動態 resize
 f5f92b9 B1.6.4：Pre-release 更新選項 + 更新檢查錯誤處理改善
@@ -33,4 +34,3 @@ ae7a33c 遙測發送器：開機即送 + 失敗 5 分鐘重試（修正開機紅
 70f1084 新增 auth.hakospace.com metadata 服務交接文件 + 標記 T5 完成
 5d7cd7c 遙測設定：改善計劃開關旁新增連線狀態指示燈（🟢/🔴）
 1eb9452 遙測 HTTP 發送器：定期匿名送出至 auth.hakospace.com + 連線狀態 API
-ae919f2 遙測收集器：Snapshot 擴充至 30 欄位，對齊紀念碑資料集
