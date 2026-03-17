@@ -1,9 +1,16 @@
 # HakoSpace B2.3.4
 
-Release date: 2026-03-14
+Release date: 2026-03-17
 
 ## Changes
 
+57a0ece feat: terminal permission UI — access check, permissions tab, admin visibility
+931d292 feat: add terminal permission frontend API + i18n
+4eb297c feat: add terminal permission API handlers + update access check
+77c3ec1 feat: add terminal permission DB models + ACL function
+330c9c6 feat: voice SFU — codec mismatch recovery, peer PC reset, screen state callback
+3ab8429 chore: desktop 版本號同步至 B2.3.4
+f001297 fix: remove unnecessary webSecurity:false from captureWindow
 ba472de fix: update all hakoCap paths from electron/ to daemon/
 1b0ba86 fix: update hakoCap build path from electron/ to daemon/
 4b74c24 版本號更新至 B2.3.4
@@ -27,10 +34,3 @@ cb4c47e fix: add REMB decay to prevent publisher bitrate stagnation
 e7d49d0 fix: B2.2.8 — 舞台區分享者頭像重複 + SCREEN_STATE 包含分享者
 566e553 fix: B2.2.7 — drainSenderRTCP sidecar 優先 + sidecar 螢幕分享 SCREEN_STATE 廣播修復
 0994ef9 fix: B2.2.6 — PLI 發送到 sidecar PC 而非 peer PC + codec 診斷日誌
-e2d10c8 fix: B2.2.5 — capture window lazy init、VP9 codec default、hakoCap 品質預設、PLI 診斷日誌
-c1120f1 chore: 版本號更新至 B2.2.4
-a61b33b fix: hakoCap 整合修復 — 傳遞 codec 設定、移除多餘 sendScreenStart
-e682071 fix: hakoCap Windows cross-compile — 自動下載 node.lib + 產生 MinGW import library
-70afe18 fix: hakoCap 完整打包流程 — extraResources + packaged 路徑偵測 + build scripts 自動編譯 addon
-855464c feat: hakoCap 整合 — 桌面版隱藏視窗改用原生擷取引擎、設定 sidecar→hakocap 重命名
-10c523d feat: 開放網頁版60FPS、桌面版新增螢幕分享引擎選項
