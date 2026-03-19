@@ -4,6 +4,7 @@ Release date: 2026-03-19
 
 ## Changes
 
+770afaf fix: frontend build silently failing — stale B2.4.3 embedded in B2.4.4
 1433e19 版本號更新至 B2.4.4
 d358042 feat: add per-member codec visibility to voice debug overlay
 aa6b89e 版本號更新至 B2.4.3
@@ -33,4 +34,3 @@ ea19e9b feat: hardware-aware codec auto-selection via MediaCapabilities API
 4eb297c feat: add terminal permission API handlers + update access check
 77c3ec1 feat: add terminal permission DB models + ACL function
 330c9c6 feat: voice SFU — codec mismatch recovery, peer PC reset, screen state callback
-3ab8429 chore: desktop 版本號同步至 B2.3.4
