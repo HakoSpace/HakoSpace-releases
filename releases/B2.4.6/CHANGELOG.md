@@ -4,6 +4,7 @@ Release date: 2026-03-20
 
 ## Changes
 
+2620411 fix: aggressive mobile horizontal scroll lock + body-level safe area for PWA
 9fd7b8f fix: lightbox horizontal overflow + PWA safe area notch not working
 005bbb1 fix: prevent horizontal scrolling on mobile PWA
 1ea84a5 版本號更新至 B2.4.5
@@ -33,4 +34,3 @@ e9d939f chore: make hakoCap optional — desktop builds without native capture d
 69ddcba 版本號更新至 B2.3.5
 9b0bcef fix: adaptive PLI throttle with storm detection
 ea19e9b feat: hardware-aware codec auto-selection via MediaCapabilities API
-57a0ece feat: terminal permission UI — access check, permissions tab, admin visibility
