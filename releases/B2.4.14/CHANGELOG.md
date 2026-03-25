@@ -4,6 +4,7 @@ Release date: 2026-03-25
 
 ## Changes
 
+97a4054 fix: 修正關於頁面和偏好設定預覽寬度不一致問題
 8273635 版本號更新至 B2.4.14
 9004374 fix: dashboard tab 未載入 allow_prerelease 設定導致 toggle 無法關閉
 9cd5113 版本號更新至 B2.4.13
@@ -33,4 +34,3 @@ e6a1a73 fix: macOS web screen share ignoring codec preference (using VP9 instead
 1433e19 版本號更新至 B2.4.4
 d358042 feat: add per-member codec visibility to voice debug overlay
 aa6b89e 版本號更新至 B2.4.3
-c6db428 fix: iPhone notch safe area insets for PWA standalone mode
