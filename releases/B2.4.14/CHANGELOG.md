@@ -1,6 +1,6 @@
 # HakoSpace B2.4.14
 
-Release date: 2026-03-26
+Release date: 2026-03-27
 
 ## Changes
 
