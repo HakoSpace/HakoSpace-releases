@@ -4,6 +4,7 @@ Release date: 2026-03-26
 
 ## Changes
 
+e1e14b9 fix: 設定面板 sidebar 標題高度改為 h-14 對齊右側 header
 8a080b6 fix: 設定面板右側加 min-w-0 防溢出、終端邊框容器改為 flex、獨立終端頁同步邊框
 8f11744 fix: WS Monitor toolbar 拆成雙列避免溢出 + 終端機加邊框容器
 52f8077 fix: WS Monitor 自適應寬度取代水平捲軸，OP 欄加 max-width truncate
@@ -33,4 +34,3 @@ d128b02 fix: clear service worker cache before reload to prevent stale version l
 9fd7b8f fix: lightbox horizontal overflow + PWA safe area notch not working
 005bbb1 fix: prevent horizontal scrolling on mobile PWA
 1ea84a5 版本號更新至 B2.4.5
-e6a1a73 fix: macOS web screen share ignoring codec preference (using VP9 instead of H264)
