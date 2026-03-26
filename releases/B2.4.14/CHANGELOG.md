@@ -1,9 +1,10 @@
 # HakoSpace B2.4.14
 
-Release date: 2026-03-25
+Release date: 2026-03-26
 
 ## Changes
 
+be8803b fix: WS Monitor 右側截斷問題 + 終端機左右加 padding
 97a4054 fix: 修正關於頁面和偏好設定預覽寬度不一致問題
 8273635 版本號更新至 B2.4.14
 9004374 fix: dashboard tab 未載入 allow_prerelease 設定導致 toggle 無法關閉
@@ -33,4 +34,3 @@ e6a1a73 fix: macOS web screen share ignoring codec preference (using VP9 instead
 770afaf fix: frontend build silently failing — stale B2.4.3 embedded in B2.4.4
 1433e19 版本號更新至 B2.4.4
 d358042 feat: add per-member codec visibility to voice debug overlay
-aa6b89e 版本號更新至 B2.4.3
