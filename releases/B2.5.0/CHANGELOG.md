@@ -4,6 +4,7 @@ Release date: 2026-04-10
 
 ## Changes
 
+cc1ca5c fix: IO app 列表載入改用 axiosInstance + 建立時驗證 app 已選擇
 b4ce44a fix: 補齊 IO subtype 型別定義（api.ts, ws.ts）
 350c3c1 feat: HakoIO 互動應用頻道系統
 e12976b 版本號更新至 B2.4.96
@@ -33,4 +34,3 @@ cdff731 fix: codec lock 使用 publisher 的精確 profile 而非所有 H264 pro
 b98d574 版本號更新至 B2.4.84
 a387397 fix: H264 不送 cached keyframe 避免 seq gap 導致 jitter buffer 凍結
 b8bc31e 版本號更新至 B2.4.83
-299645e fix: 使用 OnTrack 時的實際 codec 而非 SDP renegotiation 後的值
