@@ -1,9 +1,11 @@
 # HakoSpace B2.5.27
 
-Release date: 2026-04-14
+Release date: 2026-04-15
 
 ## Changes
 
+6a8629b 版本號更新至 B2.5.27
+049ec39 fix(whiteboard): 釘選圖片不可拖曳
 61b32a2 版本號更新至 B2.5.27
 51d64f2 fix(whiteboard): preserve image transparency on insertion
 21256f1 版本號更新至 B2.5.26
@@ -32,5 +34,3 @@ cb8fc44 fix(hakoIO): SDK inline 到 app HTML + sandbox 移除 allow-same-origin
 bc84d8c fix(hakoIO): IO asset serving 改為獨立 top-level route
 86f8e6d debug: IOPanel console.log channelId/config/appUrl
 140d10b debug: IOServeAppAsset 加入詳細 log 追蹤 404 問題
-e360e3e fix(hakoIO): IOPanel iframe 不再依賴 manifest 載入
-6a66be1 fix(hakoIO): IO app list/manifest 端點改為 public
