@@ -1,2 +1,0 @@
-064cf4f035719c1d2dabcb788cb10d1d21d8e06d8a807ef57a50348024cf4ddb  server-hakospace-linux-amd64-B2.4.84
-6bb1a36b10a47f12e1828eaf635228b0bbfc2e6bdcee7f1eb7a828070748ae5a  server-hakospace-windows-amd64-B2.4.84.exe
