@@ -1,5 +1,0 @@
-f60ae57f0d0d27b243e22d03e9aaa74acaa78b7cb6caba91dbed42a3e6b7e6c2  desktop-hakospace-linux-amd64-B2.4.55.AppImage
-a2fbe1e32eb6e6115903c9b6f06a66382676fb373e5ca1066f78782a790a3e26  desktop-hakospace-windows-amd64-portable-B2.4.55.exe
-62354daae268feddad10dce39c1b53c9a34304f090b0bf19ccbd53616bdc596b  desktop-hakospace-windows-amd64-setup-B2.4.55.exe
-024e683df8bcde74c9b33f95085b36dacccde57864bf5e9175fd946452847661  server-hakospace-linux-amd64-B2.4.55
-c6b71b1632470482500f38b57780934b4165f44e362ff5b59c66b78ebc9cac2d  server-hakospace-windows-amd64-B2.4.55.exe

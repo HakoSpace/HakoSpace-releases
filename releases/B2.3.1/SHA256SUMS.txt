@@ -1,2 +1,0 @@
-3cc1732495473e931d5ea537e546cd1596a20ce6c5176bf7525bac35e5e1fc4f  server-hakospace-linux-amd64-B2.3.1
-652f86d7475b4b9f63a3b2818f978c98f8db6a498d1f72d6c3668a01feb8b885  server-hakospace-windows-amd64-B2.3.1.exe

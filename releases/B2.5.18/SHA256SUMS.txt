@@ -1,2 +1,0 @@
-ac1ed2da81f146f2aecb2caad16dcc1593c289d97e1c6829bbf3612fb236c996  desktop-hakospace-linux-amd64-B2.5.18.AppImage
-be2eaef4838d02598b2445f5d4df65b8fe227198c86030a8eb8f730e6fb232cc  server-hakospace-linux-amd64-B2.5.18
