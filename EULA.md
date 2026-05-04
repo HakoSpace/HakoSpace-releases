@@ -2,7 +2,7 @@
 
 **HakoSpace**
 Copyright (c) 2026 HakoSpace
-Contact: hsun@hakospace.com
+Contact: legal@hakospace.com
 
 Last Updated: 2026
 
@@ -79,7 +79,7 @@ In the event of any discrepancy or inconsistency between the English version and
 
 **HakoSpace**
 著作權所有 (c) 2026 HakoSpace
-聯絡方式：hsun@hakospace.com
+聯絡方式：legal@hakospace.com
 
 最後更新：2026 年
 
