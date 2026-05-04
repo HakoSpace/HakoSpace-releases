@@ -1,9 +1,0 @@
-version: 2.5.24
-files:
-  - url: desktop-hakospace-windows-amd64-setup-B2.5.24.exe
-    sha512: 5mo4xy0IgQ1yYTw4VrqgBLGzU2sN8KY9+/k72B5lDskZoWCgFzRUW9L4UH4Q7qtYrY8Ai1YkbVLwXpdhi4gXuA==
-    size: 122758003
-path: desktop-hakospace-windows-amd64-setup-B2.5.24.exe
-sha512: 5mo4xy0IgQ1yYTw4VrqgBLGzU2sN8KY9+/k72B5lDskZoWCgFzRUW9L4UH4Q7qtYrY8Ai1YkbVLwXpdhi4gXuA==
-releaseDate: '2026-04-14T05:17:08.000Z'
-buildId: '0878643'
