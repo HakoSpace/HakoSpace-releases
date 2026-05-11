@@ -174,6 +174,13 @@ sudo systemctl start hakospace
 sudo systemctl status hakospace
 ```
 
+Day-to-day control:
+
+```bash
+sudo systemctl stop|start|restart hakospace   # control the service
+journalctl -u hakospace -f                    # tail logs
+```
+
 > **Tip:** Create a dedicated `hako` system user and place the binary in `/opt/hakospace/`. The `data/` directory will be created there on first run.
 
 ### Windows Deployment
