@@ -4,6 +4,7 @@ Release date: 2026-05-13
 
 ## Changes
 
+c7aa07f channel: 修正 multi 類型 default channel 進入後 fallback 到 MessageArea
 ca03a97 版本號更新至 B2.5.82
 0fd4a28 log: application 自寫 hako.log + tail 演算法 + viewer 狀態列
 3abdbc5 channel: server 預設 channel 同源化（registry metadata + AI tool 補 validation）
@@ -33,4 +34,3 @@ df81d0f legal: email 路由 hsun@→legal@ + Privacy §8 語言優先權 + Priva
 5a40e53 版本號更新至 B2.5.74
 2721eb4 chore(desktop): sync package version to 2.5.73
 04f3f9f fix(content-zone): restore server theme wallpaper inheritance for follow_server channels
-a73d56c 版本號更新至 B2.5.73
