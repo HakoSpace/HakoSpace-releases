@@ -81,15 +81,22 @@ This guide covers everything you need to run HakoSpace on your own server.
 
 ### Step 1: Download
 
-Grab the latest release from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases).
+Grab the latest server binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases).
 
-- Linux: `hako`
-- Windows: `hako.exe`
+- Linux: `server-hakospace-linux-amd64-<version>`
+- Windows: `server-hakospace-windows-amd64-<version>.exe`
 
-On Linux, make the binary executable:
+For convenience, the rest of this guide assumes you've renamed the binary to `hako` (Linux) or `hako.exe` (Windows). Verify the download against `SHA256SUMS.txt` first, then:
 
 ```bash
+# Linux
+mv server-hakospace-linux-amd64-* hako
 chmod +x hako
+```
+
+```cmd
+:: Windows
+ren server-hakospace-windows-amd64-*.exe hako.exe
 ```
 
 ### Step 2: First Run
@@ -239,7 +246,7 @@ The `data/` directory is never touched during an update. Your database, uploads,
 
 以下為部署流程的中文摘要，詳細步驟請參閱上方英文說明。
 
-1. **下載** — 從 [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) 下載對應平台的執行檔（Linux: `hako`，Windows: `hako.exe`）。
+1. **下載** — 從 [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) 下載對應平台 server binary（檔名格式：`server-hakospace-{linux|windows}-amd64-<version>`），建議重新命名為 `hako`（Linux）或 `hako.exe`（Windows）並先以 `SHA256SUMS.txt` 驗證。
 2. **首次啟動** — 執行後，`data/.env` 會自動產生，包含隨機 `JWT_SECRET`，無需手動建立。
 3. **註冊擁有者** — 開啟 `http://localhost:8080`，第一個註冊的使用者自動成為伺服器擁有者。
 4. **TLS 設定** — 在 `data/.env` 中設定 `ACME_DOMAIN` 即可啟用 Let's Encrypt 自動憑證。
@@ -340,54 +347,18 @@ Environment variables set at runtime take precedence over values in `data/.env`.
 
 ---
 
-## Editions
+## License
 
-HakoSpace ships in three editions. All new features debut on Community Edition first. Community feedback shapes what gets built and in what order. Once features are mature and battle-tested, advanced management and enterprise capabilities may become PRO or MAX exclusive.
-
-Upgrading is instant: enter a license key in server settings and your edition unlocks immediately. No reinstall, no migration, no downtime.
-
-### Community Edition (社群版) — Current
-
-Free to use for:
-
-- Academic and research use
-- Personal, non-commercial projects
-- Qualifying non-profit organizations
-
-Government agencies and all commercial deployments require a paid license.
-
-### PRO and MAX — Coming Soon
-
-PRO and MAX editions are coming. They will add advanced administration tools, priority support, and capabilities suited to teams and organizations running HakoSpace at scale.
-
-The exact feature split between PRO and MAX is still being defined based on community feedback. The table below reflects current thinking and will be updated as editions launch.
-
-### Edition Comparison
-
-| Feature | Community | PRO | MAX |
-|---|:---:|:---:|:---:|
-| Core messaging, voice, and video | ✓ | ✓ | ✓ |
-| AI Agent | ✓ | ✓ | ✓ |
-| Self-hosted single binary | ✓ | ✓ | ✓ |
-| Backup and restore | ✓ | ✓ | ✓ |
-| Advanced admin tools | — | *planned* | *planned* |
-| Priority support | — | *planned* | *planned* |
-| Multi-server management | — | — | *planned* |
-| Commercial use license | — | *planned* | *planned* |
-
-### Roadmap Philosophy
-
-Community Edition is not a stripped-down trial. It's the full product. Every feature ships to Community first. PRO and MAX exist to fund continued development and to serve organizations that need enterprise-grade support and management tooling.
-
-If you're using HakoSpace for personal or non-commercial purposes, Community Edition is all you need.
+HakoSpace is free to use during the Beta phase. For terms and conditions, see [LICENSE](./LICENSE) and [EULA.md](./EULA.md).
 
 ---
 
 ## Legal
 
-- [LICENSE](./LICENSE) — License terms for the Community Edition
+- [LICENSE](./LICENSE) — License terms
 - [EULA.md](./EULA.md) — End User License Agreement
 - [PRIVACY.md](./PRIVACY.md) — Privacy policy and data handling
+- [REPO_POLICY.md](./REPO_POLICY.md) — How this repository is organized and what gets published
 
 ---
 
