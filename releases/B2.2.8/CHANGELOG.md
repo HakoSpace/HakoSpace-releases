@@ -1,0 +1,36 @@
+# HakoSpace B2.2.8
+
+Release date: 2026-03-09
+
+## Changes
+
+e7d49d0 fix: B2.2.8 — 舞台區分享者頭像重複 + SCREEN_STATE 包含分享者
+566e553 fix: B2.2.7 — drainSenderRTCP sidecar 優先 + sidecar 螢幕分享 SCREEN_STATE 廣播修復
+0994ef9 fix: B2.2.6 — PLI 發送到 sidecar PC 而非 peer PC + codec 診斷日誌
+e2d10c8 fix: B2.2.5 — capture window lazy init、VP9 codec default、hakoCap 品質預設、PLI 診斷日誌
+c1120f1 chore: 版本號更新至 B2.2.4
+a61b33b fix: hakoCap 整合修復 — 傳遞 codec 設定、移除多餘 sendScreenStart
+e682071 fix: hakoCap Windows cross-compile — 自動下載 node.lib + 產生 MinGW import library
+70afe18 fix: hakoCap 完整打包流程 — extraResources + packaged 路徑偵測 + build scripts 自動編譯 addon
+855464c feat: hakoCap 整合 — 桌面版隱藏視窗改用原生擷取引擎、設定 sidecar→hakocap 重命名
+10c523d feat: 開放網頁版60FPS、桌面版新增螢幕分享引擎選項
+9b93290 fix: VP9 codec H264過濾、PLI SSRC重寫、隱藏視窗throttle、遊戲焦點fakeMinimize
+924fc05 chore: 版本號更新至 B2.1.8
+b3cc7a7 fix: VP9 codec preference + picker 遊戲焦點搶奪
+dd81a97 fix: B2.1.6 runtime bugs — PLI延遲、假音訊控制、遊戲焦點、螢幕分享殘留
+d8e794e chore: 版本號更新至 B2.1.6
+353f7f4 fix: B2.1.5 runtime bugs — self-preview loopback, VP9 codec, picker focus
+10e24d2 chore: .gitignore 加入 desktop/ffmpeg/ — 移除大檔案追蹤
+ba1a235 chore: 版本號更新至 B2.1.5
+b21d5d4 feat: 隱藏視窗 stats relay — capture-worker getStats() → 主視窗 debug overlay
+be15f58 feat: 網頁版 60FPS 選項停用 — 瀏覽器無法達到 60fps
+c653ef9 feat: 螢幕分享自我預覽渲染 — ScreenShareViewer + StageArea 支援 self-tile
+168862e feat: voiceStore 整合 — sidecar 移除 + 自動訂閱自己 + captureWindowStats + 60fps 回退
+08b6cd7 refactor: 移除 desktop sidecar 代碼 — main.ts, preload.ts, electron-builder
+ea440a0 refactor: 端點路徑重命名 /api/sidecar/screen → /api/capture/screen
+85bfcac fix: release.sh 支援 build number 後綴的 desktop 檔案名
+e4733b8 feat: 隱藏視窗螢幕擷取架構 + build 流水號
+3f26525 chore: 版本號更新至 B2.1.3
+8532a92 fix: 暫時停用 sidecar 分享 + picker 一律顯示
+81bed1f feat: intent-based sidecar IPC protocol + app 啟動即 spawn sidecar
+8bf613a fix: sidecar track 加入時 ScreenStreamIDs nil map panic
