@@ -353,6 +353,12 @@ HakoSpace is free to use during the Beta phase. For terms and conditions, see [L
 
 ---
 
+## Repository Maintenance
+
+Maintainers of this repository should see [REPO_POLICY.md § Maintenance](./REPO_POLICY.md#maintenance) for cleanup tooling (`cleanup-binaries.sh`) and the pre-commit hook setup (`scripts/install-hooks.sh`) that guards against accidental metadata deletion.
+
+---
+
 ## Legal
 
 - [LICENSE](./LICENSE) — License terms

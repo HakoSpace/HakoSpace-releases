@@ -19,13 +19,31 @@ GitHub Releases (under the **Releases** tab) host the actual downloadable binari
 
 ## Retention Policy
 
-Only the latest version is kept in `releases/`. When a new version is published:
+Releases involve three categories of assets with different retention rules.
 
-1. The previous `releases/<version>/` directory is removed in the same commit that adds the new one.
-2. Older GitHub Releases (under the **Releases** tab) are also pruned by the publishing pipeline.
-3. Historical metadata remains accessible through git history (`git log -- releases/`).
+### GitHub Release page (binary)
 
-This keeps the repository small and avoids confusion about which version is current.
+- Only the latest patch within each major version is kept (e.g. `B1.2.4` supersedes `B1.2.3`).
+- Cross-major releases coexist (e.g. `B1.6.4` and `B2.1.1`).
+- The publishing pipeline (`release.sh --cleanup-prev`) handles binary pruning automatically.
+
+### Git-tracked metadata (**permanently retained**)
+
+Any `.md` / `.yml` / `.txt` file under `releases/<version>/` is permanent metadata. Canonical examples:
+
+- `releases/<version>/CHANGELOG.md` — release notes
+- `releases/<version>/latest.yml` — electron-updater Windows manifest (only when a Windows desktop build is included; `latest-mac.yml` / `latest-linux.yml` follow the same rule when those platforms are built)
+- `releases/<version>/SHA256SUMS.txt` — checksum file
+
+These are the only textual record of each release's history. They are kept indefinitely so users can verify checksums and inspect changelogs for any past version.
+
+**Never** `rm -rf releases/<version>/` or `git rm releases/<version>/`. A pre-commit hook (see Maintenance below) blocks accidental deletion of any tracked metadata in this category.
+
+### Local binaries (cleanable, but use the tool)
+
+- `releases/<version>/*.AppImage`, `desktop-*.exe`, `server-hakospace-*`
+- These accumulate locally (~350 MB per release) but are **not** tracked by git (`.gitignore` enforces this).
+- Use `cleanup-binaries.sh` to clean them — see Maintenance below. Do **not** `rm -rf releases/<version>/`.
 
 ---
 
@@ -82,6 +100,41 @@ Get-FileHash .\server-hakospace-windows-amd64-<version>.exe -Algorithm SHA256
 ```
 
 Compare the output to the corresponding line in `SHA256SUMS.txt`.
+
+---
+
+## Maintenance
+
+Tools for maintainers of this repository (not relevant to end users).
+
+### Clean local binaries
+
+Local `releases/<version>/` directories accumulate binaries (~350 MB per release). To reclaim space safely:
+
+```bash
+./cleanup-binaries.sh              # dry-run, shows what would be deleted
+./cleanup-binaries.sh --apply      # actually delete
+./cleanup-binaries.sh --keep B2.6.3 --keep B2.6.2 --apply
+                                   # keep binaries for specified versions
+```
+
+Only matches binary patterns (`*.AppImage`, `desktop-*.exe`, `server-hakospace-*`). Metadata (`*.md`, `*.yml`, `*.txt`) is never touched.
+
+### Pre-commit hook (prevent metadata deletion)
+
+After the first `git clone`, install the hook once:
+
+```bash
+bash scripts/install-hooks.sh
+```
+
+After installation, any commit that stages a deletion of `releases/<ver>/CHANGELOG.md` / `latest.yml` / `SHA256SUMS.txt` is rejected. This is the primary defense against the kind of cleanup mistake that previously caused metadata loss.
+
+Emergency override (when removal is genuinely intended):
+
+```bash
+ALLOW_METADATA_DELETE=1 git commit ...
+```
 
 ---
 

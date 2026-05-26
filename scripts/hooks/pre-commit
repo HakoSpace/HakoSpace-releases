@@ -1,0 +1,66 @@
+#!/bin/bash
+# pre-commit hook — 擋下意外刪除 release metadata 的 commit
+#
+# 事故背景：本地清 binary 空間時用 `rm -rf releases/B<ver>/` 一次掃光，
+# 連帶刪掉 git-tracked metadata（CHANGELOG/latest.yml/SHA256SUMS），
+# git commit 把 deletion 帶進 history，release timeline 永久流失。
+#
+# 此 hook 在每次 commit 前檢查：staged deletions 是否含 metadata。
+# 若有，拒絕 commit。
+#
+# 緊急 override（真的需要刪某版 metadata）：
+#   ALLOW_METADATA_DELETE=1 git commit ...
+#
+# 安裝：在 repo root 執行 `bash scripts/install-hooks.sh`。
+
+set -e
+
+# pattern：releases/[BV]<ver>/*.{md,yml,txt}
+# 涵蓋 CHANGELOG.md / latest.yml / latest-mac.yml / latest-linux.yml / SHA256SUMS.txt
+# 及未來其它 metadata 副檔名（與 REPO_POLICY「git-tracked metadata」定義對齊）。
+META_RE='^releases/[BV][^/]+/[^/]+\.(md|yml|txt)$'
+
+# core.quotepath=false 避免非 ASCII path 被 quote 成 "releases/..."，造成 regex
+# 無法匹配而漏放行。
+deleted=$(git -c core.quotepath=false diff --cached --name-only --diff-filter=D 2>/dev/null \
+    | grep -E "$META_RE" || true)
+
+if [ -z "$deleted" ]; then
+    # 沒有刪除 metadata，放行
+    exit 0
+fi
+
+# 有 metadata 被刪 — 檢查 override
+if [ "${ALLOW_METADATA_DELETE:-0}" = "1" ]; then
+    echo "⚠ ALLOW_METADATA_DELETE=1 — 允許刪除以下 metadata："
+    echo "$deleted" | sed 's/^/    /'
+    exit 0
+fi
+
+# 拒絕
+cat >&2 <<'EOF'
+
+╔══════════════════════════════════════════════════════════════════════╗
+║  ✗ COMMIT REJECTED — 偵測到 release metadata 被刪除                  ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+以下 git-tracked metadata 即將從此 repo 移除：
+
+EOF
+echo "$deleted" | sed 's/^/    /' >&2
+cat >&2 <<'EOF'
+
+這些檔案是 release history 的唯一文字紀錄。一旦 commit + push 後，
+GitHub 上的歷史將失去這些版本的 CHANGELOG / 校驗碼 / electron-updater
+manifest，無法從 GitHub Releases page 復原（binary 不存在於此 repo）。
+
+可能原因：
+  - 用 `rm -rf releases/B<ver>/` 想清本地 binary，連 metadata 一起刪
+    → 改用 `bash cleanup-binaries.sh`（只刪 binary 不碰 metadata）
+  - 手動 `git rm` 誤刪
+
+如果真的需要刪除（例：某版 metadata 確定錯誤）：
+  ALLOW_METADATA_DELETE=1 git commit ...
+
+EOF
+exit 1
