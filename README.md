@@ -2,15 +2,17 @@
 
 **Your server. Your rules. Your conversations.**
 
-*自架伺服器的私密通訊平台，完整掌控你的資料與隱私。*
+HakoSpace is a self-hosted platform for real-time text, voice, and video chat — you own the server, the data, and the rules. It runs anywhere you do, with nothing sent to a third-party backend.
 
-🌐 **Official Website: [hakospace.com](https://hakospace.com)**
+🌐 **Website: [hakospace.com](https://hakospace.com)**
 
 ---
 
 ## What is HakoSpace?
 
-HakoSpace is a self-hosted chat platform that gives you everything Discord does, without giving your data to anyone else. It ships as a single binary with no external dependencies — drop it on a Linux server, run it, and you're done. Full real-time messaging, voice and video, an AI agent, and a desktop app, all under your control.
+HakoSpace gives a community everything a modern chat platform should — organized text channels, low-latency voice and video, direct messages, screen sharing, an AI agent, and a desktop app — while keeping all of it on infrastructure you control. Your messages, files, and members live only on your server.
+
+Deploy it in a single command with the official **Docker image (recommended)**, or run it as a **single self-contained binary**. Either way there are no external services to wire up — the database, frontend, and TLS are all built in. It's a genuine privacy-first alternative to hosted chat services.
 
 ---
 
@@ -25,77 +27,86 @@ HakoSpace is a self-hosted chat platform that gives you everything Discord does,
 
 ### 🎙 Voice & Video
 
-- WebRTC SFU architecture for low-latency voice and video calls
-- Screen sharing with full desktop or per-window capture
-- Per-application audio capture on Linux (capture one app, not everything)
+- Low-latency group voice and video calls
+- Screen sharing with full-desktop or per-window capture
+- Per-application audio capture on Linux (share one app's sound, not the whole system)
 
-### AI Agent
+### 🤖 AI Agent
 
-- Multi-provider support: Anthropic Claude, OpenAI GPT, Google Gemini
-- Tool calling for real actions, not just chat responses
-- Server management capabilities through the agent interface
+- Multi-provider: Anthropic Claude, OpenAI GPT, or Google Gemini
+- Tool calling for real actions, not just chat replies
+- Server-management tasks through a conversational interface
 
-### Desktop App
+### 🖥 Desktop App
 
-- Electron-based client for Windows and Linux
-- Connect to multiple HakoSpace servers from one app
-- Encrypted token storage for secure credential management
-- Per-application audio capture support on Linux
+- Electron client for Windows and Linux
+- Connect to multiple HakoSpace servers from one window
+- Encrypted local token storage
+- Per-application audio capture on Linux
 
-### Administration
+### 🛠 Administration
 
-- Role system: owner, admin, and member tiers
-- Audit logs for server activity
-- IP bans and invite code management
+- Three clear roles: owner, admin, and member
+- Always-on audit log of administrative actions
+- Invite codes, registration policies, IP bans, and a message word filter
 - Built-in backup tooling
 
-### Self-Hosted & Private
+### 🔒 Self-Hosted & Private
 
-- Single binary deployment, or an official multi-arch Docker image (amd64 + arm64) — your choice
-- SQLite database, zero external dependencies
-- No telemetry by default — your data stays on your machine
-- A genuine privacy-first Discord alternative
+- **Docker (recommended)** with an official multi-arch image, or a **single binary** — your choice
+- Embedded SQLite database, zero external dependencies
+- Telemetry is strictly opt-in — your data stays on your machine
 
 ---
 
 ## Quick Start
 
-Download the latest binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases), run it, and open `http://localhost:8080`. The first user to register becomes the server owner.
-
-For a full walkthrough covering TLS, systemd, backups, and Windows deployment, see the [Hosting Guide](#hosting-guide) below.
-
----
-
-## Hosting Guide
-
-This guide covers everything you need to run HakoSpace on your own server.
-
-### Run with Docker (easiest)
-
-The official image is published to GitHub Container Registry as a **multi-arch** image — `docker pull` automatically picks your CPU architecture, so it runs natively on x86-64 servers and on ARM (Raspberry Pi, ARM VPS, Apple Silicon under Docker Desktop).
-
-> **Beta:** the stable `:latest` tag ships with the first stable (`V`) release. While HakoSpace is in beta, use **`:edge`** (newest pre-release) — e.g. `ghcr.io/hakospace/hako:edge` — in the commands below.
+The fastest way to run HakoSpace is the official Docker image:
 
 ```bash
 docker run -d --name hako \
   -p 8080:8080 \
   -v hako-data:/app/data \
-  ghcr.io/hakospace/hako:latest
+  ghcr.io/hakospace/hako:edge
 ```
 
-Then open `http://localhost:8080` — the first user to register becomes the owner.
+Open `http://localhost:8080` — the first account to register becomes the server **owner**.
+
+Prefer a plain executable? Download the latest binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases), run it, and open the same URL.
+
+For a full walkthrough — TLS, firewall, running as a service, backups, and going live safely — see the [Hosting Guide](#hosting-guide) below.
+
+> **Beta channel:** the rolling `:latest` tag ships with the first stable (`V`) release. While HakoSpace is in beta, use **`:edge`** (the newest pre-release) as shown above.
+
+---
+
+## Hosting Guide
+
+Everything you need to run HakoSpace in production. **Docker is the recommended path** — it's the simplest to install, runs natively on both x86-64 and ARM, and updates with a single `docker pull`. A standalone binary is fully supported as an alternative if you'd rather not use containers.
+
+### Deploy with Docker (recommended)
+
+The official image is published to GitHub Container Registry at `ghcr.io/hakospace/hako` as a **multi-arch** image. `docker pull` automatically selects your CPU architecture, so it runs natively on x86-64 servers and on ARM (Raspberry Pi, ARM VPS, Apple Silicon under Docker Desktop).
+
+```bash
+docker run -d --name hako \
+  -p 8080:8080 \
+  -v hako-data:/app/data \
+  ghcr.io/hakospace/hako:edge
+```
+
+Then open `http://localhost:8080` — the first account to register becomes the owner.
 
 Or with Docker Compose (`docker-compose.yml`):
 
 ```yaml
 services:
   hako:
-    image: ghcr.io/hakospace/hako:latest
+    image: ghcr.io/hakospace/hako:edge
     ports:
       - "8080:8080"
     environment:
-      - TLS_AUTO=false
-      - DATA_DIR=/app/data
+      - TLS_AUTO=false        # serve plain HTTP; terminate TLS at a reverse proxy
     volumes:
       - hako-data:/app/data
     restart: unless-stopped
@@ -104,43 +115,74 @@ volumes:
   hako-data:
 ```
 
-**Image tags:** `:latest` (newest stable) · `:B<x>.<y>.<z>` (pinned exact version) · `:B<major>` (track a major line) · `:edge` (newest pre-release).
+#### Image tags
 
-**Data & backup** — everything (SQLite DB, TLS certs, the auto-generated `JWT_SECRET`) lives in the `hako-data` volume. Back it up with:
+| Tag | Meaning |
+|---|---|
+| `:edge` | Newest pre-release — **use this during beta** |
+| `:latest` | Newest stable release (available once the first `V` release ships) |
+| `:B<major>` | Track a major line, e.g. `:B2` (stable) |
+| `:B<x>.<y>.<z>` | Pin an exact version, e.g. `:B2.6.9` |
+
+Pre-releases can also be pinned exactly with the `-pre` suffix, e.g. `:B2.6.9-pre`.
+
+#### Data and backups
+
+Everything — the SQLite database, TLS certificates, and the auto-generated `JWT_SECRET` — lives in the `hako-data` named volume. Back it up by archiving the volume:
 
 ```bash
-docker run --rm -v hako-data:/d -v "$PWD":/b busybox tar czf /b/hako-backup.tgz -C /d .
+docker run --rm -v hako-data:/d -v "$PWD":/b busybox \
+  tar czf /b/hako-backup.tgz -C /d .
 ```
 
-**Updating** — pull a new image and recreate the container:
+#### Updating
+
+Pull a new image and recreate the container:
 
 ```bash
-docker pull ghcr.io/hakospace/hako:latest && docker compose up -d
+docker pull ghcr.io/hakospace/hako:edge && docker compose up -d
 ```
 
-> The admin panel's in-app self-update is **disabled** inside containers (an image is immutable — update by pulling a new one). For automatic updates use a tool like [Watchtower](https://containrrr.dev/watchtower/).
+Containers update by image pull, so the admin panel's in-app self-update is turned off inside a container (an image is immutable). To automate pulls, use a tool such as [Watchtower](https://containrrr.dev/watchtower/).
 
-**TLS** — the container serves plain HTTP on 8080; put a reverse proxy (Caddy / nginx / Traefik) in front for HTTPS, or enable built-in ACME with `TLS_AUTO=true` + `ACME_DOMAIN=your.domain` and publish ports 80 + 443.
+#### TLS
 
-Prefer a plain binary instead? Continue with the steps below.
+The container serves plain HTTP on port 8080. For HTTPS you have two options:
 
-### System Requirements
+- **Reverse proxy (recommended):** put Caddy, nginx, or Traefik in front and let it terminate TLS.
+- **Built-in ACME:** set `TLS_AUTO=true` and `ACME_DOMAIN=your.domain`, and publish ports 80 and 443:
+
+  ```bash
+  docker run -d --name hako \
+    -p 80:8080 -p 443:8443 \
+    -e TLS_AUTO=true -e ACME_DOMAIN=chat.yourdomain.com \
+    -v hako-data:/app/data \
+    ghcr.io/hakospace/hako:edge
+  ```
+
+  HakoSpace then requests and renews a Let's Encrypt certificate automatically.
+
+Prefer a standalone binary instead? Continue below.
+
+### Deploy as a binary (alternative)
+
+#### System Requirements
 
 | | Minimum |
 |---|---|
-| OS | Linux amd64 or Windows amd64 |
+| OS | Linux amd64 or Windows amd64 (the Docker image additionally supports arm64) |
 | RAM | 512 MB |
-| Disk | Depends on usage (messages + uploads stored in `data/`) |
-| Domain | Optional, required only for TLS |
+| Disk | Depends on usage — messages and uploads are stored under `data/` |
+| Domain | Optional, needed only for a publicly trusted TLS certificate |
 
-### Step 1: Download
+#### Step 1 — Download
 
-Grab the latest server binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases).
+Grab the latest server binary from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases):
 
 - Linux: `server-hakospace-linux-amd64-<version>`
 - Windows: `server-hakospace-windows-amd64-<version>.exe`
 
-For convenience, the rest of this guide assumes you've renamed the binary to `hako` (Linux) or `hako.exe` (Windows). Verify the download against `SHA256SUMS.txt` first, then:
+Verify it against `SHA256SUMS.txt`, then rename it to `hako` (Linux) or `hako.exe` (Windows) — the rest of this guide assumes that name. Renaming is safe and does not affect future updates; the server always locates its own executable when it updates.
 
 ```bash
 # Linux
@@ -153,61 +195,59 @@ chmod +x hako
 ren server-hakospace-windows-amd64-*.exe hako.exe
 ```
 
-### Step 2: First Run
+#### Step 2 — First Run
 
 ```bash
 ./hako
 ```
 
-On first run, HakoSpace creates the `data/` directory and auto-generates `data/.env` with a secure random `JWT_SECRET`. You don't need to create this file yourself.
+On Windows, run `hako.exe` from PowerShell or Command Prompt rather than double-clicking, so you can read the startup log.
 
-> **Note:** `data/.env` is generated automatically on first run. Edit it after the first launch to add custom configuration.
->
-> **備註：** `data/.env` 會在首次啟動時自動產生，包含隨機生成的 `JWT_SECRET`。首次啟動後再編輯此檔案以調整設定。
+On the first run, HakoSpace:
 
-### Step 3: Register the Owner Account
+- creates the `data/` directory next to the binary,
+- generates `data/.env` with a secure random `JWT_SECRET`, and
+- starts listening on port 8080 (HTTP) and 8443 (HTTPS).
 
-Open `http://localhost:8080` in your browser. The first user to register on the server automatically becomes the Owner. Do this before sharing the server URL with anyone else.
+You don't need to edit any configuration to get started. (To use ACME later, stop the server, add `ACME_DOMAIN` to `data/.env`, and start it again — see [TLS Setup](#tls-setup-binary).)
 
-> **Important:** Register your owner account immediately after first launch.
->
-> **重要：** 請在分享伺服器連結前，立即完成擁有者帳號的註冊。
+#### Step 3 — Register the Owner
 
-### TLS Setup
+Open `http://localhost:8080` and register the first account — it is automatically promoted to **owner**. Do this immediately, before sharing the URL with anyone else.
 
-**Option A: Let's Encrypt (recommended)**
+On their first login, the owner is asked to accept the EULA and to choose whether to share anonymous telemetry (opt-in or decline). These prompts appear only once.
 
-Set `ACME_DOMAIN` in `data/.env` and HakoSpace handles certificate provisioning automatically. Your server must be reachable on port 443 from the internet for ACME validation.
+#### TLS Setup (binary)
+
+HakoSpace chooses a TLS mode at startup based on what you've set in `data/.env`:
+
+| Mode | How to enable | Result |
+|---|---|---|
+| **ACME / Let's Encrypt** (recommended) | `ACME_DOMAIN=your.domain.com` | Certificate requested and auto-renewed; cached in `data/certs/` |
+| Manual certificate | `TLS_CERT=/path` and `TLS_KEY=/path` | Uses your own certificate files |
+| Plain HTTP | `TLS_AUTO=false` | No TLS — for an internal network or behind a proxy |
+| Self-signed (default) | none of the above | A self-signed certificate is generated so HTTPS works out of the box; browsers show a trust warning |
+
+For a public server, ACME is the right choice. Point your domain's DNS at the server's public IP, add `ACME_DOMAIN` to `data/.env`, and restart. HTTPS is then served on port 8443.
 
 ```env
 ACME_DOMAIN=chat.yourdomain.com
 ```
 
-Then restart the server. HTTPS will be available on port 8443.
+#### Firewall and Ports
 
-**Option B: Manual certificate**
+| Port | Purpose |
+|---|---|
+| 8080 / TCP | HTTP |
+| 8443 / TCP | HTTPS |
 
-Place your certificate and key files in `data/` and set the paths in `data/.env`:
+Open 8080 and 8443 to the internet so members can reach the server. For ACME on a home network, forward external **443 → 8443** (required — serves HTTPS and TLS-ALPN-01 validation) and, ideally, external **80 → 8080** as well (lets the HTTP-01 challenge succeed too). Behind a reverse proxy you only need to expose 80/443 on the proxy and keep HakoSpace on its default ports internally.
 
-```env
-TLS_CERT=/path/to/cert.pem
-TLS_KEY=/path/to/key.pem
-```
+#### Run as a Service
 
-### Firewall
+Keeping the server running across reboots and restarting it on failure is strongly recommended for any always-on deployment.
 
-Open these ports depending on your setup:
-
-| Port | Protocol | Purpose |
-|------|----------|---------|
-| 8080 | TCP | HTTP (plain) |
-| 8443 | TCP | HTTPS (TLS) |
-
-If you're using a reverse proxy (nginx, Caddy), you only need to expose 80/443 on the proxy and keep HakoSpace on its default ports internally.
-
-### Running as a systemd Service (Linux)
-
-Create `/etc/systemd/system/hakospace.service`:
+**Linux (systemd)** — create `/etc/systemd/system/hakospace.service`:
 
 ```ini
 [Unit]
@@ -226,12 +266,9 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 
-Enable and start:
-
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable hakospace
-sudo systemctl start hakospace
+sudo systemctl enable --now hakospace
 sudo systemctl status hakospace
 ```
 
@@ -239,21 +276,12 @@ Day-to-day control:
 
 ```bash
 sudo systemctl stop|start|restart hakospace   # control the service
-journalctl -u hakospace -f                    # tail logs
+journalctl -u hakospace -f                    # follow the logs
 ```
 
-> **Tip:** Create a dedicated `hako` system user and place the binary in `/opt/hakospace/`. The `data/` directory will be created there on first run.
+> **Tip:** create a dedicated `hako` system user and place the binary in `/opt/hakospace/`. The `data/` directory is created there on first run.
 
-### Windows Deployment
-
-Run `hako.exe` from a Command Prompt or PowerShell window, not by double-clicking. Double-clicking will open and immediately close the console window if there's an error.
-
-```cmd
-cd C:\hakospace
-hako.exe
-```
-
-For unattended startup, create a `.bat` file:
+**Windows (Task Scheduler)** — create a `start.bat`:
 
 ```bat
 @echo off
@@ -261,32 +289,13 @@ cd /d C:\hakospace
 hako.exe
 ```
 
-Then add it to Task Scheduler to run at system startup. Set the action to run the `.bat` file with "Start in" set to `C:\hakospace`.
+Then add a Task Scheduler task that runs `start.bat` at system startup, with "Start in" set to `C:\hakospace`.
 
-### Backup
+#### Updating (binary)
 
-The admin panel includes a built-in backup tool under Settings. It exports a snapshot of your server data.
+HakoSpace updates itself from the admin panel. Under **Settings → Dashboard → Server Update**, click **Check for Update**; when a newer version exists, the server downloads it, verifies it, replaces its own executable, and restarts — no SSH required. Under systemd, the service comes straight back up on the new version.
 
-For manual backups, copy the entire `data/` directory while the server is stopped:
-
-```bash
-sudo systemctl stop hakospace
-cp -r /opt/hakospace/data /backup/hakospace-$(date +%Y%m%d)
-sudo systemctl start hakospace
-```
-
-The `data/` directory contains:
-
-- `hako.db` — SQLite database (all messages, users, channels)
-- `uploads/` — uploaded files
-- `.env` — your configuration
-- TLS certificates (if using manual certs)
-
-### Updating
-
-1. Stop the server
-2. Replace the `hako` binary with the new version
-3. Start the server
+To update manually (for example, to pin a specific version), stop the server, replace the `hako` binary, and start it again. The `data/` directory is preserved across updates.
 
 ```bash
 sudo systemctl stop hakospace
@@ -294,20 +303,28 @@ cp hako-new /opt/hakospace/hako
 sudo systemctl start hakospace
 ```
 
-The `data/` directory is never touched during an update. Your database, uploads, and configuration are preserved.
+### Backups
 
-### 簡要中文部署指南
+Whether you run Docker or a binary, all server state lives in one place — the `data/` directory (or the `hako-data` volume), which holds the database, uploads, configuration, and certificates.
 
-以下為部署流程的中文摘要，詳細步驟請參閱上方英文說明。
+The admin panel has a built-in backup tool: **Settings → Dashboard → Backup → Create Backup** packages your data into a timestamped archive you can list, download, and delete. Recommended baseline:
 
-1. **下載** — 從 [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) 下載對應平台 server binary（檔名格式：`server-hakospace-{linux|windows}-amd64-<version>`），建議重新命名為 `hako`（Linux）或 `hako.exe`（Windows）並先以 `SHA256SUMS.txt` 驗證。
-2. **首次啟動** — 執行後，`data/.env` 會自動產生，包含隨機 `JWT_SECRET`，無需手動建立。
-3. **註冊擁有者** — 開啟 `http://localhost:8080`，第一個註冊的使用者自動成為伺服器擁有者。
-4. **TLS 設定** — 在 `data/.env` 中設定 `ACME_DOMAIN` 即可啟用 Let's Encrypt 自動憑證。
-5. **防火牆** — 開放 8080（HTTP）與 8443（HTTPS）埠。
-6. **系統服務** — Linux 建議使用 systemd 管理服務，Windows 可透過工作排程器設定開機自動執行。
-7. **備份** — 管理後台內建備份工具，或直接複製 `data/` 目錄。
-8. **更新** — 停止服務、替換執行檔、重新啟動，`data/` 目錄完整保留。
+1. **Back up on a schedule** — at least weekly.
+2. **Keep a copy off the server** — download backups to cloud storage or another machine; a backup that lives only on the same disk is lost with it.
+3. **Always back up before upgrading.**
+
+---
+
+## Security Checklist
+
+Run through this before opening your server to members. Each item is a built-in feature; full details are in the **Admin Manual**.
+
+1. **Set a registration policy.** New servers are open to anyone by default. Under **Settings → Registration**, switch to **Invite-only** for a private community, or **Email Verification** for a public one (this option appears once an email provider is configured — see the next item).
+2. **Configure an email provider.** Under **Settings → Email Proxy**, set up **Gmail** (with a Google App Password), **Resend**, or any **SMTP** server. This enables email-verified registration and password-reset mail. Send the built-in test message to confirm it works.
+3. **Review the audit log.** Every administrative action — role changes, setting edits, bans — is recorded automatically under **Settings → Audit Log**. Check it periodically.
+4. **Turn on the word filter.** A default banned-word list ships seeded but disabled; enable it under **Settings → Banned Words** and tune it to your community, choosing to replace or block matching messages.
+5. **Appoint at least two admins.** The owner is a single point of failure. Promote a trusted member to `admin` under **Settings → Members** so the server is never left unmanaged.
+6. **Establish a backup routine** — see [Backups](#backups) above.
 
 ---
 
@@ -315,89 +332,23 @@ The `data/` directory is never touched during an update. Your database, uploads,
 
 Download the desktop client from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases):
 
-- **Windows**: `.exe` installer
-- **Linux**: `.AppImage`
+- **Windows:** `.exe` installer
+- **Linux:** `.AppImage`
 
 The desktop app connects to any HakoSpace server. Add multiple servers and switch between them from a single window.
 
-> **Note**: During the Beta phase, desktop binaries are not code-signed. Windows may display an "Unknown Publisher" warning on installation. This is expected and does not indicate a security issue. To verify file integrity, check the SHA-256 checksums published on the [Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) page. Alternatively, you can use the web frontend directly via your browser — no installation required.
->
-> **備註**：Beta 階段桌面版安裝檔尚未進行程式碼簽章，Windows 安裝時可能出現「不明發行者」警告。這屬正常現象，不代表安全問題。如有疑慮，請至 [Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) 頁面核對 SHA-256 校驗值，或直接透過瀏覽器使用網頁版前端。
+> **Note:** during Beta, desktop builds are not yet code-signed, so Windows may show an "Unknown Publisher" warning on install. This is expected. To confirm integrity, check the SHA-256 checksums on the [Releases](https://github.com/HakoSpace/HakoSpace-releases/releases) page. You can also just use the web client in your browser — no installation required.
 
 ---
 
 ## Configuration
 
-All configuration is loaded from `data/.env` on startup. This file is auto-generated on first run — you don't need to create it manually. Edit it after the first launch to customize your setup.
+HakoSpace reads its configuration from `data/.env`, which is generated automatically on first run. For most deployments the defaults are correct, and the only values you may need to set are the TLS variables described above (`ACME_DOMAIN`, `TLS_CERT` / `TLS_KEY`, `TLS_AUTO`).
 
-| Variable | Description | Default |
-|---|---|---|
-| `PORT` | HTTP port | `8080` |
-| `TLS_PORT` | HTTPS port | `8443` |
-| `JWT_SECRET` | Secret key for auth tokens | auto-generated |
-| `ACME_DOMAIN` | Domain for Let's Encrypt TLS | *(disabled)* |
-| `AI_ENABLED` | Enable the AI agent | `false` |
-| `AI_PROVIDER` | Provider: `claude`, `openai`, `gemini` | `claude` |
-| `AI_API_KEY` | API key for the selected provider | *(required if enabled)* |
+- `JWT_SECRET` secures login sessions. It is generated and managed for you — keep it secret and include it in your backups.
+- `OWNER_USERNAME` is an optional recovery hatch: set it to an existing account name to promote that account to owner on its next login. Left unset, the first account to register becomes owner.
 
-### Email Verification (optional)
-
-HakoSpace can require email verification for new user registration. Configure an email provider in `data/.env`, then set the registration mode to **Email Verification** in the admin panel (Settings > Registration).
-
-Three provider options are available:
-
-**Option A — Gmail** (simplest, everyone has one)
-
-Use a Gmail account with a [Google App Password](https://myaccount.google.com/apppasswords) (requires 2-Step Verification on the Google account).
-
-```env
-MAIL_PROVIDER=gmail
-MAIL_USER=you@gmail.com
-MAIL_PASS=xxxx-xxxx-xxxx-xxxx    # Google App Password
-BASE_URL=https://your-domain.com
-```
-
-**Option B — Resend** (developer-friendly transactional email)
-
-Sign up at [resend.com](https://resend.com), verify your domain, and create an API key.
-
-```env
-MAIL_PROVIDER=resend
-MAIL_PASS=re_xxxxxxxxxx           # Resend API key
-MAIL_FROM=no-reply@yourdomain.com
-BASE_URL=https://your-domain.com
-```
-
-**Option C — Custom SMTP** (Mailgun, SendGrid, etc.)
-
-Use any SMTP server. Port 587 (STARTTLS) and port 465 (implicit TLS) are both supported.
-
-```env
-MAIL_PROVIDER=smtp
-SMTP_HOST=smtp.mailgun.org
-SMTP_PORT=587
-MAIL_USER=postmaster@yourdomain.com
-MAIL_PASS=your-password
-MAIL_FROM=no-reply@yourdomain.com
-BASE_URL=https://your-domain.com
-```
-
-| Variable | Description | Default |
-|---|---|---|
-| `MAIL_PROVIDER` | `gmail`, `resend`, or `smtp` (leave empty to disable) | *(disabled)* |
-| `MAIL_USER` | SMTP username (Gmail: your email; Resend: not needed) | — |
-| `MAIL_PASS` | SMTP password / App Password / API key | — |
-| `MAIL_FROM` | Sender address shown in emails | `MAIL_USER` |
-| `MAIL_FROM_NAME` | Sender display name | `HakoSpace` |
-| `SMTP_HOST` | SMTP server hostname (only for `smtp` provider) | — |
-| `SMTP_PORT` | SMTP server port (only for `smtp` provider) | `587` |
-| `BASE_URL` | Public URL of your server (used in verification links) | — |
-
-After configuring, go to **Settings > Registration** and change the mode to **Email Verification**. You can also enable **Password Change Verification** to require email confirmation when users change their password.
-
-設定完成後，前往**設定 > 註冊**，將註冊模式改為**Email 驗證**。亦可開啟**密碼變更驗證**，要求使用者變更密碼時需透過信箱確認。
-
-Environment variables set at runtime take precedence over values in `data/.env`.
+Everything else — email, the AI agent, registration, and the word filter — is configured from the admin panel. See the **Admin Manual** for the complete reference.
 
 ---
 
