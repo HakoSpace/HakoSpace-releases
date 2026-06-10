@@ -51,7 +51,7 @@ HakoSpace is a self-hosted chat platform that gives you everything Discord does,
 
 ### Self-Hosted & Private
 
-- Single binary deployment, no containers required
+- Single binary deployment, or an official multi-arch Docker image (amd64 + arm64) — your choice
 - SQLite database, zero external dependencies
 - No telemetry by default — your data stays on your machine
 - A genuine privacy-first Discord alternative
@@ -69,6 +69,58 @@ For a full walkthrough covering TLS, systemd, backups, and Windows deployment, s
 ## Hosting Guide
 
 This guide covers everything you need to run HakoSpace on your own server.
+
+### Run with Docker (easiest)
+
+The official image is published to GitHub Container Registry as a **multi-arch** image — `docker pull` automatically picks your CPU architecture, so it runs natively on x86-64 servers and on ARM (Raspberry Pi, ARM VPS, Apple Silicon under Docker Desktop).
+
+```bash
+docker run -d --name hako \
+  -p 8080:8080 \
+  -v hako-data:/app/data \
+  ghcr.io/hakospace/hako:latest
+```
+
+Then open `http://localhost:8080` — the first user to register becomes the owner.
+
+Or with Docker Compose (`docker-compose.yml`):
+
+```yaml
+services:
+  hako:
+    image: ghcr.io/hakospace/hako:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - TLS_AUTO=false
+      - DATA_DIR=/app/data
+    volumes:
+      - hako-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  hako-data:
+```
+
+**Image tags:** `:latest` (newest stable) · `:B<x>.<y>.<z>` (pinned exact version) · `:B<major>` (track a major line) · `:edge` (newest pre-release).
+
+**Data & backup** — everything (SQLite DB, TLS certs, the auto-generated `JWT_SECRET`) lives in the `hako-data` volume. Back it up with:
+
+```bash
+docker run --rm -v hako-data:/d -v "$PWD":/b busybox tar czf /b/hako-backup.tgz -C /d .
+```
+
+**Updating** — pull a new image and recreate the container:
+
+```bash
+docker pull ghcr.io/hakospace/hako:latest && docker compose up -d
+```
+
+> The admin panel's in-app self-update is **disabled** inside containers (an image is immutable — update by pulling a new one). For automatic updates use a tool like [Watchtower](https://containrrr.dev/watchtower/).
+
+**TLS** — the container serves plain HTTP on 8080; put a reverse proxy (Caddy / nginx / Traefik) in front for HTTPS, or enable built-in ACME with `TLS_AUTO=true` + `ACME_DOMAIN=your.domain` and publish ports 80 + 443.
+
+Prefer a plain binary instead? Continue with the steps below.
 
 ### System Requirements
 
