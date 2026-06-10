@@ -74,6 +74,8 @@ This guide covers everything you need to run HakoSpace on your own server.
 
 The official image is published to GitHub Container Registry as a **multi-arch** image — `docker pull` automatically picks your CPU architecture, so it runs natively on x86-64 servers and on ARM (Raspberry Pi, ARM VPS, Apple Silicon under Docker Desktop).
 
+> **Beta:** the stable `:latest` tag ships with the first stable (`V`) release. While HakoSpace is in beta, use **`:edge`** (newest pre-release) — e.g. `ghcr.io/hakospace/hako:edge` — in the commands below.
+
 ```bash
 docker run -d --name hako \
   -p 8080:8080 \
