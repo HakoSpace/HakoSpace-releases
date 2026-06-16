@@ -125,7 +125,7 @@ All collected data is numeric or categorical. No personally identifiable informa
  
 - **ACME / Let's Encrypt** — to obtain TLS certificates, if the operator enables this feature 
 - **AI provider APIs** (Anthropic, OpenAI, Google, etc.) — only if the operator enables AI features and supplies their own API keys. These connections go directly from your server to the AI provider; HakoSpace is not in the middle. 
-- **License verification** (PRO / MAX editions only) — periodic key validation with the HakoSpace license server. This transmits only the license key itself and a hashed, anonymous instance ID to prevent license abuse. No user data, metadata, or PII is transmitted during this process. 
+- **License verification** (commercial editions only) — periodic key validation with the HakoSpace license server. This transmits only the license key itself and a hashed, anonymous instance ID to prevent license abuse. No user data, metadata, or PII is transmitted during this process. 
  
 
 **Data Retention**: While you can stop sending future telemetry at any time by opting out, we cannot delete previously collected anonymized aggregate data as it is impossible to isolate individual contributions from the aggregate dataset.
