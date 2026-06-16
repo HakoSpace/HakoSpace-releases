@@ -182,7 +182,7 @@ Each server operator must establish, publish, and honour a reasonable process fo
 - Terminating access of users who violate §11.4 or applicable law. 
  
 
-Where HakoSpace receives a credible notice that a specific instance is being used predominantly for unlawful activity, HakoSpace reserves the right to revoke any licence key, PRO/MAX activation, or other commercial entitlement associated with that instance, without refund.
+Where HakoSpace receives a credible notice that a specific instance is being used predominantly for unlawful activity, HakoSpace reserves the right to revoke any licence key or other commercial entitlement associated with that instance, without refund.
  
 
 #### 11.6 HakoSpace's Continued Non-Liability for UGC
