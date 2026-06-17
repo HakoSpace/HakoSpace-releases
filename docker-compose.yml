@@ -1,0 +1,52 @@
+# ============================================================
+#  HakoSpace — self-host compose (pulls the official image).
+#  This file is the SOURCE that release.sh mirrors into the public
+#  HakoSpace-releases repo as `docker-compose.yml` for self-hosters.
+#  It needs NO source tree — it pulls the published GHCR image.
+#
+#  Quick start:
+#    docker compose up -d
+#    # open http://localhost:8080  (first boot auto-generates JWT_SECRET
+#    # into the hako-data volume; the first registered user becomes owner)
+#
+#  Image channels (see the release notes for the full tag table):
+#    :latest   newest stable (GA)           :B2          track a major line
+#    :B2.6.9   pinned exact version         :edge        newest pre-release
+# ============================================================
+services:
+  hako:
+    # Multi-arch image (linux/amd64 + linux/arm64) — Docker auto-selects the
+    # build matching your host, so ARM Linux servers and Apple-Silicon Macs
+    # (Docker Desktop's arm64 Linux VM) run natively, no emulation.
+    image: ghcr.io/hakospace/hako:latest
+    ports:
+      - "8080:8080"
+      # Built-in TLS/ACME (set TLS_AUTO=true + ACME_DOMAIN below). The container
+      # listens on 8080 (HTTP) and 8443 (TLS) as a NON-ROOT user — keep those
+      # internal ports and map the privileged host ports onto them. Do NOT set
+      # PORT/TLS_PORT to 80/443 (non-root cannot bind <1024 inside the container):
+      # - "443:8443"    # HTTPS                         → container TLS listener
+      # - "80:8080"     # Let's Encrypt HTTP-01 challenge → container HTTP listener
+    environment:
+      - TLS_AUTO=false
+      - DATA_DIR=/app/data
+      # Reverse-proxy (Caddy/nginx/Traefik) in front for TLS is the common setup;
+      # the container serves plain HTTP on 8080 by default.
+      #
+      # For built-in ACME instead of a proxy:
+      # - TLS_AUTO=true
+      # - ACME_DOMAIN=chat.example.com
+      #
+      # JWT_SECRET is auto-generated into the volume on first boot. Only set it
+      # if you want to control it yourself (must be strong, 32+ bytes):
+      # - JWT_SECRET=replace-with-output-of-openssl-rand-base64-32
+    volumes:
+      - hako-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  # Holds the SQLite DB, ACME certs (DATA_DIR/certs) and the auto-generated
+  # .env (JWT secret). Back this up: `docker run --rm -v hako-data:/d -v "$PWD":/b
+  # busybox tar czf /b/hako-backup.tgz -C /d .`  — losing it resets the JWT
+  # secret (all sessions invalidated) and any ACME certificates.
+  hako-data:
