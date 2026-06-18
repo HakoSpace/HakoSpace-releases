@@ -1,6 +1,6 @@
 # HakoSpace B2.6.14
 
-Release date: 2026-06-17 (UTC)
+Release date: 2026-06-18 (UTC)
 
 ## Features
 
@@ -17,6 +17,7 @@ Release date: 2026-06-17 (UTC)
 
 ## Bug Fixes
 
+- fix(voice): TURN-over-TCP fallback + ICE candidate logging for IPv6 / UDP-blocked voice joins (#29) (8d94870)
 - fix(voice): apply input mode on (re)join + kill leave/rejoin session leak (a897c47)
 - fix(desktop): safety net for chrome views + unclean-shutdown self-heal (ef855d0)
 - fix(soundboard): perceptual volume taper + default 70 (9d5660b)
@@ -39,4 +40,3 @@ Release date: 2026-06-17 (UTC)
 
 - ci(docker): native ARM runner matrix instead of QEMU emulation (d163fef)
 - ci(docker): fetch legal embed from public archive, drop hakofront token (fb6c484)
-
