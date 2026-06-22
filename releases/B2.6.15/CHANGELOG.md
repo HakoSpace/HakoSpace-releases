@@ -8,6 +8,7 @@ Release date: 2026-06-22 (UTC)
 
 ## Bug Fixes
 
+- fix(voice): live VAD sensitivity (OFF-stuck) + mic follows OS default device (#40) (7320fa9)
 - fix(voice): register H.264 Constrained Baseline (42e01f) first so Chrome uses hardware encode (#39) (2591ed0)
 - fix(voice): gate stage tiles on presence so departed users stop ghosting (#37) (6aca756)
 - fix(voice): offer H.264 first on publisher-ingest transceiver so screen share uses hardware H.264 (#36) (092dfa5)
