@@ -1,6 +1,6 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-21 (UTC)
+Release date: 2026-06-22 (UTC)
 
 ## Features
 
@@ -8,6 +8,8 @@ Release date: 2026-06-21 (UTC)
 
 ## Bug Fixes
 
+- fix(voice): gate stage tiles on presence so departed users stop ghosting (#37) (6aca756)
+- fix(voice): offer H.264 first on publisher-ingest transceiver so screen share uses hardware H.264 (#36) (092dfa5)
 - fix(ui): unclip server status dot, stop screen-share auto-minimize, auto-close voice source popover (b3814b1)
 - fix(voice): prefer hardware H.264 over software VP9 for screen-share encode (00b3c62)
 - fix(voice): fence stale peer-close to stop ghost tiles & duplicate channel presence (f6c2f0b)
@@ -15,3 +17,6 @@ Release date: 2026-06-21 (UTC)
 - fix(settings): TURN firewall note says UDP+TCP, not UDP-only (c9a184c)
 - fix: TURN-over-TCP fallback + ICE candidate logging for IPv6/UDP-blocked voice joins (8d94870)
 
+## Refactor
+
+- refactor(voice): remove dead frontend video-codec selector (server now forces the codec) (#36) (53275aa)
