@@ -1,13 +1,16 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-22 (UTC)
+Release date: 2026-06-23 (UTC)
 
 ## Features
 
+- feat(ui): consolidate notifications/settings/logout into a persistent tab bar (#42) (34cfb2d)
+- feat(desktop): keep-alive multi-server tabs in the server sidebar (#41) (3ea5e84)
 - feat(security): devtool 護欄 — 鎖桌面 DevTools + 網頁 console 自我XSS守衛 (6afc30d)
 
 ## Bug Fixes
 
+- fix(voice): grace the stage presence gate so reconnecting members don't flash (#43) (d4fbfaf)
 - fix(voice): live VAD sensitivity (OFF-stuck) + mic follows OS default device (#40) (7320fa9)
 - fix(voice): register H.264 Constrained Baseline (42e01f) first so Chrome uses hardware encode (#39) (2591ed0)
 - fix(voice): gate stage tiles on presence so departed users stop ghosting (#37) (6aca756)
