@@ -11,6 +11,7 @@ Release date: 2026-06-24 (UTC)
 
 ## Bug Fixes
 
+- fix(desktop): hard-exit the losing 2nd instance to stop double-launch cache corruption (#52) (0bb1669)
 - fix(desktop): About popup → settings + stamp protocol in the Windows release build (#51) (71e12d5)
 - fix(desktop): pre-release r1 — double-launch cache corruption + restore settings update UI (#50) (08f1227)
 - fix(desktop): own desktop settings in main so global hotkeys can't be clobbered (#48) (0f0b34c)
