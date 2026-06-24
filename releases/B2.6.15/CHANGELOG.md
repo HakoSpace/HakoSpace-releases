@@ -4,12 +4,14 @@ Release date: 2026-06-24 (UTC)
 
 ## Features
 
+- feat(desktop): standalone desktop-app settings window (D2b phase 1 — shell + build pipeline) (#49) (2581867)
 - feat(ui): consolidate notifications/settings/logout into a persistent tab bar (#42) (34cfb2d)
 - feat(desktop): keep-alive multi-server tabs in the server sidebar (#41) (3ea5e84)
 - feat(security): devtool 護欄 — 鎖桌面 DevTools + 網頁 console 自我XSS守衛 (6afc30d)
 
 ## Bug Fixes
 
+- fix(desktop): own desktop settings in main so global hotkeys can't be clobbered (#48) (0f0b34c)
 - fix(voice): follow OS default mic change by groupId, not the constant 'default' alias (#46) (6a4a6de)
 - fix(desktop): make the sidebar in-voice glow actually visible (#45) (1a230b3)
 - fix(voice): grace the stage presence gate so reconnecting members don't flash (#43) (d4fbfaf)
