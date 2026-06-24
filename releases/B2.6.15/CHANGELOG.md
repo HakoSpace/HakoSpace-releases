@@ -4,6 +4,7 @@ Release date: 2026-06-24 (UTC)
 
 ## Features
 
+- feat(desktop): D2b Phase 2 — full settings UI in standalone window + remove old tab (#54) (4f86c89)
 - feat(desktop): standalone desktop-app settings window (D2b phase 1 — shell + build pipeline) (#49) (2581867)
 - feat(ui): consolidate notifications/settings/logout into a persistent tab bar (#42) (34cfb2d)
 - feat(desktop): keep-alive multi-server tabs in the server sidebar (#41) (3ea5e84)
@@ -11,6 +12,7 @@ Release date: 2026-06-24 (UTC)
 
 ## Bug Fixes
 
+- fix(desktop): detect + auto-heal double-launch "raw source" chrome render (#53) (01c7e97)
 - fix(desktop): hard-exit the losing 2nd instance to stop double-launch cache corruption (#52) (0bb1669)
 - fix(desktop): About popup → settings + stamp protocol in the Windows release build (#51) (71e12d5)
 - fix(desktop): pre-release r1 — double-launch cache corruption + restore settings update UI (#50) (08f1227)
