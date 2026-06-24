@@ -1,6 +1,6 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-23 (UTC)
+Release date: 2026-06-24 (UTC)
 
 ## Features
 
@@ -10,6 +10,8 @@ Release date: 2026-06-23 (UTC)
 
 ## Bug Fixes
 
+- fix(voice): follow OS default mic change by groupId, not the constant 'default' alias (#46) (6a4a6de)
+- fix(desktop): make the sidebar in-voice glow actually visible (#45) (1a230b3)
 - fix(voice): grace the stage presence gate so reconnecting members don't flash (#43) (d4fbfaf)
 - fix(voice): live VAD sensitivity (OFF-stuck) + mic follows OS default device (#40) (7320fa9)
 - fix(voice): register H.264 Constrained Baseline (42e01f) first so Chrome uses hardware encode (#39) (2591ed0)
