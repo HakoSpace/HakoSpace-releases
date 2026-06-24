@@ -11,6 +11,7 @@ Release date: 2026-06-24 (UTC)
 
 ## Bug Fixes
 
+- fix(desktop): pre-release r1 — double-launch cache corruption + restore settings update UI (#50) (08f1227)
 - fix(desktop): own desktop settings in main so global hotkeys can't be clobbered (#48) (0f0b34c)
 - fix(voice): follow OS default mic change by groupId, not the constant 'default' alias (#46) (6a4a6de)
 - fix(desktop): make the sidebar in-voice glow actually visible (#45) (1a230b3)
