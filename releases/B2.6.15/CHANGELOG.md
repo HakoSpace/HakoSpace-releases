@@ -4,6 +4,7 @@ Release date: 2026-06-25 (UTC)
 
 ## Features
 
+- feat(desktop): seamless auto-update on launch (check → download → silent install → relaunch) (#59) (ad62bde)
 - feat(desktop): drop server "favorite" + add DM-call halo on the server logo (#56) (34a088c)
 - feat(desktop): D2b Phase 2 — full settings UI in standalone window + remove old tab (#54) (4f86c89)
 - feat(desktop): standalone desktop-app settings window (D2b phase 1 — shell + build pipeline) (#49) (2581867)
@@ -13,6 +14,7 @@ Release date: 2026-06-25 (UTC)
 
 ## Bug Fixes
 
+- fix(desktop): sidebar tools region + add-btn into list; scrollable settings page (#58) (6c61dde)
 - fix(desktop): isolate credential IPC from remote server-tab content (#57) (1d76897)
 - fix(desktop): portable double-launch ROOT CAUSE — unique unpack dir per launch (#55) (3d560ce)
 - fix(desktop): detect + auto-heal double-launch "raw source" chrome render (#53) (01c7e97)
