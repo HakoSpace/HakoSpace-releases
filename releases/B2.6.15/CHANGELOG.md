@@ -1,6 +1,6 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-24 (UTC)
+Release date: 2026-06-25 (UTC)
 
 ## Features
 
@@ -12,6 +12,7 @@ Release date: 2026-06-24 (UTC)
 
 ## Bug Fixes
 
+- fix(desktop): portable double-launch ROOT CAUSE — unique unpack dir per launch (#55) (3d560ce)
 - fix(desktop): detect + auto-heal double-launch "raw source" chrome render (#53) (01c7e97)
 - fix(desktop): hard-exit the losing 2nd instance to stop double-launch cache corruption (#52) (0bb1669)
 - fix(desktop): About popup → settings + stamp protocol in the Windows release build (#51) (71e12d5)
