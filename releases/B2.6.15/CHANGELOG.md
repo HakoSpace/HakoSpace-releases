@@ -1,6 +1,6 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-25 (UTC)
+Release date: 2026-06-26 (UTC)
 
 ## Features
 
@@ -14,6 +14,7 @@ Release date: 2026-06-25 (UTC)
 
 ## Bug Fixes
 
+- fix(voice): follow OS default mic by polling enumerateDevices + explicit-id re-acquire (#60) (f60460d)
 - fix(desktop): sidebar tools region + add-btn into list; scrollable settings page (#58) (6c61dde)
 - fix(desktop): isolate credential IPC from remote server-tab content (#57) (1d76897)
 - fix(desktop): portable double-launch ROOT CAUSE — unique unpack dir per launch (#55) (3d560ce)
