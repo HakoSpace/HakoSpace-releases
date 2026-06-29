@@ -1,9 +1,10 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-26 (UTC)
+Release date: 2026-06-29 (UTC)
 
 ## Features
 
+- feat(desktop): seamless one-click "Check for Update" (#64) (9f6f859)
 - feat(desktop): seamless auto-update on launch (check → download → silent install → relaunch) (#59) (ad62bde)
 - feat(desktop): drop server "favorite" + add DM-call halo on the server logo (#56) (34a088c)
 - feat(desktop): D2b Phase 2 — full settings UI in standalone window + remove old tab (#54) (4f86c89)
@@ -14,6 +15,8 @@ Release date: 2026-06-26 (UTC)
 
 ## Bug Fixes
 
+- fix(voice): keep self speaking-glow following a mic device swap + strip follow diagnostics (#63) (c712101)
+- fix(desktop): client-side update notifications + per-user install (UAC-free) (#61) (769b218)
 - fix(voice): follow OS default mic by polling enumerateDevices + explicit-id re-acquire (#60) (f60460d)
 - fix(desktop): sidebar tools region + add-btn into list; scrollable settings page (#58) (6c61dde)
 - fix(desktop): isolate credential IPC from remote server-tab content (#57) (1d76897)
