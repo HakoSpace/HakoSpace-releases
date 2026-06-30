@@ -1,6 +1,8 @@
 # HakoSpace B2.6.15
 
-Release date: 2026-06-29 (UTC)
+Release date: 2026-06-30 (UTC)
+
+> **Re-cut (2026-06-30):** Rebuilt to fix update detection — with "Receive Pre-release Updates" enabled, the updater now correctly offers the newest pre-release instead of staying on the latest stable (both the desktop app and the self-hosted server). Otherwise identical to the original B2.6.15; existing installs pick this up as an in-place update.
 
 This stable release rolls up everything user-facing since B2.6.0. Highlights include seamless desktop auto-updates, smoother screen sharing, a faster messaging experience, a reworked soundboard volume system, and broad security and reliability improvements. Updating is recommended for all servers and clients.
 
