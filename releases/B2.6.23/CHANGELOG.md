@@ -1,8 +1,8 @@
 # HakoSpace B2.6.23
 
-Release date: 2026-07-05 (UTC)
+Release date: 2026-07-06 (UTC)
 
-> Re-cut (2026-07-05): bundles an updated hakoCap native screen-capture daemon so the new screen-share resolution cap works end-to-end on the native path. No app-code changes vs the initial B2.6.23-pre — only the Windows desktop build changed; the Linux and server builds are byte-for-byte identical.
+> Re-cut (2026-07-06): bundles the aspect-corrected hakoCap native screen-capture daemon so a capped native share keeps the source aspect ratio (a 1920×1080 source at 720p now downscales to 1280×720, not a squished 1920×720). No app-code changes vs the initial B2.6.23-pre — only the Windows desktop build changed; the Linux and server builds are byte-for-byte identical.
 
 ## Features
 
@@ -10,4 +10,4 @@ Release date: 2026-07-05 (UTC)
 
 ## Bug Fixes
 
-- fix(screen-share): the native (hakoCap) capture engine now honors the resolution cap with an aspect-preserving height downscale, so a capped share no longer stretches non-16:9 (ultrawide) displays
+- fix(screen-share): the native (hakoCap) capture engine honors the resolution cap with an aspect-preserving downscale — the output width/height are derived from the source aspect ratio, so a capped share no longer squishes or stretches non-16:9 (ultrawide) displays
