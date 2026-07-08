@@ -1,0 +1,161 @@
+HakoSpace — Third-Party Open-Source Notices
+============================================
+
+This product ("HakoSpace", comprising the HakoSpace server binary, the bundled
+web frontend, and the HakoSpace Desktop application "hako-desktop") includes
+third-party open-source software. Each component listed below is provided under
+its own licence and remains the property of its respective authors.
+
+As stated in the End User License Agreement (EULA §14, Third-Party Open-Source
+Components), nothing in the EULA limits or overrides any right granted to you
+under the licence of any of these components. In particular, for the components
+licensed under the GNU Lesser General Public License (LGPL) — FFmpeg and
+libuiohook — you have the rights the LGPL grants, including the right to reverse
+engineer the component to the extent necessary to debug your own modifications
+to it, and the right to run a modified version of the component by replacing it
+within the software.
+
+This file is a curated list of the principal components and every component
+carrying a copyleft (LGPL) obligation. The direct-dependency manifests are:
+  - desktop/package.json          (Electron desktop client)
+  - frontend/package.json         (web frontend)
+  - server/go.mod                 (server)
+  - desktop/sidecar/go.mod        (screen-capture sidecar)
+The exhaustive transitive dependency lists are the corresponding lockfiles
+(package-lock.json for the npm trees, go.sum for the Go modules).
+
+Last reviewed: EULA effective 2026-07-08.
+
+
+================================================================
+1. Copyleft components (LGPL) — see EULA §14
+================================================================
+
+FFmpeg
+  Licence:   GNU LGPL v2.1-or-later
+  Copyright: (c) the FFmpeg developers
+  Homepage:  https://ffmpeg.org
+  Notes:     Audio/video handling. Bundled inside Electron as its default
+             LGPL build. The corresponding source for the exact version is
+             available from the FFmpeg project and from the corresponding
+             Electron release that bundles it. You may replace this component
+             and reverse engineer it to debug your modifications (LGPL §3/§4).
+
+libuiohook
+  Licence:   GNU LGPL v3.0-or-later
+  Copyright: (c) 2006-2023 Alexander Barker
+  Homepage:  https://github.com/kwhat/libuiohook
+  Notes:     Global keyboard hook used for push-to-talk. Shipped inside the
+             uiohook-napi native addon (see below). The desktop packaging keeps
+             the addon unpacked on disk (not inside app.asar), so the library
+             remains a user-replaceable file, supporting the LGPL relink right.
+
+
+================================================================
+2. Desktop application runtime
+================================================================
+
+Electron
+  Licence:   MIT
+  Copyright: (c) Electron contributors; (c) 2013-2020 GitHub Inc.
+  Homepage:  https://github.com/electron/electron
+  Notes:     Bundles Chromium, Node.js, and FFmpeg (FFmpeg listed in §1).
+
+Chromium
+  Licence:   BSD-3-Clause and others
+  Copyright: (c) The Chromium Authors
+  Notes:     Bundled within Electron. The full set of component licences ships
+             inside the Electron distribution as LICENSES.chromium.html.
+
+Node.js
+  Licence:   MIT (Node.js core) plus its own bundled dependencies' licences
+  Copyright: (c) Node.js contributors; Node.js is a trademark of the OpenJS Foundation
+  Notes:     Bundled within Electron.
+
+uiohook-napi
+  Licence:   MIT
+  Copyright: (c) 2020 Alexander Drozdov
+  Homepage:  https://github.com/SnosMe/uiohook-napi
+  Notes:     Node N-API binding around libuiohook (libuiohook listed in §1).
+
+
+================================================================
+3. Web frontend (bundled/served with the software)
+================================================================
+
+React, React DOM        MIT      (c) Meta Platforms, Inc. and affiliates
+react-router / react-router-dom
+                        MIT      (c) React Training LLC 2015-2019,
+                                 Remix Software Inc. 2020-2021, Shopify Inc. 2022-2023
+axios                   MIT      (c) Matt Zabriskie and collaborators
+zustand                 MIT      (c) 2019 Paul Henschel
+react-virtuoso          MIT      (c) Petyo Ivanov
+react-markdown          MIT      (c) Espen Hovlandsdal / unified collective
+remark-gfm, remark-math, rehype-katex, rehype-highlight
+                        MIT      (c) Titus Wormer / the unified collective
+KaTeX                   MIT      (c) 2013-2020 Khan Academy and contributors
+highlight.js            BSD-3-Clause  (c) 2006 Ivan Sagalaev
+lucide-react            ISC      (c) 2022 Lucide Contributors
+                                 (Lucide is derived from Feather, (c) 2013-2022 Cole Bemis)
+@xterm/xterm and addons MIT      (c) 2017- The xterm.js authors
+@timephy/rnnoise-wasm   Apache-2.0 (wrapper). The wrapper vendors the upstream
+                                 RNNoise library, which is BSD-3-Clause (upstream):
+                                 (c) 2017-2018 Mozilla; (c) Jean-Marc Valin; Xiph.Org Foundation
+tailwindcss, @tailwindcss/typography
+                        MIT      (c) Tailwind Labs Inc.
+
+
+================================================================
+4. Server and screen-capture sidecar (Go)
+================================================================
+
+gin-gonic/gin           MIT      (c) 2014 Manuel Martinez-Almeida
+gin-contrib/cors, gin-contrib/sse
+                        MIT      (c) Gin-Gonic
+golang-jwt/jwt          MIT      (c) 2012 Dave Grijalva; (c) 2021 golang-jwt maintainers
+google/uuid             BSD-3-Clause  (c) 2009,2014 Google Inc.
+gorilla/websocket       BSD-2-Clause  (c) 2013 The Gorilla WebSocket Authors
+pion/webrtc and all pion/* (interceptor, rtcp, rtp, turn, dtls, ice, sctp,
+  srtp, stun, sdp, mdns, datachannel, transport, ...)
+                        MIT      (c) 2018 The Pion authors
+gorm.io/gorm, gorm.io/driver/sqlite
+                        MIT      (c) 2013-NOW Jinzhu
+mattn/go-sqlite3        MIT      (c) 2014 Yasuhiro Matsumoto
+                                 (embeds SQLite, which is in the public domain)
+golang.org/x/* (crypto, image, net, sync, sys, text, time, tools, mod, arch)
+                        BSD-3-Clause  (c) The Go Authors
+google.golang.org/protobuf
+                        BSD-3-Clause  (c) 2018 The Go Authors
+gopkg.in/natefinch/lumberjack.v2
+                        MIT      (c) 2014 Nate Finch
+bytedance/sonic         Apache-2.0    (c) 2021 ByteDance Inc.
+quic-go/quic-go         MIT      (c) 2016 the quic-go authors
+creack/pty              MIT      (c) 2011 Keith Rarick
+go-playground/validator, locales, universal-translator
+                        MIT      (c) Go Playground
+json-iterator/go        MIT      (c) 2016 json-iterator
+klauspost/cpuid         MIT      (c) 2015 Klaus Post
+pelletier/go-toml       MIT      (c) 2013 Thomas Pelletier
+go.uber.org/mock        Apache-2.0    (c) 2022 Google Inc. / Uber Technologies
+kirides/go-d3d          MIT      (c) kirides   (Windows D3D11 screen capture, sidecar)
+
+
+================================================================
+Full licence texts
+================================================================
+
+This notice lists, for each component, the licence and the principal copyright
+holder(s). The full text of each licence is available from the linked project
+homepage; for the components bundled inside Electron (Chromium, Node.js, FFmpeg)
+it is in the LICENSES files shipped inside the Electron distribution. Most npm
+components also carry their own upstream LICENSE file in the packaged app
+(node_modules / resources).
+
+Some components are vendored inside another package and do not ship a separate
+licence file of their own — notably libuiohook (LGPL-3.0, inside the uiohook-napi
+native addon) and the upstream RNNoise library (BSD-3-Clause, compiled into
+@timephy/rnnoise-wasm). Their licence and attribution are recorded above.
+Assembling the complete verbatim upstream licence texts into the shipped
+distribution — including the LGPL-2.1 (FFmpeg) and LGPL-3.0 (libuiohook) texts —
+is tracked as a follow-up. If you require the complete corresponding source for
+any LGPL component, contact legal@hakospace.com.
