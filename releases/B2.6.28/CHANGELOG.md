@@ -4,27 +4,13 @@ Release date: 2026-08-03 (UTC)
 
 ## Features
 
-- feat(voice): make a silent hardware-decode fallback diagnosable from the server log (aa06fa2)
-- feat(frontend): send up to ten attachments on one message (76328a3)
-- feat(frontend): render every attachment on a message, not just the first (a881c6f)
-- feat(server): carry every attachment on the read path, not just the first (86bf372)
-- feat(server): add message_attachments child table and the write path for it (8a71749)
+- feat(message): a message now carries up to 10 attachments instead of exactly one — the composer takes several files together, and every attachment is rendered on the message (#88)
+- feat(desktop): a silent fallback to software video decoding is now diagnosable — Chromium's hardware-acceleration status, GPU model and driver are written to the desktop diagnostics log at startup and whenever the GPU process changes state, and the tray menu gained an item that opens the diagnostics folder (#91, aa06fa2)
+- feat(voice): during screen sharing, the desktop app adds that GPU and decoder snapshot to the 5-second screen-share statistics it already reports to the server you are connected to, so an operator can tell a hardware-decode fallback apart from a network problem (#91, aa06fa2)
 
 ## Bug Fixes
 
-- fix(frontend): make a refused send and a failed sweep visible (c29ddf4)
-- fix(server): stop the orphan sweep from offering live files for deletion (f224238)
-- fix(server): let a sender attach only the files they uploaded (ae5eca4)
-- fix(server): make every delete path see all N attachments, not just the first (f1d8d5d)
-- fix(server): close the upload blacklist gap the extension sanitizer widened (a8863e1)
-- fix(desktop): guard stray file drops from opening in the OS (ebc9fae)
-- fix(i18n): add missing settings.themeManagement key (4732488)
-
-## Chore
-
-- chore: ignore root session scratch (handoff notes, syslog) (cb81cf5)
-
-## Test
-
-- test(server): pin fail-closed on every attachment read, and derive the last mirror (5f650c4)
-
+- fix(server): attachment and upload handling hardened — a message can only reference files its own sender uploaded, the orphan-file cleanup no longer offers files that are still in use, and the upload type filter was tightened. Updating is recommended for every server (#89)
+- fix(frontend): a send the server refuses, and a cleanup that fails, are now reported in the interface instead of failing silently (#89, c29ddf4)
+- fix(desktop): a file dropped outside a valid drop target is no longer handed to the operating system to open (ebc9fae)
+- fix(i18n): the theme-management heading in server settings showed a raw translation key instead of its label (4732488)
