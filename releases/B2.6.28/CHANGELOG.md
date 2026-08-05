@@ -2,91 +2,70 @@
 
 Release date: 2026-08-05 (UTC)
 
+The first stable release since B2.6.15, covering thirteen pre-release cycles: a
+rewritten desktop shell (persistent server tabs, its own settings window, seamless
+updates), the hakoCap native screen-capture engine, and a long run of voice,
+screen-share and message fixes.
+
 ## Features
 
-- feat(voice): make a silent hardware-decode fallback diagnosable from the server log (aa06fa2)
-- feat(frontend): send up to ten attachments on one message (76328a3)
-- feat(frontend): render every attachment on a message, not just the first (a881c6f)
-- feat(server): carry every attachment on the read path, not just the first (86bf372)
-- feat(server): add message_attachments child table and the write path for it (8a71749)
-- feat(voice): companion-dock treatment for the voice-channel text chat (Lens B) (39abf76)
-- feat(voice): unify screen-share quality into independent resolution/fps/bitrate + server caps (0440d6a)
-- feat(desktop): route hakoCap screen share to the per-user sidecar ingest (c76b230)
-- feat(desktop): wire hakoCap V2 daemon for screen sharing + auto engine badge (5471ba6)
-- feat(desktop): remember window position & size with display guardrails (95653c9)
-- feat(voice): replace channel-list voice banners with corner transient pill + i18n (6cce4c7)
-- feat(release): add release-note review gate — en-US machine guard + checklist (ef0b356)
-- feat(desktop): seamless one-click "Check for Update" (9f6f859)
-- feat(desktop): seamless auto-update on launch (check → download → silent install → relaunch) (ad62bde)
-- feat(desktop): drop server "favorite" + add DM-call halo on the server logo (34a088c)
-- feat(desktop): D2b Phase 2 — full settings UI in standalone window + remove old tab (4f86c89)
-- feat(desktop): standalone desktop-app settings window (D2b phase 1 — shell + build pipeline) (2581867)
-- feat(ui): consolidate notifications/settings/logout into a persistent tab bar (34cfb2d)
-- feat(desktop): keep-alive multi-server tabs in the server sidebar (3ea5e84)
+### Desktop
+
+- **Server tabs stay alive.** Each server in the sidebar is a persistent tab that keeps its connection open in the background, so switching servers no longer reloads the app or drops you offline.
+- **Settings in a window of their own.** Desktop settings moved out of the in-app tab into a standalone window, and are now owned by the main process — global hotkeys can no longer be clobbered by whichever tab happens to be in the foreground.
+- **Automatic updates.** The app checks for a new version on launch, downloads it, installs silently and relaunches. Manual updating is a two-step "check, then update now", installs are per-user (no administrator prompt), and the pre-release channel can be opted into from settings.
+- **Window position and size are remembered**, with guardrails for a monitor that is no longer attached.
+- **Notifications, settings and sign-out** moved into a persistent tab bar, and sign-out asks for confirmation.
+- **A halo on the server logo** shows where a direct-message call or voice session is active. The old "favorite" toggle was removed.
+
+### Voice and screen sharing
+
+- **hakoCap, a native screen-capture engine (Windows).** Screen sharing selects hardware capture and hardware H.264 encoding automatically when the machine supports it, and falls back to the built-in Chromium path otherwise. A read-only badge shows which engine is in use.
+- **Screen-share quality is one control group** — resolution, frame rate and bitrate set independently, with server-side caps.
+- **The voice channel's text chat can sit in a companion dock** beside the stage instead of covering it.
+- **Voice activity moved from channel-list banners to a corner pill**, and is fully translated.
+
+### Messages
+
+- **A message carries up to 10 attachments** instead of exactly one — the composer takes several files together, and every attachment is rendered on the message.
+
+### Diagnostics
+
+- **A silent fallback to software video decoding is now diagnosable.** Chromium's hardware-acceleration status, GPU model and driver are written to the desktop diagnostics log, and the tray menu gained an item that opens that folder. During screen sharing the same snapshot rides along with the statistics the app already reports to the server you are connected to, so an operator can tell a decode fallback apart from a network problem.
 
 ## Bug Fixes
 
-- fix(frontend): make a refused send and a failed sweep visible (c29ddf4)
-- fix(server): stop the orphan sweep from offering live files for deletion (f224238)
-- fix(server): let a sender attach only the files they uploaded (ae5eca4)
-- fix(server): make every delete path see all N attachments, not just the first (f1d8d5d)
-- fix(server): close the upload blacklist gap the extension sanitizer widened (a8863e1)
-- fix(desktop): guard stray file drops from opening in the OS (ebc9fae)
-- fix(i18n): add missing settings.themeManagement key (4732488)
-- fix(desktop): stop spurious auto-update on an already-latest install (4302851)
-- fix(voice): screen share re-watchable after unload + merge tile controls to one "stop watching" (68aab67)
-- fix(voice): stage tile fullscreen fills the video + keep controls reachable on narrow tiles (dd14a0d)
-- fix(voice): sidecar screen-share — multi-user, state-loss, self-audio, mic/camera-drop (ba1d1bf)
-- fix(desktop): let hakoCap probe's cold GStreamer registry build finish + persist (c2dcc00)
-- fix(desktop): name the daemon file in win.extraResources `to` (hakoCap must be a dir) (9f2bdb4)
-- fix(voice): gate WHIP external streams behind ScreenSubs (opt-in click-to-load) (6cfb037)
-- fix(voice): correct stage empty-state copy + robust WHIP clipboard copy (6b33301)
-- fix(desktop): dual-rail push-to-talk (focus + hook) — fixes stuck-open mic and dead global PTT (5f0b876)
-- fix(build): ship uiohook-napi N-API prebuilds instead of rebuilding natives (824e151)
-- fix(desktop): global push-to-talk via passive keyboard hook (real keyup, no key swallowing) (c316707)
-- fix(voice): render WHIP screen-share tile on stage (c2425e9)
-- fix(desktop): split manual update into two steps (check → "Update now") (bcdb675)
-- fix(io): stop whiteboard sync churn + ghost players across WS reconnects (a1da8ea)
-- fix(update): select highest-version release so the prerelease toggle works (8ba1de4)
-- fix(voice): keep self speaking-glow following a mic device swap + strip follow diagnostics (c712101)
-- fix(desktop): client-side update notifications + per-user install (UAC-free) (769b218)
-- fix(voice): follow OS default mic by polling enumerateDevices + explicit-id re-acquire (f60460d)
-- fix(desktop): sidebar tools region + add-btn into list; scrollable settings page (6c61dde)
-- fix(desktop): isolate credential IPC from remote server-tab content (1d76897)
-- fix(desktop): portable double-launch ROOT CAUSE — unique unpack dir per launch (3d560ce)
-- fix(desktop): detect + auto-heal double-launch "raw source" chrome render (01c7e97)
-- fix(desktop): hard-exit the losing 2nd instance to stop double-launch cache corruption (0bb1669)
-- fix(desktop): About popup → settings + stamp protocol in the Windows release build (71e12d5)
-- fix(desktop): pre-release r1 — double-launch cache corruption + restore settings update UI (08f1227)
-- fix(desktop): own desktop settings in main so global hotkeys can't be clobbered (0f0b34c)
-- fix(voice): follow OS default mic change by groupId, not the constant 'default' alias (6a4a6de)
-- fix(desktop): make the sidebar in-voice glow actually visible (1a230b3)
-- fix(release): copy the newest desktop build, not the oldest (ls -t) (2eb1f4e)
-- fix(voice): grace the stage presence gate so reconnecting members don't flash (d4fbfaf)
-- fix(voice): live VAD sensitivity (OFF-stuck) + mic follows OS default device (7320fa9)
-- fix(voice): register H.264 Constrained Baseline (42e01f) first so Chrome uses hardware encode (2591ed0)
-- fix(release): generate latest.yml before checksums so SHA256SUMS self-verifies (4a71c0a)
-- fix(voice): gate stage tiles on presence so departed users stop ghosting (6aca756)
-- fix(voice): offer H.264 first on publisher-ingest transceiver so screen share uses hardware H.264 (092dfa5)
+### Security and data safety
 
-## Refactor
+- **Attachment and upload handling hardened** — a message can only reference files its own sender uploaded, the orphan-file cleanup no longer offers files that are still in use, and the upload type filter was tightened. Updating is recommended for every server.
+- **Credentials are isolated from remote server-tab content**, so a page loaded from a server cannot reach the desktop app's credential channels.
 
-- refactor(voice): remove dead frontend video-codec selector (server now forces the codec) (53275aa)
+### Desktop
 
-## Docs
+- **A portable build could show raw source code after a second launch.** Root cause fixed: each launch unpacks into its own directory instead of two instances deleting each other's files.
+- **Push-to-talk works on both rails again** — foreground focus and the background keyboard hook — which fixes both a microphone stuck open and a dead global push-to-talk.
+- **Automatic updating no longer reinstalls a version you already have**, and the update check now picks the highest version so the pre-release toggle behaves.
+- A file dropped outside a valid drop target is no longer handed to the operating system to open.
+- The sidebar's tools region and add button moved into the list, and the settings page scrolls.
 
-- docs(release): codify pre/latest dual-line model — no-coexistence is intra-line (472e86e)
+### Voice and screen sharing
 
-## Chore
+- **Screen share uses hardware H.264.** The publisher side offers it first, so the sender stops falling back to software VP9 encoding and the stutter that came with it.
+- **A share you stopped watching can be watched again**, and the tile's controls collapsed into a single "stop watching".
+- **Sidecar screen sharing fixed** for multiple viewers, state loss on reconnect, self-audio, and microphone or camera dropping out.
+- **Stage tiles no longer ghost** — members who left disappear, and members reconnecting no longer flash in and out.
+- **Fullscreen fills the video**, and controls stay reachable on a narrow tile.
+- **The microphone follows the operating system's default device** when you change it, and the speaking glow follows the swap.
+- **Voice-activity sensitivity applies live** instead of getting stuck off.
+- **External (WHIP) streams render on the stage**, and are now opt-in — they load when you click, not automatically.
+- The video-codec selector was removed from voice settings; the server decides the codec.
 
-- chore: ignore root session scratch (handoff notes, syslog) (cb81cf5)
+### Other
 
-## Test
+- Whiteboard sync no longer churns or leaves ghost players across reconnects.
+- A send the server refuses, and a cleanup that fails, are now reported in the interface instead of failing silently.
+- The theme-management heading in server settings showed a raw translation key instead of its label.
 
-- test(server): pin fail-closed on every attachment read, and derive the last mirror (5f650c4)
+## Legal
 
-## Other
-
-- legal: bump EULA to 2026-07-08 for §14 OSS carve-out + ship THIRD_PARTY_NOTICES (aa46e41)
-- spike(desktop): seamless install — silent + auto-relaunch on both update paths (050c794)
-
+- The EULA was updated to 2026-07-08 for the section 14 open-source carve-out, and THIRD_PARTY_NOTICES now ships with the app.
