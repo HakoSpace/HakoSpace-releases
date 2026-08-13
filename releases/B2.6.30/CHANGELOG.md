@@ -4,9 +4,5 @@ Release date: 2026-08-13 (UTC)
 
 ## Bug Fixes
 
-- fix(chat): tri-review round 3 — both blockers were mine, from round 2 (0a3016a)
-- fix(chat): tri-review round 2 — a dead class, a doubled wheel, and a churning popup (496c699)
-- fix(chat): tri-review round 1 — clipped preview text, and three narrow-layout defects (77493ee)
-- fix(chat): give the composer a narrow layout instead of crushing it (7152ade)
-- fix(chat): stop the message list from scrolling sideways (49220f8)
-
+- Message lists no longer scroll sideways. Long nicknames, wide image attachments and link preview cards now wrap or scale down to fit the panel instead of widening the whole conversation. Code blocks keep their own horizontal scroll, because wrapping code destroys the indentation that carries its structure. (#95)
+- The message composer now has a layout for narrow panels. Below a certain width the text box takes a row of its own and the tool buttons move underneath it, where they scroll sideways when space is tight; the send button stays put and is never scrolled out of reach. This applies wherever the composer itself is narrow — a small desktop window, a voice channel split side by side, or a phone — not only on small screens. (#95)
