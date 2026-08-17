@@ -67,7 +67,8 @@ The fastest way to run HakoSpace is the official Docker image:
 docker run -d --name hako \
   -p 8080:8080 \
   -v hako-data:/app/data \
-  ghcr.io/hakospace/hako:edge
+  -e TLS_AUTO=false \
+  ghcr.io/hakospace/hako:latest
 ```
 
 Open `http://localhost:8080` — the first account to register becomes the server **owner**.
@@ -76,7 +77,9 @@ Prefer a plain executable? Download the latest binary from [GitHub Releases](htt
 
 For a full walkthrough — TLS, firewall, running as a service, backups, and going live safely — see the [Hosting Guide](#hosting-guide) below.
 
-> **Beta channel:** the rolling `:latest` tag ships with the first stable (`V`) release. While HakoSpace is in beta, use **`:edge`** (the newest pre-release) as shown above.
+> **Why `-e TLS_AUTO=false`?** The server's built-in TLS is on by default, and with it the main listener moves to port 8443 — which the command above does not publish, leaving `http://localhost:8080` unreachable while the container still reports as healthy. Setting it to `false` keeps everything on plain HTTP. To serve HTTPS instead, see [TLS](#tls).
+>
+> **Which tag?** `:latest` is the newest stable build and is the right default. Use `:edge` only if you want the newest pre-release — see [Image tags](#image-tags).
 
 ---
 
@@ -92,17 +95,20 @@ The official image is published to GitHub Container Registry at `ghcr.io/hakospa
 docker run -d --name hako \
   -p 8080:8080 \
   -v hako-data:/app/data \
-  ghcr.io/hakospace/hako:edge
+  -e TLS_AUTO=false \
+  ghcr.io/hakospace/hako:latest
 ```
 
 Then open `http://localhost:8080` — the first account to register becomes the owner.
+
+`TLS_AUTO` defaults to `true`, which moves the main listener to 8443. The command above publishes only 8080, so leaving it on would give you a container that reports healthy but serves nothing on the port you opened. Set it to `false` for plain HTTP, or publish 8443 and follow [TLS](#tls).
 
 Or with Docker Compose (`docker-compose.yml`):
 
 ```yaml
 services:
   hako:
-    image: ghcr.io/hakospace/hako:edge
+    image: ghcr.io/hakospace/hako:latest
     ports:
       - "8080:8080"
     environment:
@@ -119,8 +125,8 @@ volumes:
 
 | Tag | Meaning |
 |---|---|
-| `:edge` | Newest pre-release — **use this during beta** |
-| `:latest` | Newest stable release (available once the first `V` release ships) |
+| `:latest` | Newest stable release — **the default choice** |
+| `:edge` | Newest pre-release, for trying upcoming changes |
 | `:B<major>` | Track a major line, e.g. `:B2` (stable) |
 | `:B<x>.<y>.<z>` | Pin an exact version, e.g. `:B2.6.9` |
 
@@ -137,10 +143,22 @@ docker run --rm -v hako-data:/d -v "$PWD":/b busybox \
 
 #### Updating
 
-Pull a new image and recreate the container:
+Pull a new image and recreate the container. With Compose:
 
 ```bash
-docker pull ghcr.io/hakospace/hako:edge && docker compose up -d
+docker compose pull && docker compose up -d
+```
+
+With plain `docker run`, pull and replace the container (the named volume keeps your data):
+
+```bash
+docker pull ghcr.io/hakospace/hako:latest
+docker rm -f hako
+docker run -d --name hako \
+  -p 8080:8080 \
+  -v hako-data:/app/data \
+  -e TLS_AUTO=false \
+  ghcr.io/hakospace/hako:latest
 ```
 
 Containers update by image pull, so the admin panel's in-app self-update is turned off inside a container (an image is immutable). To automate pulls, use a tool such as [Watchtower](https://containrrr.dev/watchtower/).
@@ -157,7 +175,7 @@ The container serves plain HTTP on port 8080. For HTTPS you have two options:
     -p 80:8080 -p 443:8443 \
     -e TLS_AUTO=true -e ACME_DOMAIN=chat.yourdomain.com \
     -v hako-data:/app/data \
-    ghcr.io/hakospace/hako:edge
+    ghcr.io/hakospace/hako:latest
   ```
 
   HakoSpace then requests and renews a Let's Encrypt certificate automatically.
@@ -240,6 +258,7 @@ ACME_DOMAIN=chat.yourdomain.com
 |---|---|
 | 8080 / TCP | HTTP |
 | 8443 / TCP | HTTPS |
+| 3478 / UDP + TCP | Built-in TURN relay — **only if you enable it** (off by default; see the admin panel's network settings) |
 
 Open 8080 and 8443 to the internet so members can reach the server. For ACME on a home network, forward external **443 → 8443** (required — serves HTTPS and TLS-ALPN-01 validation) and, ideally, external **80 → 8080** as well (lets the HTTP-01 challenge succeed too). Behind a reverse proxy you only need to expose 80/443 on the proxy and keep HakoSpace on its default ports internally.
 
