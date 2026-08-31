@@ -4,6 +4,6 @@ Release date: 2026-08-31 (UTC)
 
 ## Features
 
-- feat(desktop): staged in-app updates — periodic pre-download, user-owned restart (3a Chrome model) (040ae40)
-- feat(desktop): splash-gated launcher — updates run before the main window exists (0304d29)
+- The desktop app now starts through a small splash screen that handles update checks and installation before the main window opens — updates run up front at launch instead of arriving after you are already in the app. (#104)
 
+- While the app is running, new versions are quietly pre-downloaded in the background and staged. The app never restarts itself: when an update is ready, a "Restart to apply" action appears in the tray menu and the desktop settings window, and the staged version is applied the next time the app starts. (#105)
