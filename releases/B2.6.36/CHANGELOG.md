@@ -4,5 +4,4 @@ Release date: 2026-09-02 (UTC)
 
 ## Features
 
-- feat(desktop): high-load viewer boost PoC (Windows) — REALTIME GPU scheduling for watched shares (64f53ae)
-
+- Experimental (Windows): a new opt-in "viewer boost" raises the GPU scheduling priority of the app's video playback while you are watching a screen share, keeping playback smooth even when the machine is under heavy GPU load (for example while gaming). Off by default; enabling it requires administrator approval. (#106)
