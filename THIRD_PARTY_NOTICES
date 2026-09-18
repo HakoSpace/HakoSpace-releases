@@ -141,6 +141,89 @@ kirides/go-d3d          MIT      (c) kirides   (Windows D3D11 screen capture, si
 
 
 ================================================================
+5. hakoHUD in-game overlay (Windows desktop application)
+================================================================
+
+hakoHUD ("hakohud.exe") is a companion program shipped inside the Windows
+build of the desktop application. It is built with Tauri: the Rust components
+below are statically linked into the executable, and its interface, including
+the JavaScript components below, is compiled into it. Its direct-dependency
+manifests are Cargo.toml, src-tauri/Cargo.toml and package.json of the hakoHUD
+source tree; the exhaustive transitive lists are its Cargo.lock and
+package-lock.json.
+
+Rust components (statically linked)
+
+tauri, tauri-runtime, tauri-runtime-wry, tauri-utils, tauri-plugin-global-shortcut
+                        Apache-2.0 OR MIT  (c) 2017-present Tauri Apps Contributors
+wry                     Apache-2.0 OR MIT  (c) 2020-2023 Ngo Iok Ui & Tauri
+                                 Programme within The Commons Conservancy
+muda, global-hotkey, window-vibrancy
+                        Apache-2.0 OR MIT  (c) 2020-2022 Tauri Programme within
+                                 The Commons Conservancy
+tao                     Apache-2.0    (c) The Tauri Programme within The Commons
+                                 Conservancy; the winit contributors
+dpi                     Apache-2.0, except its libm-derived code (MIT)
+                                 (c) The winit contributors; the rust-lang libm authors
+windows, windows-core, windows-sys and the other windows-* crates
+                        MIT OR Apache-2.0  (c) Microsoft Corporation
+webview2-com, webview2-com-sys
+                        MIT      (c) 2021 Bill Avery
+tokio, tracing          MIT      (c) Tokio Contributors
+bytes                   MIT      (c) 2018 Carl Lerche
+mio                     MIT      (c) 2014 Carl Lerche and other MIO contributors
+serde, serde_json       MIT OR Apache-2.0  (c) Erick Tryzelaar, David Tolnay
+ICU4X (icu_collections, icu_locale_core, icu_normalizer, icu_properties,
+  icu_provider and their data crates; zerovec, zerotrie, zerofrom, yoke,
+  tinystr, litemap, writeable, potential_utf)
+                        Unicode-3.0   (c) 2020-2024 Unicode, Inc.
+brotli, brotli-decompressor, alloc-no-stdlib, alloc-stdlib
+                        BSD-3-Clause (brotli: BSD-3-Clause AND MIT;
+                                 brotli-decompressor: BSD-3-Clause OR MIT)
+                                 (c) 2016 Dropbox, Inc.; (c) 2009-2016 the Brotli Authors
+memchr, aho-corasick, byteorder, walkdir, same-file, winapi-util
+                        Unlicense OR MIT  (c) 2015 Andrew Gallant
+plist                   MIT      (c) 2015 Edward Barnard
+quick-xml               MIT      (c) 2016 Johann Tuffe
+phf, phf_shared         MIT      (c) 2014-2022 Steven Fackler, Yuki Okushi
+infer                   MIT      (c) 2019 Bojan
+cfb                     MIT      (c) 2017 Matthew D. Steele
+urlpattern              MIT      (c) 2021 the Deno authors
+raw-window-handle       MIT OR Apache-2.0 OR Zlib  (c) 2019-2020 Osspial
+dunce                   CC0-1.0 OR MIT-0 OR Apache-2.0  (author: Kornel)
+Other crates (url, idna, http, cookie, regex, uuid, time, toml, semver,
+  parking_lot, crossbeam, indexmap, hashbrown, smallvec, bitflags, libc,
+  log, dirs, getrandom, base64, glob, json-patch, keyboard-types, softbuffer,
+  unic-*, ...)          MIT and/or Apache-2.0, each (c) its respective authors;
+                                 see Cargo.lock for the complete list
+
+option-ext
+  Licence:   Mozilla Public License 2.0
+  Copyright: (c) Simon Ochsenreither
+  Homepage:  https://github.com/soc/option-ext
+  Notes:     Used unmodified. Its source code is available from the homepage
+             above and from crates.io (https://crates.io/crates/option-ext).
+
+Microsoft Edge WebView2 SDK loader (WebView2LoaderStatic)
+  Licence:   BSD-style licence of the Microsoft.Web.WebView2 SDK
+  Copyright: (c) Microsoft Corporation. All rights reserved.
+  Homepage:  https://www.nuget.org/packages/Microsoft.Web.WebView2
+  Notes:     Statically linked through webview2-com-sys. The Microsoft Edge
+             WebView2 Runtime itself is not included; hakoHUD uses the copy
+             installed on the system.
+
+Interface components (compiled into the executable)
+
+React, React DOM, scheduler
+                        MIT      (c) Meta Platforms, Inc. and affiliates
+zustand                 MIT      (c) 2019 Paul Henschel
+lucide-react            ISC      (c) 2022 Lucide Contributors
+                                 (Lucide is derived from Feather, (c) 2013-2022 Cole Bemis)
+@tauri-apps/api         Apache-2.0 OR MIT  (c) 2017-present Tauri Apps Contributors
+tailwindcss             MIT      (c) Tailwind Labs Inc.
+
+
+================================================================
 Full licence texts
 ================================================================
 
