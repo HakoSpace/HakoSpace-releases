@@ -2,19 +2,25 @@
 
 Release date: 2026-09-22 (UTC)
 
+This pre-release carries the first round of fixes from testing the game HUD (introduced in B2.6.43) on real machines. Three of the fixes live in the web client that each server provides, so update both the desktop app and the server you connect to in order to get all of them; the rest need only the desktop app. The HUD program bundled with the desktop app was rebuilt for this release; its changes are listed below without pull-request numbers because they come from the HUD's own repository.
+
 ## Features
 
-- feat(desktop): pick the HUD content size in desktop settings (cc4b8c9)
-- feat(desktop): store a global HUD content size (small / medium / large) (3d7670d)
+- Game HUD: choose the overall content size. A new "Overall content size" card under Game HUD in desktop settings (Small / Medium / Large, default Medium) scales the whole HUD: the voice members, the text chat area, the panel's hints, buttons and dialogs, and the startup hint you see in game. The HUD also sizes itself to the game window it is drawn over: a window 1080 pixels tall is the baseline, taller windows scale up to at most 1.8x (reached at about 1944 pixels tall), and anything 1080 pixels tall or shorter keeps the 1080p size. Windows display scaling counts here, so a 4K screen at 150% counts as 1440 pixels tall. The text chat area's own "Content size" multiplies on top of this. If you later go back to an older desktop version, that version does not know this setting and drops it, so the HUD returns to Medium and the choice is not restored when you update again. (#139)
+- Game HUD: adjust the text chat area's "Content size" from the HUD panel. The text area's header now has a third small slider (80% to 160%); it is the same setting as the slider in desktop settings. While you hold the slider the text area keeps its width and only resizes when you let go, and the size catches up in jumps as you drag, not continuously.
+- Game HUD: the message box in the panel grows with what you type, up to about five lines, and then scrolls, instead of staying one line high.
 
 ## Bug Fixes
 
-- fix(hud): stop watching a share when the game overlay ends for good (d9e458f)
-- fix(hud): keep a screen share you loaded yourself when a HUD window closes (3ab6d51)
-- fix(desktop): stop receiving a share when the game HUD ends and its window closes (fc09a11)
-- fix(hud): closing a picture-in-picture window opened from the HUD stops watching that share (cab9071)
-- fix(desktop): close HUD picture-in-picture windows when the HUD exits and revoke their authorization on close (e1835c3)
-- fix(desktop): picture-in-picture fullscreen fills the screen on monitors larger than 1080p (f9f2274)
-- fix(hud): show yourself in the HUD voice widget while you are speaking (8888047)
-- fix(desktop): picture-in-picture windows opened from the HUD no longer steal focus from the game (6fa6948)
+- Game HUD: you now appear in the voice widget while you are speaking. Previously, in game with the widget unpinned, the HUD never listed you when you talked, and with the widget pinned your speaking ring never lit. This fix is part of the web client, so it needs the server updated. (#141)
+- Game HUD: who is speaking is sent again whenever the HUD connects, so a HUD that starts or reconnects in the middle of a conversation shows the voice members right away instead of staying empty until someone next starts or stops talking. This fix is part of the web client, so it needs the server updated. (#141)
+- Game HUD: closing a picture-in-picture window that you opened from the HUD now stops watching that share: the desktop app stops receiving that share's video, and its audio stops playing. Previously the window closed but the share kept playing in your headset and kept using bandwidth and a picture-in-picture slot. A share you had already opened yourself on the stage is left as it was, and the stage's "Bring back" button still brings the picture back to the stage without stopping it. When the sharer stops sharing, or when the HUD stops running, the shares those picture-in-picture windows were showing are released as well. Ordinary pop-out windows opened from the stage are unchanged: closing one still brings the picture back to the stage. This fix needs both the desktop app and the server updated. (#140, #141)
+- Game HUD: clicking a picture-in-picture window no longer makes the HUD disappear or stop the HUD shortcut from opening the panel. These picture-in-picture windows are ordinary desktop-app windows, and they are now created without keyboard focus: clicking one no longer activates it, so the program you were using keeps keyboard focus. The window can still be dragged, closed with its × button and switched to fullscreen by double-clicking, but Esc does not close it (including while it is fullscreen), it does not appear in the taskbar, and while the HUD panel is open it sits under the panel's dimming layer and cannot be clicked. How the HUD itself receives keyboard input is unchanged. (#140)
+- Game HUD: fullscreen on a picture-in-picture window now fills the screen on monitors larger than 1080p, instead of showing only a 1920×1080 area in the top-left corner. Leaving fullscreen returns the window to its previous size and corner, and the remembered picture-in-picture size is not affected. (#140)
+- Game HUD: a drag or resize gesture in the panel now ends properly: Alt+Tab away and the widget goes back where it was, release the mouse outside the HUD and it stays where you last had it pressed. Previously the widget could keep following the pointer afterwards.
 
+## Notes
+
+- The settings the HUD program reads gained one optional field for the content size. Older and newer combinations of desktop app and HUD program keep working: an older HUD ignores the new setting and keeps its previous size, and a newer HUD without the setting uses Medium.
+- If you run this desktop app against a server that is still on B2.6.43, the three web-client fixes above are missing there. One combination is worth knowing about: the picture-in-picture windows the HUD opened are then closed when the HUD stops running, but the shares behind them keep streaming and their audio keeps playing until you leave the voice channel.
+- No Docker image is published for this pre-release. Servers running the Docker image stay on the previous version, which is earlier than B2.6.43; the game HUD does not work against them at all, because it needs the server you connect to on B2.6.43 or later. The Privacy Policy is unchanged in this release (still effective 2026-09-18), so no new acceptance is required.
