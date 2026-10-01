@@ -21,7 +21,7 @@ Deploy it in a single command with the official **Docker image (recommended)**, 
 ### 💬 Real-time Messaging
 
 - Organized channels with threaded conversations
-- Direct messages and group DMs
+- One-to-one direct messages
 - Message reactions and rich file sharing
 - Automatic URL previews and link embeds
 
@@ -41,7 +41,6 @@ Deploy it in a single command with the official **Docker image (recommended)**, 
 
 - Electron client for Windows and Linux
 - Connect to multiple HakoSpace servers from one window
-- Encrypted local token storage
 - Per-application audio capture on Linux
 
 ### 🛠 Administration
@@ -79,7 +78,7 @@ For a full walkthrough — TLS, firewall, running as a service, backups, and goi
 
 > **Why `-e TLS_AUTO=false`?** The server's built-in TLS is on by default, and with it the main listener moves to port 8443 — which the command above does not publish, leaving `http://localhost:8080` unreachable while the container still reports as healthy. Setting it to `false` keeps everything on plain HTTP. To serve HTTPS instead, see [TLS](#tls).
 >
-> **Which tag?** `:latest` is the newest stable build and is the right default. Use `:edge` only if you want the newest pre-release — see [Image tags](#image-tags).
+> **Which tag?** `:latest` is the newest stable release and is the right default. Docker images track stable releases — see [Image tags](#image-tags).
 
 ---
 
@@ -126,11 +125,11 @@ volumes:
 | Tag | Meaning |
 |---|---|
 | `:latest` | Newest stable release — **the default choice** |
-| `:edge` | Newest pre-release, for trying upcoming changes |
-| `:B<major>` | Track a major line, e.g. `:B2` (stable) |
-| `:B<x>.<y>.<z>` | Pin an exact version, e.g. `:B2.6.9` |
+| `:B<major>` | Track a major line, e.g. `:B2` |
+| `:B<x>.<y>.<z>` | Pin an exact stable version, e.g. `:B2.6.39` |
+| `:<x>.<y>.<z>` | The same pin in plain semver form, e.g. `:2.6.39` |
 
-Pre-releases can also be pinned exactly with the `-pre` suffix, e.g. `:B2.6.9-pre`.
+Images track **stable releases**; pre-releases are normally binary-only. The `:edge` tag is not maintained — don't use it; use `:latest`.
 
 #### Data and backups
 
@@ -278,7 +277,7 @@ Type=simple
 User=hako
 WorkingDirectory=/opt/hakospace
 ExecStart=/opt/hakospace/hako
-Restart=on-failure
+Restart=always
 RestartSec=5
 
 [Install]
@@ -298,6 +297,8 @@ sudo systemctl stop|start|restart hakospace   # control the service
 journalctl -u hakospace -f                    # follow the logs
 ```
 
+> **Keep `Restart=always`.** Updating from the admin panel stops the server cleanly and relies on systemd to start the new version. With `Restart=on-failure`, the server stays stopped after an update.
+>
 > **Tip:** create a dedicated `hako` system user and place the binary in `/opt/hakospace/`. The `data/` directory is created there on first run.
 
 **Windows (Task Scheduler)** — create a `start.bat`:
@@ -312,7 +313,7 @@ Then add a Task Scheduler task that runs `start.bat` at system startup, with "St
 
 #### Updating (binary)
 
-HakoSpace updates itself from the admin panel. Under **Settings → Dashboard → Server Update**, click **Check for Update**; when a newer version exists, the server downloads it, verifies it, replaces its own executable, and restarts — no SSH required. Under systemd, the service comes straight back up on the new version.
+HakoSpace updates itself from the admin panel. Under **Settings → Dashboard → Server Update**, click **Check for Update**, then **Download Update** (the download is checked against its SHA-256 checksum) and **Apply Update**. On Linux the server then swaps in the new executable and restarts — no SSH required. Under systemd the restart is performed by systemd itself, which is why the unit above uses `Restart=always`.
 
 To update manually (for example, to pin a specific version), stop the server, replace the `hako` binary, and start it again. The `data/` directory is preserved across updates.
 
@@ -365,7 +366,7 @@ The desktop app connects to any HakoSpace server. Add multiple servers and switc
 HakoSpace reads its configuration from `data/.env`, which is generated automatically on first run. For most deployments the defaults are correct, and the only values you may need to set are the TLS variables described above (`ACME_DOMAIN`, `TLS_CERT` / `TLS_KEY`, `TLS_AUTO`).
 
 - `JWT_SECRET` secures login sessions. It is generated and managed for you — keep it secret and include it in your backups.
-- `OWNER_USERNAME` is an optional recovery hatch: set it to an existing account name to promote that account to owner on its next login. Left unset, the first account to register becomes owner.
+- `OWNER_USERNAME` is an optional recovery setting. Set it to an existing account name and that account is made owner **when the server starts** — any other owner is changed to admin. If no account has that name, the server refuses to start. Remove the setting once you've regained access. Left unset, the first account to register becomes owner.
 
 Everything else — email, the AI agent, registration, and the word filter — is configured from the admin panel. See the **Admin Manual** for the complete reference.
 
@@ -373,7 +374,7 @@ Everything else — email, the AI agent, registration, and the word filter — i
 
 ## License
 
-HakoSpace is free to use during the Beta phase. For terms and conditions, see [LICENSE](./LICENSE) and [EULA.md](./EULA.md).
+HakoSpace Community Edition is free for academic research and teaching, personal non-commercial use, and qualifying non-profit organizations. Use by businesses, commercial entities, or government agencies — or providing HakoSpace as part of a commercial service — requires a commercial license. The full terms are in [LICENSE](./LICENSE) and [EULA.md](./EULA.md).
 
 ---
 

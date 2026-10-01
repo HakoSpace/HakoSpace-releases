@@ -9,9 +9,11 @@
 #    # open http://localhost:8080  (first boot auto-generates JWT_SECRET
 #    # into the hako-data volume; the first registered user becomes owner)
 #
-#  Image channels (see the release notes for the full tag table):
+#  Image tags (stable releases — see the README's "Image tags" section):
 #    :latest   newest stable (GA)           :B2          track a major line
-#    :B2.6.9   pinned exact version         :edge        newest pre-release
+#    :B2.6.39  pinned exact version         :2.6.39      same pin, semver form
+#  Pre-releases are normally binary-only. The :edge tag is not maintained —
+#  don't use it; use :latest.
 # ============================================================
 services:
   hako:
