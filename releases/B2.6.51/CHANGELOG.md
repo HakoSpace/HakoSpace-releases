@@ -103,5 +103,5 @@ source.
 
 - Most of these changes are part of the server and the web client it provides. The game HUD, the background shortcuts and the desktop app's own screens also need the desktop app updated, so update both.
 - Desktop apps and servers on B2.6.39 find this update on GitHub, as before. From this release on, their update checks go to dl.hakospace.com first.
-- The Docker image for this release is published as `:latest`, `:B2`, `:2.6.51` and `:B2.6.51`.
+- The Docker image for this release is built separately from the binaries. Once it is published, it is tagged `:B2.6.51`, `:2.6.51`, `:B2` and `:latest`; until then, `:latest` stays on B2.6.39.
 - THIRD_PARTY_NOTICES now covers the open-source components of the game HUD.
