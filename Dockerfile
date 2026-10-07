@@ -35,6 +35,12 @@ COPY frontend/ ./
 # vite.config.ts reads ../VERSION and ../PROTOCOL_VERSION (repo root = /build);
 # they must exist before the build or `npm run build` throws.
 COPY VERSION PROTOCOL_VERSION /build/
+# `npm run build` runs `tsc -b`, which also type-checks the frontend's tests.
+# One of them (src/desktop-settings/hudControls.test.ts) imports the desktop
+# host's HUD limits from ../desktop/src/hudSettings.ts, a file with no imports
+# of its own. Copy just that file to the same relative path; .dockerignore lets
+# only this file of desktop/ into the build context.
+COPY desktop/src/hudSettings.ts /build/desktop/src/hudSettings.ts
 RUN npm run build
 
 # Stage 2: Build backend
