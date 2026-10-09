@@ -12,4 +12,4 @@ Release date: 2026-10-07 (UTC)
 
 - Everything in this release is part of the server and the web client it provides, so it takes effect once the server is updated. The desktop app has no changes of its own; the game HUD program and the native capture engine it bundles are the same builds as in B2.6.51.
 - The Privacy Policy and the EULA are unchanged in this release (still effective 2026-09-26 and 2026-07-08), so no new acceptance is required.
-- No Docker image is published for this pre-release. Servers running the Docker image stay on their current version.
+- The Docker image for this pre-release is published as `:B2.6.52-pre`. `:latest` and `:B2` stay on B2.6.51, so servers that follow those tags stay on their current version.
