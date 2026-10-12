@@ -107,7 +107,7 @@ Or with Docker Compose (`docker-compose.yml`):
 ```yaml
 services:
   hako:
-    image: ghcr.io/hakospace/hako:latest
+    image: ghcr.io/hakospace/hako:latest   # newest stable; :pre for previews (see Image tags)
     ports:
       - "8080:8080"
     environment:
