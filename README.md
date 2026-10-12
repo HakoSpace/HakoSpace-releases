@@ -78,7 +78,7 @@ For a full walkthrough — TLS, firewall, running as a service, backups, and goi
 
 > **Why `-e TLS_AUTO=false`?** The server's built-in TLS is on by default, and with it the main listener moves to port 8443 — which the command above does not publish, leaving `http://localhost:8080` unreachable while the container still reports as healthy. Setting it to `false` keeps everything on plain HTTP. To serve HTTPS instead, see [TLS](#tls).
 >
-> **Which tag?** `:latest` is the newest stable release and is the right default. Docker images track stable releases — see [Image tags](#image-tags).
+> **Which tag?** `:latest` is the newest stable release and is the right default. Want previews too? Use `:pre` — see [Image tags](#image-tags).
 
 ---
 
@@ -125,11 +125,23 @@ volumes:
 | Tag | Meaning |
 |---|---|
 | `:latest` | Newest stable release — **the default choice** |
-| `:B<major>` | Track a major line, e.g. `:B2` |
-| `:B<x>.<y>.<z>` | Pin an exact stable version, e.g. `:B2.6.39` |
-| `:<x>.<y>.<z>` | The same pin in plain semver form, e.g. `:2.6.39` |
+| `:pre` | Newest preview release. When a newer stable release comes out, `:pre` moves up to it too, so `:pre` is never older than `:latest` |
+| `:B<x>.<y>.<z>` | Pin an exact stable version, e.g. `:B2.6.51` |
+| `:B<x>.<y>.<z>-pre` | Pin a preview version. Only the one `:pre` currently points to is kept |
 
-Images track **stable releases**; pre-releases are normally binary-only. The `:edge` tag is not maintained — don't use it; use `:latest`.
+`:latest` and `:pre` never move backwards. The old `:edge`, `:B<major>` (e.g. `:B2`) and plain semver tags (e.g. `:2.6.39`) are no longer updated — existing ones stay where they were. Switch to `:latest` or `:pre`.
+
+Update with `docker compose pull && docker compose up -d`.
+
+**Matching the standalone binary.** Pick the same channel you'd pick in the admin panel:
+
+| You want | Docker image | Binary (admin panel) |
+|---|---|---|
+| Always the newest stable release | `:latest` | "Receive Pre-release Updates" off |
+| Always the newest preview | `:pre` | "Receive Pre-release Updates" on |
+| A fixed version | `:B<x>.<y>.<z>` | Don't apply updates |
+
+> **Moving from preview back to stable can be a downgrade.** Before switching from `:pre` to `:latest`, check that `:latest` is not older than the version you're running — a newer version may already have migrated your database, and older versions aren't guaranteed to read it. Going stable → preview is always safe.
 
 #### Data and backups
 
