@@ -73,6 +73,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 # private source repo.
 ARG VERSION=dev
 ARG VCS_REF=unknown
+# CHANNEL = pre | stable (| dev for local builds). org.opencontainers.image.version never
+# carries -pre, so this label is how tooling tells a pre image from a GA one
+# (scripts/docker-tags.py anti-regression for the moving tags).
+ARG CHANNEL=dev
 LABEL org.opencontainers.image.title="HakoSpace" \
       org.opencontainers.image.description="Self-hosted real-time chat platform (Community Edition) — single Go binary, embedded SQLite + React frontend." \
       org.opencontainers.image.source="https://github.com/HakoSpace/HakoSpace-releases" \
@@ -81,7 +85,8 @@ LABEL org.opencontainers.image.title="HakoSpace" \
       org.opencontainers.image.licenses="LicenseRef-HakoSpace-Community" \
       org.opencontainers.image.vendor="HakoSpace" \
       org.opencontainers.image.version="${VERSION}" \
-      org.opencontainers.image.revision="${VCS_REF}"
+      org.opencontainers.image.revision="${VCS_REF}" \
+      com.hakospace.channel="${CHANNEL}"
 
 # Non-root runtime user. The server only needs write access to DATA_DIR; a fixed
 # UID lets an empty named volume inherit the right ownership automatically.
