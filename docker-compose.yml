@@ -22,7 +22,7 @@ services:
     # Multi-arch image (linux/amd64 + linux/arm64) — Docker auto-selects the
     # build matching your host, so ARM Linux servers and Apple-Silicon Macs
     # (Docker Desktop's arm64 Linux VM) run natively, no emulation.
-    image: ghcr.io/hakospace/hako:latest
+    image: ghcr.io/hakospace/hako:latest   # newest stable; :pre for previews (see Image tags above)
     ports:
       - "8080:8080"
       # Built-in TLS/ACME (set TLS_AUTO=true + ACME_DOMAIN below). The container
