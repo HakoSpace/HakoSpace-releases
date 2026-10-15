@@ -95,6 +95,9 @@ RUN useradd --system --uid 10001 --user-group --home-dir /app --shell /usr/sbin/
 
 WORKDIR /app
 COPY --from=backend /hako .
+# Licence and third-party notices travel with the image (EULA §14.1: the notices
+# file is "distributed with the software"). Standard Debian doc location.
+COPY LICENSE THIRD_PARTY_NOTICES /usr/share/doc/hakospace/
 RUN mkdir -p /app/data && chown -R 10001:10001 /app
 
 # HAKO_RUNTIME=docker marks this as container-managed: the server disables the

@@ -1,0 +1,22 @@
+# HakoSpace B2.6.56
+
+Release date: 2026-10-15 (UTC)
+
+## Bug Fixes
+
+- Forum channels: opening a post shows the post and its replies again, and editing a post opens a full-height editor instead of a squeezed box that showed only a few lines. (#189)
+- Forum channels: entering a forum channel now always opens its post list, including when you click the forum you are already in. Before, switching from an open post to another forum could keep showing the first forum's post, and the filter carried over from one forum to the next. The filter now resets to "All", and the new post form and forum settings close. (#189)
+- Forum channels, new post: what you typed right before leaving the forum is kept in the draft, clearing every field deletes the draft instead of bringing it back later, and a post you have just published is no longer restored as a draft. (#189)
+- Forum channels, post list: the list no longer mixes in posts from the previous filter (for example archived posts under "All"), and older pages no longer appear above the newest posts. Scrolling to the bottom loads more posts again; it could stop working after the list had shown its loading state, such as the first time you opened a forum or changed the filter. When you come back to a forum, the list shows its loading placeholder until the posts arrive, instead of briefly showing old posts or "No posts yet." (#189)
+- Text channels: there is now space between the last message and the message box. Forum replies and the text chat in voice channels get the same spacing. (#189)
+- Server settings, "Make my server public": "Reported by the central service" now explains every reason the central service gives for hiding a Listing (taken down by HakoSpace; waiting for a successful check after an account is re-enabled or a Listing is reinstated; this server reported that publishing was disabled or the key did not match; registration mode "closed") instead of showing the raw code. The field is now called "Last reported state". (#187, #188)
+- Server settings, "Make my server public": the warning that the central service has not read this server for a while now depends on the last reported state. A hidden Listing is checked about once a day, so its warning now appears after 26 hours instead of 2; the same applies while the server's registration mode is "closed". Before, a hidden Listing showed this warning most of the day. The warning title shows the actual number of hours, and the text now also suggests checking the server's clock and explains that a Listing is no longer read while the registrant's Official Account has a deletion request pending or is disabled, or after the Listing has been removed. (#188)
+- Server settings, "Make my server public": the warning and the "What enabling does" text now match the published hakoHub Listing Policy (Appendix A.1 and A.2) word for word. The disclosure now lists everything the central service reads, including the server's address, the hakoApp version and the host name your server reports, and states more precisely that, for hakoHub, your server does not connect to HakoSpace on its own to notify or upload directory information. (#185)
+
+## Notes
+
+- Licences: the Docker image now includes `LICENSE` and `THIRD_PARTY_NOTICES` in `/usr/share/doc/hakospace/`, and the desktop app now ships `LICENSE` next to `THIRD_PARTY_NOTICES` in its resources folder. The third-party notices now also cover the native capture engine and the GStreamer runtime bundled with the Windows desktop app, the two Windows helper programs, and components used only to build the game HUD. The server download is a single file; its notices are the `THIRD_PARTY_NOTICES` file at the root of this repository. (#186)
+- hakoHub is not open to the public yet: registering a server is currently limited to invited Official Accounts. The hakoHub Listing Policy linked from the "Make my server public" page is now published on hakospace.com/legal.
+- The Privacy Policy and the EULA are unchanged in this release (still effective 2026-09-26 and 2026-07-08), so no new acceptance is required.
+- What to update: every fix is in the web client the server provides, which the desktop app also shows, so the fixes take effect once the server is updated. The desktop app itself changes only by the added `LICENSE` file. The game HUD program and the native capture engine bundled with the Windows desktop app are the same builds as in B2.6.55.
+- Docker: this pre-release is published as `:B2.6.56-pre`, and `:pre` follows it. `:latest` stays on B2.6.51.

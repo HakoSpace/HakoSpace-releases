@@ -3,14 +3,19 @@ HakoSpace — Third-Party Open-Source Notices
 
 This product ("HakoSpace", comprising the HakoSpace server binary, the bundled
 web frontend, and the HakoSpace Desktop application "hako-desktop") includes
-third-party open-source software. Each component listed below is provided under
+third-party open-source software. On Windows, the desktop application also
+ships companion programs: the hakoHUD in-game overlay (section 5), two small
+helper programs (section 6), and the hakoCap screen-capture engine with its
+GStreamer runtime (section 7). Each component listed below is provided under
 its own licence and remains the property of its respective authors.
 
 As stated in the End User License Agreement (EULA §14, Third-Party Open-Source
 Components), nothing in the EULA limits or overrides any right granted to you
 under the licence of any of these components. In particular, for the components
-licensed under the GNU Lesser General Public License (LGPL) — FFmpeg and
-libuiohook — you have the rights the LGPL grants, including the right to reverse
+licensed under the GNU Lesser General Public License (LGPL) — FFmpeg,
+libuiohook, and the GStreamer runtime libraries shipped with the hakoCap
+screen-capture engine (GStreamer, GLib, proxy-libintl and libnice) —
+you have the rights the LGPL grants, including the right to reverse
 engineer the component to the extent necessary to debug your own modifications
 to it, and the right to run a modified version of the component by replacing it
 within the software.
@@ -21,10 +26,17 @@ carrying a copyleft (LGPL) obligation. The direct-dependency manifests are:
   - frontend/package.json         (web frontend)
   - server/go.mod                 (server)
   - desktop/sidecar/go.mod        (screen-capture sidecar)
+  - desktop/native/hako-audio-helper/Cargo.toml
+                                  (Windows audio-capture helper, section 6)
+  - daemon-v2/Cargo.toml of the hakoCap source tree
+                                  (Windows screen-capture engine, section 7)
+  - Cargo.toml, src-tauri/Cargo.toml and package.json of the hakoHUD source
+    tree                          (Windows in-game overlay, section 5)
 The exhaustive transitive dependency lists are the corresponding lockfiles
-(package-lock.json for the npm trees, go.sum for the Go modules).
+(package-lock.json for the npm trees, go.sum for the Go modules, Cargo.lock
+for the Rust crates).
 
-Last reviewed: EULA effective 2026-07-08.
+Last reviewed: 2026-10-14 (EULA effective 2026-07-08).
 
 
 ================================================================
@@ -49,6 +61,15 @@ libuiohook
              uiohook-napi native addon (see below). The desktop packaging keeps
              the addon unpacked on disk (not inside app.asar), so the library
              remains a user-replaceable file, supporting the LGPL relink right.
+
+GStreamer runtime: GStreamer, GLib, proxy-libintl, libnice
+  Licence:   GNU LGPL v2.1-or-later (proxy-libintl: GNU LGPL v2.0-or-later;
+             libnice: LGPL v2.1-or-later OR MPL 1.1)
+  Notes:     Windows desktop only. Shipped with the hakoCap screen-capture
+             engine as separate, unmodified DLLs under
+             resources/hakoCap/gstreamer/, so each library remains a
+             user-replaceable file. Versions, copyright holders and where to
+             get the source are listed in section 7.
 
 
 ================================================================
@@ -204,6 +225,24 @@ option-ext
   Notes:     Used unmodified. Its source code is available from the homepage
              above and from crates.io (https://crates.io/crates/option-ext).
 
+Build-time only (not linked into hakohud.exe)
+
+cssparser, cssparser-macros, selectors, dtoa-short
+  Licence:   Mozilla Public License 2.0
+  Copyright: cssparser, cssparser-macros: (c) Simon Sapin;
+             selectors: (c) The Servo Project Developers;
+             dtoa-short: (c) Xidorn Quan
+  Homepage:  https://github.com/servo/rust-cssparser
+             https://github.com/servo/stylo (selectors)
+             https://github.com/upsuper/dtoa-short
+  Notes:     Used unmodified, by Tauri's build-time code generator (through
+             tauri-utils and dom_query) to process the interface's HTML while
+             hakohud.exe is being built. In the Cargo dependency graph for the
+             Windows target they are reached only through Tauri's build-time
+             code (its procedural macros and build scripts), so their code is
+             not linked into hakohud.exe; they are listed for completeness. Their source code is available from the
+             homepages above and from crates.io.
+
 Microsoft Edge WebView2 SDK loader (WebView2LoaderStatic)
   Licence:   BSD-style licence of the Microsoft.Web.WebView2 SDK
   Copyright: (c) Microsoft Corporation. All rights reserved.
@@ -224,21 +263,135 @@ tailwindcss             MIT      (c) Tailwind Labs Inc.
 
 
 ================================================================
+6. Windows desktop helper programs
+================================================================
+
+hako-audio-helper.exe (WASAPI audio capture for screen sharing) is built from
+desktop/native/hako-audio-helper (Rust; the crates below are statically
+linked). hako-viewer-boost.exe (raises the scheduling priority of the desktop
+application's own GPU process while you watch a screen share) is built from
+desktop/native/hako-viewer-boost (C++).
+
+wasapi                  MIT      (c) 2020 Henrik Enquist
+windows, windows-core and the other windows-* crates
+                        MIT OR Apache-2.0  (c) Microsoft Corporation
+thiserror               MIT OR Apache-2.0  (c) David Tolnay
+log, num-traits, num-integer
+                        MIT OR Apache-2.0  (c) The Rust Project Developers
+Toolchain runtime       Both helpers are built with the MinGW-w64 toolchain,
+                                 whose runtime libraries are linked statically; the
+                                 parts a program uses end up in it. They are the
+                                 GCC runtime (libgcc, libstdc++; GPL-3.0-or-later
+                                 WITH GCC-exception-3.1), (c) Free Software
+                                 Foundation, Inc.; and the MinGW-w64 runtime and
+                                 winpthreads (Zope Public License 2.1 / MIT-style),
+                                 (c) the mingw-w64 project
+
+
+================================================================
+7. hakoCap screen-capture engine (Windows desktop application)
+================================================================
+
+The Windows build of the desktop application ships the hakoCap screen-capture
+engine in resources/hakoCap/: the program hakocap-daemon.exe, and the GStreamer
+runtime it loads at run time as separate DLLs in resources/hakoCap/gstreamer/
+(bin/, lib/gstreamer-1.0/ and libexec/). The GStreamer runtime is a curated
+subset of the unmodified official GStreamer 1.28.4 MSVC x86_64 build (the
+plugins hakoCap's packaging script selects, plus the libraries they depend on);
+you can replace any of these DLLs with your own build of the same library.
+
+Rust components (statically linked into hakocap-daemon.exe)
+
+gstreamer, gstreamer-app, gstreamer-video, gstreamer-webrtc, gstreamer-sdp
+                        MIT OR Apache-2.0 (their -sys crates: MIT)
+                                 (c) Sebastian Dröge and the gstreamer-rs contributors
+glib and the glib / gobject / gio -sys crates
+                        MIT      (c) The gtk-rs Project Developers
+tokio                   MIT      (c) Tokio Contributors
+reqwest, hyper          MIT OR Apache-2.0 (hyper: MIT)  (c) Sean McArthur
+rustls, rustls-webpki   Apache-2.0 OR ISC OR MIT (rustls-webpki: ISC)
+                                 (c) 2016 Joseph Birr-Pixton and the rustls
+                                 contributors; Brian Smith
+ring                    Apache-2.0 AND ISC  (c) Brian Smith and the ring
+                                 contributors; includes code derived from
+                                 BoringSSL (c) Google Inc. and from OpenSSL
+                                 (c) The OpenSSL Project Authors
+webpki-roots            CDLA-Permissive-2.0 (the Mozilla root certificate data)
+                                 (c) the rustls contributors; Mozilla
+fast_image_resize       MIT OR Apache-2.0  (c) Kirill Kuzminykh
+serde, serde_json, anyhow, clap, futures, env_logger
+                        MIT OR Apache-2.0  (c) their respective authors
+ICU4X crates            Unicode-3.0   (c) 2020-2024 Unicode, Inc.
+Other crates            permissive licences (for example MIT, Apache-2.0,
+                                 ISC, BSD-3-Clause, Zlib, Unicode-3.0, Unlicense),
+                                 each (c) its respective authors; the crates are
+                                 listed in the Cargo.lock of the hakoCap source
+                                 tree, and each crate's licence is in its own
+                                 metadata on crates.io
+
+GStreamer runtime (separate DLLs in resources/hakoCap/gstreamer/)
+
+GStreamer 1.28.4 — the core library, its base libraries (gstbase, gstvideo,
+  gstaudio, gstrtp, gstsdp, gstwebrtc, gstd3d11, gstd3d12, gstcodecs, ...) and
+  the plugins in lib/gstreamer-1.0/ (core elements, base, good and bad
+  plugins: d3d11, mediafoundation, qsv, nvcodec, amfcodec, webrtc, dtls,
+  srtp, nice, rtp, rtpmanager, wasapi2, opus, and others)
+                        LGPL-2.1-or-later  (c) the GStreamer developers
+                                 https://gstreamer.freedesktop.org
+GLib 2.82.4 (glib, gobject, gio, gmodule)
+                        LGPL-2.1-or-later  (c) the GLib developers
+                                 https://gitlab.gnome.org/GNOME/glib
+proxy-libintl 0.5 (intl-8.dll; a small stand-in for GNU gettext's libintl)
+                        LGPL-2.0-or-later  (c) 2008 Tor Lillqvist
+                                 https://github.com/frida/proxy-libintl
+libnice 0.1.23          LGPL-2.1-or-later OR MPL-1.1
+                                 (c) Collabora Ltd., Nokia Corporation and the
+                                 libnice contributors
+                                 https://gitlab.freedesktop.org/libnice/libnice
+OpenSSL 3.5.0 (libcrypto, libssl)
+                        Apache-2.0    (c) 1998-2025 The OpenSSL Project Authors;
+                                 (c) 1995-1998 Eric A. Young, Tim J. Hudson
+Opus 1.5.2              BSD-3-Clause  (c) 2001-2023 Xiph.Org, Skype Limited,
+                                 Octasic, Jean-Marc Valin, Timothy B. Terriberry,
+                                 CSIRO, Gregory Maxwell, Mark Borgerding,
+                                 Erik de Castro Lopo, Mozilla, Amazon
+libsrtp 2.8.0           BSD-3-Clause  (c) 2001-2017 Cisco Systems, Inc.
+ORC 0.4.42              BSD-2-Clause  (c) 2002-2009 David A. Schleef
+PCRE2 10.42             BSD-3-Clause (with the PCRE2 exception)
+                                 (c) 1997-2022 University of Cambridge;
+                                 (c) 2009-2022 Zoltan Herczeg
+Intel oneVPL dispatcher (compiled into the qsv plugin, gstqsv.dll)
+                        MIT      (c) Intel Corporation
+                                 https://github.com/intel/libvpl
+libffi 3.2.9999.5 (GStreamer's Meson port of libffi)
+                        MIT      (c) 1996-2024 Anthony Green, Red Hat, Inc and others
+zlib 1.3.1              Zlib     (c) 1995-2024 Jean-loup Gailly and Mark Adler
+
+The source code of GStreamer 1.28.4 and of the libraries above is available
+from their homepages; the official GStreamer Windows build is produced with
+GStreamer's Cerbero build system (https://gitlab.freedesktop.org/gstreamer/cerbero).
+
+
+================================================================
 Full licence texts
 ================================================================
 
 This notice lists, for each component, the licence and the principal copyright
-holder(s). The full text of each licence is available from the linked project
-homepage; for the components bundled inside Electron (Chromium, Node.js, FFmpeg)
-it is in the LICENSES files shipped inside the Electron distribution. Most npm
+holder(s). The full text of each licence is available from the project's
+homepage or its source release (for Rust crates, also from crates.io); for the
+components bundled inside Electron (Chromium, Node.js, FFmpeg) it is in the
+LICENSES files shipped inside the Electron distribution. Most npm
 components also carry their own upstream LICENSE file in the packaged app
 (node_modules / resources).
 
 Some components are vendored inside another package and do not ship a separate
 licence file of their own — notably libuiohook (LGPL-3.0, inside the uiohook-napi
-native addon) and the upstream RNNoise library (BSD-3-Clause, compiled into
-@timephy/rnnoise-wasm). Their licence and attribution are recorded above.
-Assembling the complete verbatim upstream licence texts into the shipped
-distribution — including the LGPL-2.1 (FFmpeg) and LGPL-3.0 (libuiohook) texts —
-is tracked as a follow-up. If you require the complete corresponding source for
-any LGPL component, contact legal@hakospace.com.
+native addon), the upstream RNNoise library (BSD-3-Clause, compiled into
+@timephy/rnnoise-wasm) and the GStreamer runtime DLLs in resources/hakoCap/
+(section 7). Their licence and attribution are recorded above. Assembling the
+complete verbatim upstream licence texts into the shipped distribution —
+including the LGPL-2.0 (proxy-libintl), LGPL-2.1 (FFmpeg, GStreamer, GLib,
+libnice) and LGPL-3.0 (libuiohook) texts, and the permissive licence texts of
+the components in sections 5 to 7 — is tracked as a follow-up.
+If you require the complete corresponding source for any LGPL component,
+contact legal@hakospace.com.
