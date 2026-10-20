@@ -120,6 +120,8 @@ volumes:
   hako-data:
 ```
 
+Running on Linux and want voice? Use host networking instead of the port mapping — see [Voice on Linux](#voice-on-linux-use-host-networking).
+
 #### Image tags
 
 | Tag | Meaning |
@@ -190,6 +192,37 @@ The container serves plain HTTP on port 8080. For HTTPS you have two options:
   ```
 
   HakoSpace then requests and renews a Let's Encrypt certificate automatically.
+
+#### Voice on Linux: use host networking
+
+For voice and video on a Linux host, run the container on the host's network. With the port mapping shown above, the voice server inside the container can only offer clients its container-internal address and a port that isn't published, which members can't reach. On the host network it offers the machine's own addresses and ports instead.
+
+In `docker-compose.yml`, delete everything from `ports:` down to (not including) `environment:` and put `network_mode: host` in its place:
+
+```yaml
+services:
+  hako:
+    image: ghcr.io/hakospace/hako:latest
+    network_mode: host
+    environment:
+      - TLS_AUTO=false
+    volumes:
+      - hako-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  hako-data:
+```
+
+With `docker run`, use `--network host` instead of `-p 8080:8080`. This applies to Docker Engine running as root. Rootless Docker's host network is its own namespace, and Docker Desktop (on any OS) runs containers in a VM, so neither gives the container the machine's own network.
+
+The server then listens on the host directly, exactly like the binary — 8080, 8443 with TLS on, the TURN port (default 3478, UDP and TCP) when enabled, and voice's media UDP ports, picked at random from the OS's ephemeral range — so firewall and router setup is the same as for the binary (see [Firewall and Ports](#firewall-and-ports)), and the host firewall (ufw, firewalld) now applies to these ports. There is no port mapping in this mode:
+
+- To use other ports, set `PORT` / `TLS_PORT` under `environment` (1024 or higher — the server runs as a non-root user).
+- For built-in ACME on 443, forward 443 → 8443 (and ideally 80 → 8080) at your router or firewall; the `-p 443:8443` mapping above doesn't apply.
+- A reverse proxy in another container reaches the server at the host's address, not as `hako:8080`.
+
+Voice with the default port mapping, and on Docker Desktop, is still being verified.
 
 Prefer a standalone binary instead? Continue below.
 
