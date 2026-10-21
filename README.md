@@ -120,7 +120,7 @@ volumes:
   hako-data:
 ```
 
-Running on Linux and want voice? Use host networking instead of the port mapping — see [Voice on Linux](#voice-on-linux-use-host-networking).
+Want voice? On Linux, use host networking instead of the port mapping — see [Voice on Linux](#voice-on-linux-use-host-networking). On Docker Desktop for Windows or macOS, keep the port mapping — see [Voice on Docker Desktop](#voice-on-docker-desktop-windows-macos).
 
 #### Image tags
 
@@ -195,7 +195,7 @@ The container serves plain HTTP on port 8080. For HTTPS you have two options:
 
 #### Voice on Linux: use host networking
 
-For voice and video on a Linux host, run the container on the host's network. With the port mapping shown above, the voice server inside the container can only offer clients its container-internal address and a port that isn't published, which members can't reach. On the host network it offers the machine's own addresses and ports instead.
+For voice and video on a Linux host, run the container on the host's network. With the port mapping shown above, the voice server inside the container can only offer clients its container-internal address and a port that isn't published, which members can't reach directly. On the host network it offers the machine's own addresses and ports instead.
 
 In `docker-compose.yml`, delete everything from `ports:` down to (not including) `environment:` and put `network_mode: host` in its place:
 
@@ -222,7 +222,18 @@ The server then listens on the host directly, exactly like the binary — 8080, 
 - For built-in ACME on 443, forward 443 → 8443 (and ideally 80 → 8080) at your router or firewall; the `-p 443:8443` mapping above doesn't apply.
 - A reverse proxy in another container reaches the server at the host's address, not as `hako:8080`.
 
-Voice with the default port mapping, and on Docker Desktop, is still being verified.
+#### Voice on Docker Desktop (Windows, macOS)
+
+On Docker Desktop for Windows or macOS, keep the default port mapping. Host networking doesn't help there: Docker Desktop runs containers in a VM, so the container only sees the VM's addresses, and on Windows a host-network container isn't reachable from the machine at all. With the port mapping (tested with Docker Desktop 4.96 and Chromium-based browsers):
+
+- On the machine running the server, voice works at `http://localhost:8080` as shipped.
+- Other devices on the same LAN can use voice once the page is served over HTTPS, because browsers only allow the microphone in a secure context. Also publish `8443:8443`, bind-mount a certificate and key that those devices trust, issued for the address they open, and set `TLS_CERT` / `TLS_KEY` to their paths inside the container (`TLS_AUTO` can stay `false`) — or put a reverse proxy in front; see [TLS](#tls).
+- With `TLS_CERT` / `TLS_KEY` set, port 8080 only redirects to `https://<same host>:8443`, so every device, this one included, opens `https://<LAN IP or name>:8443`.
+- On Windows, the first `docker compose up` brings up a firewall prompt for Docker — allow it.
+- If macOS asks whether Docker may access the local network, allow it, or voice from other devices won't connect.
+- Beyond those prompts, no published UDP ports, firewall rules, or TURN relay are needed.
+
+Still being verified: voice on Docker Desktop for members outside the LAN and for listen-only joins (no microphone), voice with the default port mapping on Linux with Docker Engine, and Docker Desktop for Linux.
 
 Prefer a standalone binary instead? Continue below.
 
