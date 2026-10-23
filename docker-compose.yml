@@ -23,6 +23,44 @@ services:
     # build matching your host, so ARM Linux servers and Apple-Silicon Macs
     # (Docker Desktop's arm64 Linux VM) run natively, no emulation.
     image: ghcr.io/hakospace/hako:latest   # newest stable; :pre for previews (see Image tags above)
+    # Voice on Linux with Docker Engine (rootful; not rootless, not Docker
+    # Desktop): delete everything from `ports:` down to (not including)
+    # `environment:` and put `network_mode: host` in its place (with
+    # `docker run`: `--network host` instead of `-p`). The container then
+    # shares the host's network, so voice offers clients the host's own
+    # addresses and ports instead of container-internal ones they can't reach
+    # directly.
+    # The server listens on the host exactly like the standalone binary —
+    # 8080, 8443 with TLS on, the TURN port (default 3478, UDP and TCP) when
+    # TURN is enabled, and voice's media UDP ports (random, from the OS
+    # ephemeral range) — so the firewall and router setup is the same as for
+    # the binary, and the host firewall (ufw/firewalld) now applies to them.
+    # This mode has no port mapping: to change ports, set PORT / TLS_PORT
+    # under environment (not below 1024 — the server runs as non-root); for
+    # 443/80, forward 443→8443 and 80→8080 at the router or firewall, or put a
+    # reverse proxy in front (it reaches the server at the host's address,
+    # not hako:8080).
+    #
+    # Voice on Docker Desktop (Windows, macOS; tested on 4.96 with Chromium
+    # browsers): keep the port mapping. Host networking doesn't help there:
+    # Docker Desktop runs containers in a VM, so the container only sees the
+    # VM's addresses, and on Windows a host-network container isn't reachable
+    # from the machine at all. As shipped, voice works on the same machine at
+    # http://localhost:8080. Other devices on the LAN need the page over
+    # HTTPS (browsers only allow the microphone in a secure context): also
+    # publish "8443:8443", bind-mount a certificate and key that those
+    # devices trust, issued for the address they open, and set TLS_CERT /
+    # TLS_KEY to their in-container paths (TLS_AUTO can stay false). With
+    # TLS_CERT / TLS_KEY set, 8080 only redirects to https://<same host>:8443,
+    # so every device, this one included, opens https://<LAN IP or name>:8443.
+    # Alternatively, put a reverse proxy in front for HTTPS. Allow Docker
+    # through the Windows firewall prompt on first start, and allow macOS's
+    # local-network prompt if it appears; beyond those, no published UDP
+    # ports, firewall rules or TURN are needed.
+    #
+    # Still being verified: voice on Docker Desktop for members outside the
+    # LAN and for listen-only joins (no microphone), voice with the default
+    # port mapping on Linux with Docker Engine, and Docker Desktop for Linux.
     ports:
       - "8080:8080"
       # Built-in TLS/ACME (set TLS_AUTO=true + ACME_DOMAIN below). The container
