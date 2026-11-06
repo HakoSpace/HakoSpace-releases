@@ -1,9 +1,9 @@
 version: 2.6.62
 files:
   - url: desktop-hakospace-windows-amd64-setup-B2.6.62.exe
-    sha512: SbwLPtCdaOh2WZBWv8dmZBWK4DSk78sFgxW2Gz6e7MCx8QR2rqsGJKay494XHY2AhBfP27XxII9EQWOwCT582w==
-    size: 99504046
+    sha512: 5g9zj3bXFFHWqIn6NHGtCFcu/8aBgVlC1rvkVMbHYGtiNjA5nJo7KwUuwYs4AwrZ2qM1rWpBZHEPHj804g++Nw==
+    size: 99502274
 path: desktop-hakospace-windows-amd64-setup-B2.6.62.exe
-sha512: SbwLPtCdaOh2WZBWv8dmZBWK4DSk78sFgxW2Gz6e7MCx8QR2rqsGJKay494XHY2AhBfP27XxII9EQWOwCT582w==
-releaseDate: '2026-11-04T05:26:02.000Z'
+sha512: 5g9zj3bXFFHWqIn6NHGtCFcu/8aBgVlC1rvkVMbHYGtiNjA5nJo7KwUuwYs4AwrZ2qM1rWpBZHEPHj804g++Nw==
+releaseDate: '2026-11-06T02:03:02.000Z'
 buildId: '52d29e75'
