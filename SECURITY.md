@@ -38,7 +38,7 @@ Security fixes go into the newest releases only:
 
 ## What is not a vulnerability
 
-Some behaviors are known limits of how HakoSpace works, or depend on how a server is set up. We list them, with what you can do about each, in [Known limitations](./KNOWN_LIMITATIONS.md). In short, we do not treat these as vulnerabilities:
+Some behaviors are known limits of how HakoSpace works, or depend on how a server is set up. We list them, with what you can do about each, in [Known limitations](./KNOWN_LIMITATIONS.md). We do not treat what is described there as a vulnerability, though a report that shows something worse than it describes is welcome. In short, these include:
 
 - problems that come from a server's own configuration, for example a reverse proxy that is not declared to HakoSpace;
 - attacks that need an attacker to already hold a member's signed-in session *and* that member's current password;
