@@ -44,7 +44,7 @@ COPY desktop/src/hudSettings.ts /build/desktop/src/hudSettings.ts
 RUN npm run build
 
 # Stage 2: Build backend
-FROM golang:1.25-bookworm@sha256:a1ae6b6c564f3e0072d70081036827a2705dbcf6b38aaa6d97f5de97fe9abdb4 AS backend
+FROM golang:1.27.3-bookworm@sha256:dc0963f32053e4bc451d24d87e3892d42d01021b61f093e98eb95c0352bb84b0 AS backend
 RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev && rm -rf /var/lib/apt/lists/*
 WORKDIR /build/server
 COPY server/go.mod server/go.sum ./

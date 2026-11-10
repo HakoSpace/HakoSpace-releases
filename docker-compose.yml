@@ -7,7 +7,11 @@
 #  Quick start:
 #    docker compose up -d
 #    # open http://localhost:8080  (first boot auto-generates JWT_SECRET
-#    # into the hako-data volume; the first registered user becomes owner)
+#    # into the hako-data volume)
+#    docker compose logs hako   # find the line  "SETUP CODE:  XXXX-XXXX-XXXX-XXXX"
+#    # register the first account on the page and enter that setup code; the
+#    # first account becomes owner. The code changes on every restart and
+#    # stops working once the owner exists.
 #
 #  Image tags:
 #    :latest   newest stable release (default)
