@@ -35,9 +35,9 @@ If a reverse proxy or load balancer sits in front of HakoSpace, the server must 
 
 ## Owners and admins are trusted
 
-HakoSpace doesn't try to protect a server from its own administrators. Owners and admins can change settings and manage members. The server also has a web terminal that runs commands on the machine the server runs on; access to it can be granted to other users.
+HakoSpace doesn't try to protect a server from its own administrators. Owners and admins can change settings and manage members.
 
-**What you can do:** appoint only people you trust, keep the number of admins small (but at least two, so the server is never left unmanaged), and review the audit log. Give terminal access only to people you would give a login on that machine.
+**What you can do:** appoint only people you trust, keep the number of admins small (but at least two, so the server is never left unmanaged), and review the audit log.
 
 ## A sign-in attempt can reveal whether a username exists
 
