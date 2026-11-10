@@ -402,6 +402,8 @@ Run through this before opening your server to members. Each item is a built-in 
 5. **Appoint at least two admins.** The owner is a single point of failure. Promote a trusted member to `admin` under **Settings → Members** so the server is never left unmanaged.
 6. **Establish a backup routine** — see [Backups](#backups) above.
 
+To see where HakoSpace's protections stop and what you can do about it, read [Known limitations](./KNOWN_LIMITATIONS.md). To report a security problem, see the [Security Policy](./SECURITY.md).
+
 ---
 
 ## Desktop App
@@ -445,6 +447,8 @@ Maintainers of this repository should see [REPO_POLICY.md § Maintenance](./REPO
 - [LICENSE](./LICENSE) — License terms
 - [EULA.md](./EULA.md) — End User License Agreement
 - [PRIVACY.md](./PRIVACY.md) — Privacy policy and data handling
+- [SECURITY.md](./SECURITY.md) — How to report a security problem
+- [KNOWN_LIMITATIONS.md](./KNOWN_LIMITATIONS.md) — Where the protections stop, and what you can do
 - [REPO_POLICY.md](./REPO_POLICY.md) — How this repository is organized and what gets published
 
 ---
