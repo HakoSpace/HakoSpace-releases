@@ -49,4 +49,4 @@ If you are unsure whether something is covered, report it anyway and we will tel
 
 ## Scope
 
-This policy covers the HakoSpace server and desktop app published in this repository, and the Docker image `ghcr.io/hakospace/hako`. Servers run by other people are theirs to secure; if you find a problem on someone else's server, please tell its operator.
+This policy covers the HakoSpace server and desktop app published in this repository, and the Docker image `ghcr.io/hakospace/hako`. Problems with the official website (hakospace.com) or the HakoSpace Official Account are welcome through the same channels. Servers run by other people are theirs to secure; if you find a problem on someone else's server, please tell its operator.
