@@ -1,6 +1,6 @@
 # HakoSpace
 
-**HakoSpace** is a self-hosted voice, video, and messaging platform that gives you full control of your server, data, and privacy.
+**HakoSpace** is a self-hosted voice, video, and messaging platform where your messages, files, and accounts are stored on a server you run.
 (The name "Hako" comes from the Japanese 箱 (はこ) — a box of your own.)
 
 🌐 **Website: [hakospace.com](https://hakospace.com)** · **Docs: [hakospace.com/docs](https://hakospace.com/docs)** · **Download: [hakospace.com/download](https://hakospace.com/download)**
