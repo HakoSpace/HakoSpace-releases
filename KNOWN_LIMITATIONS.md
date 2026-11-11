@@ -4,7 +4,7 @@ HakoSpace is built to be run by a person or a small team for their own community
 
 If you think you have found a problem that is *not* described here, please follow the [Security Policy](./SECURITY.md).
 
-**Which versions this page describes.** It describes B2.6.64 and later. B2.6.62 and B2.6.63 (the `:latest` Docker image is still B2.6.62) do not have some of the protections described below; where it matters, the text says so. In short: on those versions a request still arriving is not re-checked once it has fully arrived, sign-in password checks have no cap on how many run at once, changing an account's email does not ask for the current password, and an IPv6 `/64` network is not counted as one client.
+**Which versions this page describes.** It describes B2.6.64 and later. B2.6.62 and B2.6.63 (the `:latest` Docker image is still B2.6.62) do not have some of the protections described below; where it matters, the text says so. In short: on those versions a request still arriving is not re-checked once it has fully arrived, sign-in password checks have no cap on how many run at once, changing an account's email does not ask for the current password, wrong guesses at the current password are not limited, and an IPv6 `/64` network is not counted as one client.
 
 ---
 
@@ -12,7 +12,7 @@ If you think you have found a problem that is *not* described here, please follo
 
 When you change someone's permissions, HakoSpace applies the change to every new request they make while signed in. When you ban or remove someone, or they change their password, it also closes their open connections (a voice connection can stay up for a few seconds longer). A request the server had **already started acting on** at that moment, for example an action that is already running or a download that is already being sent, can still finish. (Starting with B2.6.64, a request that is still arriving is checked again once it has fully arrived.)
 
-Two things are not tied to a signed-in session. Uploaded files are served to anyone who has the file's link, without signing in, so removing someone's access does not stop them opening links they already have. A channel's WHIP stream token is not tied to a member either: removing a publisher, or banning or removing them, does not stop a stream that is already running.
+Two things are not tied to a signed-in session. Uploaded files are served to anyone who has the file's link, without signing in, so removing someone's access does not stop them opening links they already have. A channel's WHIP stream token is not tied to a member either: removing a publisher, or banning or removing them, does not stop a stream that is already running, and anyone who already has the token can start a new stream with it until you regenerate it.
 
 **What you can do:** nothing is needed for normal use. If you remove access because of an incident, check the audit log afterwards for administrative actions taken in the last moments. If someone who published through WHIP is removed, regenerate that channel's WHIP token, which also ends a running stream.
 
@@ -22,7 +22,7 @@ HakoSpace limits sign-in and registration attempts per client address. Starting 
 
 **What you can do:**
 - Use strong, unique passwords, and ask your members to do the same.
-- For a community that isn't meant to be public, set registration to **Invite Only** (**Settings → Registration**).
+- For a community that isn't meant to be public, set registration to **Invite Only** (**Server Settings → Registration**).
 - Put the server behind a service that filters abusive traffic, such as Cloudflare, and declare that proxy as described in [Tell HakoSpace about your reverse proxy](#tell-hakospace-about-your-reverse-proxy).
 
 ## Heavy traffic can slow a server down
@@ -45,13 +45,13 @@ HakoSpace doesn't try to protect a server from its own administrators. Owners an
 
 ## A sign-in attempt can reveal whether a username exists
 
-When a username doesn't exist, HakoSpace answers right away. When it exists but the password is wrong, the answer takes longer, because the password is checked first. Someone who measures response times can tell the two apart, although the messages themselves are identical (except when the server is busy). The sign-up form's username check also tells anyone whether a name is already taken.
+When a username doesn't exist, HakoSpace answers right away. When it exists but the password is wrong, the answer takes longer, because the password is checked first. Someone who measures response times can tell the two apart, although the messages themselves are identical (except when the server is busy). On a server with email set up, the forgot-password form also says whether a username exists and whether an email address belongs to it. The sign-up form's username check also tells anyone whether a name is already taken.
 
 **What you can do:** don't rely on usernames being secret; protect accounts with strong passwords.
 
 ## Someone who has your session and your password
 
-Starting with B2.6.64, changing sensitive account details requires the current password, and wrong guesses are limited (earlier versions do not ask for it when the email is changed). But an attacker who holds a member's signed-in session can already do anything that member can do, and one who also knows the current password can change the member's email or password and take the account over.
+Starting with B2.6.64, changing sensitive account details requires the current password, and wrong guesses are limited (earlier versions do not ask for it when the email is changed, so on B2.6.62 and B2.6.63 someone holding only a signed-in session can change the email and then reset the password through it, taking the account over without knowing the password). But an attacker who holds a member's signed-in session can already do anything that member can do, and one who also knows the current password can change the member's email or password and take the account over.
 
 **What you can do:** use strong, unique passwords, and change your password if you think it leaked. After a password change, sign-ins created before the change stop working.
 
