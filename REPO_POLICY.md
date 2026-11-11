@@ -8,9 +8,13 @@ This repository hosts the public release artifacts for **HakoSpace**. It does **
 
 | Path | Purpose |
 |------|---------|
-| `releases/<version>/` | Per-version metadata: changelog, SHA-256 checksums, electron-updater manifest |
-| `README.md` | User-facing product overview and hosting guide |
-| `EULA.md`, `PRIVACY.md`, `LICENSE` | Legal documents linked from the product UI and frontend |
+| `releases/<version>/` | Per-version metadata: release notes (`CHANGELOG.md`), SHA-256 checksums, and the Windows update manifest (`latest.yml`) |
+| `README.md` | User-facing product overview and quick start |
+| `SECURITY.md`, `KNOWN_LIMITATIONS.md` | How to report a security problem; where the protections stop |
+| `LICENSE` | License terms |
+| `THIRD_PARTY_NOTICES` | License notices for the third-party components in the server, the web client, and the desktop app. **Copied** by the release script — do not edit by hand |
+| `EULA.md`, `PRIVACY.md` | Readable Markdown copies of the EULA and Privacy Policy published on hakospace.com. **Generated** by the release script from the same legal pages that hakospace.com publishes — do not edit by hand |
+| `Dockerfile`, `docker-compose.yml` | The container build recipe and a sample Compose file. **Copied** by the release script from the source repository on every release — do not edit by hand, changes are overwritten |
 | `.github/ISSUE_TEMPLATE/` | Public bug report and feature request templates |
 
 GitHub Releases (under the **Releases** tab) host the actual downloadable binaries. The `releases/<version>/` directories in git only hold the small text-based metadata files that accompany each release.
@@ -23,16 +27,17 @@ Releases involve three categories of assets with different retention rules.
 
 ### GitHub Release page (binary)
 
-- Only the latest patch within each major version is kept (e.g. `B1.2.4` supersedes `B1.2.3`).
-- Cross-major releases coexist (e.g. `B1.6.4` and `B2.1.1`).
-- The publishing pipeline (`release.sh --cleanup-prev`) handles binary pruning automatically.
+- **Stable releases** (no `-pre`) are kept permanently.
+- **Preview releases** (`-pre`): within one major version, only the most recent 3 are kept; older ones are removed when a new preview is published, and a stable release published with `--cleanup-prev` also removes the preview with the same version. Orphan tags without a release are neither counted nor deleted.
+- Cross-major releases coexist (e.g. `B1.6.4` and `B2.1.1`), and a preview and a stable release with the same version number may coexist.
+- The publishing pipeline (`release.sh --cleanup-prev`) handles pruning automatically.
 
 ### Git-tracked metadata (**permanently retained**)
 
 Any `.md` / `.yml` / `.txt` file under `releases/<version>/` is permanent metadata. Canonical examples:
 
-- `releases/<version>/CHANGELOG.md` — release notes
-- `releases/<version>/latest.yml` — electron-updater Windows manifest (only when a Windows desktop build is included; `latest-mac.yml` / `latest-linux.yml` follow the same rule when those platforms are built)
+- `releases/<version>/CHANGELOG.md` — release notes (also the body of the GitHub Release; it is not a separate release asset)
+- `releases/<version>/latest.yml` — update manifest for the Windows installer build (only when a Windows desktop build is included). The desktop updater reads it only when the primary update source (`dl.hakospace.com`) is unavailable
 - `releases/<version>/SHA256SUMS.txt` — checksum file
 
 These are the only textual record of each release's history. They are kept indefinitely so users can verify checksums and inspect changelogs for any past version.
@@ -49,10 +54,11 @@ These are the only textual record of each release's history. They are kept indef
 
 ## Versioning
 
-Versions follow the form `B<major>.<minor>.<patch>` (Beta) or `V<major>.<minor>.<patch>` (stable).
+Versions follow the form `B<major>.<minor>.<patch>` (Beta) or `V<major>.<minor>.<patch>` (future production line).
 
-- `B` = Beta, `V` = stable release.
-- Pre-release tags carry a `-pre` suffix (e.g. `B2.6.0-pre`); promoted stable releases drop the suffix.
+- `B` = Beta, `V` = the production line to come. A `V` version is always newer than any `B` version.
+- There are two release lines: the **stable line** (tag without a suffix, e.g. `B2.6.62`) and the **preview line** (tag with a `-pre` suffix, e.g. `B2.6.64-pre`). The same version number may exist on both lines.
+- Docker: `:latest` follows the stable line and `:pre` follows the preview line (and moves up to a newer stable release when one is published).
 
 The same numeric component maps to standard semver internally (e.g. `B2.6.0` ↔ `2.6.0`).
 
@@ -60,7 +66,7 @@ The same numeric component maps to standard semver internally (e.g. `B2.6.0` ↔
 
 ## Artifact Naming
 
-Every release publishes the following assets to GitHub Releases:
+A full release publishes the following assets to GitHub Releases (a server-only or Linux-only build omits the desktop files it does not build):
 
 | Artifact | Filename pattern |
 |----------|------------------|
@@ -70,8 +76,7 @@ Every release publishes the following assets to GitHub Releases:
 | Desktop (Windows, installer) | `desktop-hakospace-windows-amd64-setup-<version>.exe` |
 | Desktop (Windows, portable) | `desktop-hakospace-windows-amd64-portable-<version>.exe` |
 | Checksums | `SHA256SUMS.txt` |
-| Auto-update manifest | `latest.yml` |
-| Changelog | `CHANGELOG.md` |
+| Windows update manifest | `latest.yml` (only when a Windows desktop build is included) |
 
 Pattern: `{product}-hakospace-{os}-{arch}[-{variant}]-<version>[.{ext}]`
 
@@ -79,11 +84,11 @@ Pattern: `{product}-hakospace-{os}-{arch}[-{variant}]-<version>[.{ext}]`
 
 ## Metadata Files (in git)
 
-Each `releases/<version>/` directory contains three text files that are tracked in git:
+Each `releases/<version>/` directory contains text files that are tracked in git:
 
 - **`CHANGELOG.md`** — Release notes generated from the source repository's git log.
 - **`SHA256SUMS.txt`** — SHA-256 checksums for every binary asset. Users should verify downloads against this file.
-- **`latest.yml`** — Auto-update manifest consumed by the Electron desktop client.
+- **`latest.yml`** — Update manifest for the Windows installer build; present only when a Windows desktop build is included.
 
 Binaries themselves are **never committed to git** — they live only on GitHub Releases. The `.gitignore` enforces this.
 
@@ -92,8 +97,8 @@ Binaries themselves are **never committed to git** — they live only on GitHub 
 ## Verifying Downloads
 
 ```bash
-# Linux
-sha256sum -c SHA256SUMS.txt
+# Linux — checks only the files you downloaded
+sha256sum -c --ignore-missing SHA256SUMS.txt
 
 # Windows (PowerShell)
 Get-FileHash .\server-hakospace-windows-amd64-<version>.exe -Algorithm SHA256
