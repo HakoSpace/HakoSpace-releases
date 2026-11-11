@@ -14,7 +14,7 @@ When you change someone's permissions, HakoSpace applies the change to every new
 
 ## Rate limits stop single sources, not large crowds
 
-HakoSpace limits sign-in and registration attempts per client address. For IPv6 it counts a whole `/64` network as one client. An attacker who controls a very large number of addresses, or many machines working together, can spread attempts out and stay under the limits.
+HakoSpace limits sign-in and registration attempts per client address. Starting with B2.6.64, it counts a whole IPv6 `/64` network as one client; earlier versions (the `:latest` Docker image is still B2.6.62) count each IPv6 address separately. An attacker who controls a very large number of addresses, or many machines working together, can spread attempts out and stay under the limits.
 
 **What you can do:**
 - Use strong, unique passwords, and ask your members to do the same.
@@ -37,7 +37,7 @@ If a reverse proxy or load balancer sits in front of HakoSpace, the server must 
 
 HakoSpace doesn't try to protect a server from its own administrators. Owners and admins can change settings and manage members.
 
-**What you can do:** appoint only people you trust, keep the number of admins small (but at least two, so the server is never left unmanaged), and review the audit log.
+**What you can do:** appoint only people you trust, keep the number of admins small (but appoint at least one admin besides the owner, so the server isn't left unmanaged if the owner is unavailable), and review the audit log.
 
 ## A sign-in attempt can reveal whether a username exists
 
@@ -53,6 +53,6 @@ Changing sensitive account details requires the current password, and wrong gues
 
 ## Updates are checked by checksum, not by signature
 
-When a server updates itself, it downloads the new version and compares it against a SHA-256 checksum that the server fetches itself, from the official release mirror's manifest or from the `SHA256SUMS.txt` published with the release on GitHub. The files themselves carry **no digital signature**, so the update check can't protect you if the project's own release accounts were compromised. The desktop app installers are also not code-signed yet, so Windows may show an "Unknown Publisher" warning. An admin can also choose to install a download whose checksum did not match; that choice is recorded in the audit log.
+When a server updates itself, it downloads the new version and compares it against a SHA-256 checksum that the server fetches itself, from the official release mirror's manifest or from the `SHA256SUMS.txt` published with the release on GitHub. The files themselves carry **no digital signature**, so the update check can't protect you if the project's own release accounts were compromised. The desktop app installers are not code-signed, so Windows may show an "Unknown Publisher" warning. An admin can also choose to install a download whose checksum did not match; that choice is recorded in the audit log.
 
 **What you can do:** if you want extra assurance, download releases manually from [GitHub Releases](https://github.com/HakoSpace/HakoSpace-releases/releases), and check them against `SHA256SUMS.txt` before you run them. Docker users update by pulling a new image, and the in-app updater is switched off in the official Docker image.
