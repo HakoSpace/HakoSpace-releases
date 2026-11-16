@@ -44,7 +44,7 @@ COPY desktop/src/hudSettings.ts /build/desktop/src/hudSettings.ts
 RUN npm run build
 
 # Stage 2: Build backend
-FROM golang:1.27.3-bookworm@sha256:dc0963f32053e4bc451d24d87e3892d42d01021b61f093e98eb95c0352bb84b0 AS backend
+FROM golang:1.27.4-bookworm@sha256:4fa7c968ba93f1635670522dbb01a2c78150443e1385746924566079f36570ea AS backend
 RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev && rm -rf /var/lib/apt/lists/*
 WORKDIR /build/server
 COPY server/go.mod server/go.sum ./
@@ -63,7 +63,7 @@ RUN VERSION=$(cat /tmp/VERSION 2>/dev/null || echo dev) && \
     CGO_ENABLED=1 go build -ldflags "-s -w -X main.Version=$VERSION -X main.Protocol=$PROTOCOL -X main.Edition=Community" -o /hako .
 
 # Stage 3: Minimal runtime
-FROM debian:bookworm-slim@sha256:0104b334637a5f19aa9c983a91b54c89887c0984081f2068983107a6f6c21eeb
+FROM debian:bookworm-slim@sha256:734a72b3d6142a71993b4bc580ca01d8ca687f77a2c422d96a961d3376b179bc
 # tini = PID 1 for clean signal handling + zombie reaping (the server shells out
 # for backups / AI bash mode). curl is used by the HEALTHCHECK and ACME paths.
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl tini && rm -rf /var/lib/apt/lists/*

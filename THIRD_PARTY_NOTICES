@@ -25,7 +25,6 @@ carrying a copyleft (LGPL) obligation. The direct-dependency manifests are:
   - desktop/package.json          (Electron desktop client)
   - frontend/package.json         (web frontend)
   - server/go.mod                 (server)
-  - desktop/sidecar/go.mod        (screen-capture sidecar)
   - desktop/native/hako-audio-helper/Cargo.toml
                                   (Windows audio-capture helper, section 6)
   - daemon-v2/Cargo.toml of the hakoCap source tree
@@ -127,7 +126,7 @@ tailwindcss, @tailwindcss/typography
 
 
 ================================================================
-4. Server and screen-capture sidecar (Go)
+4. Server (Go)
 ================================================================
 
 gin-gonic/gin           MIT      (c) 2014 Manuel Martinez-Almeida
@@ -158,7 +157,6 @@ json-iterator/go        MIT      (c) 2016 json-iterator
 klauspost/cpuid         MIT      (c) 2015 Klaus Post
 pelletier/go-toml       MIT      (c) 2013 Thomas Pelletier
 go.uber.org/mock        Apache-2.0    (c) 2022 Google Inc. / Uber Technologies
-kirides/go-d3d          MIT      (c) kirides   (Windows D3D11 screen capture, sidecar)
 
 
 ================================================================
