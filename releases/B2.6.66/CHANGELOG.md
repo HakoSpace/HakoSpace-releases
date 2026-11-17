@@ -1,6 +1,8 @@
 # HakoSpace B2.6.66
 
-Release date: 2026-11-16 (UTC)
+Release date: 2026-11-17 (UTC)
+
+> **Re-cut (2026-11-17):** Rebuilt to fix a problem the first B2.6.66-pre build (2026-11-16) introduced in the desktop app: servers you saved under hakospace.com, such as `official-server.hakospace.com`, were refused the microphone, camera and screen sharing (#406). The server also gets a library update (#405). Everything else is unchanged from the first build. With **Receive Pre-release Updates** turned on, desktop apps and servers already on the first build are offered this build as an update; Docker users pull the new image as usual.
 
 This pre-release builds on B2.6.65; B2.6.62 is still the stable release. It is signed with a new release key, so servers running the B2.6.65 binary need to be updated by hand this once (see below). The desktop app now checks certificates strictly for everything except the servers you have saved, only lets screen capture start after you pick what to share, and no longer downloads spell-check dictionaries from Google. The server is built with Go 1.27.4.
 
@@ -18,6 +20,7 @@ This pre-release builds on B2.6.65; B2.6.62 is still the stable release. It is s
 
 We recommend updating the desktop app.
 
+- **Saved servers under hakospace.com.** (#406) In the first B2.6.66-pre build, servers you saved under hakospace.com (such as `official-server.hakospace.com`) were refused the microphone, camera and screen sharing: joining voice showed "Microphone access denied", sharing your screen or **Share this game** in the HUD did not start, and the HUD could not load images from that server. This build fixes it. Servers you reach by IP address or another domain were not affected. The certificate rules below are unchanged: servers under hakospace.com still get the normal certificate checks.
 - **Certificates.** (#354) An invalid certificate, such as a self-signed one, is now accepted only for the servers you have saved in the app, so connecting to your own self-hosted servers works as before. Everything else (update checks and update downloads, GitHub, links that members post, and websites opened in the in-app browser) uses the normal certificate checks. The app never sends a client certificate, so a server that requires one (mutual TLS) cannot be used from the desktop app.
 - **Permissions.** (#354) Camera, microphone and screen access is given only to saved servers. Websites in the in-app browser are now refused every permission except copying to the clipboard, so for example a video's full-screen button no longer works there. While the main window is hidden in the tray or minimized, server pages can no longer show it again, open new windows or start a screen share picker. Links on a page open in your browser only if they are `http` or `https` links; other links, such as `mailto:`, no longer open.
 - **Screen sharing starts only after you choose.** (#359) Sharing your screen or a window now always needs your choice in the source picker (or **Share this game** in the HUD), and the tab that asked must still show the same saved server after you choose. Another server tab can no longer start or stop the audio capture of a share it did not start. Only one source picker is open at a time; a second request while one is open is refused.
@@ -32,6 +35,7 @@ We recommend updating the desktop app.
 
 ## Server
 
+- **Cryptography library update.** (#405) The server's `golang.org/x/crypto` library is updated to 0.59.0, a newer minor release.
 - **Go 1.27.4.** (#364) The server is now built with Go 1.27.4, which includes the fix for the Go standard library issue GO-2026-6859 in the HTTP server. We recommend updating every server.
 - **Library updates.** (#375, #391, #399) The server's libraries, including the WebRTC library used for voice and video, are updated to newer minor and patch releases.
 - **Docker image.** (#365) The image is rebuilt on an updated Debian bookworm-slim base image.
