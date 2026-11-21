@@ -27,7 +27,7 @@
 # NOTE: base images are pinned by digest below for reproducibility; the
 # human-readable tag is kept on the line for readability. Refresh digests
 # with `docker pull <image>:<tag> && docker inspect --format '{{index .RepoDigests 0}}' <image>:<tag>`.
-FROM node:22-slim@sha256:7af03b14a13c8cdd38e45058fd957bf00a72bbe17feac43b1c15a689c029c732 AS frontend
+FROM node:22-slim@sha256:e9f565d32859f0cbfb52125eafe8be39390f24dac302dc3cdf566e8ba3ab21ee AS frontend
 WORKDIR /build/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
